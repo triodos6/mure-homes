@@ -8,6 +8,7 @@ import LayoutShell from "@/components/LayoutShell/LayoutShell";
 import WhatsAppButton from "@/components/WhatsAppButton/WhatsAppButton";
 import { getSession } from "@/lib/auth";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans", weight: ["300", "400", "500", "600"] });
 const cormorant = Cormorant_Garamond({ subsets: ["latin"], variable: "--font-serif", weight: ["300", "400", "500", "600"], style: ["normal", "italic"] });
@@ -54,6 +55,7 @@ export default async function RootLayout({ children }) {
             </ThemeProvider>
           </CartProvider>
         </AuthProvider>
+        <Analytics />
       </body>
     </html>
   );

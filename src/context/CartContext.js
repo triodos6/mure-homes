@@ -13,41 +13,48 @@ export function CartProvider({ children }) {
   const { isLoaded, isSignedIn, user } = useAuth();
   const [cart, setCart] = useState([]);
   const [isInitialized, setIsInitialized] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const isAdmin = user?.role === 'ADMIN';
 
   useEffect(() => {
     if (!isLoaded) return;
-    setIsAdmin(user?.role === 'ADMIN');
 
-    const key = isSignedIn && user ? `santiago-cart-${user.id}` : GUEST_CART_KEY;
-    const saved = localStorage.getItem(key);
-    if (saved) {
-      try { setCart(JSON.parse(saved)); } catch { setCart([]); }
-    } else {
-      setCart([]);
-    }
-    setIsInitialized(true);
-  }, [isLoaded, isSignedIn, user?.id]);
+    queueMicrotask(() => {
+      const key = isSignedIn && user ? `santiago-cart-${user.id}` : GUEST_CART_KEY;
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        try { setCart(JSON.parse(saved)); } catch { setCart([]); }
+      } else {
+        setCart([]);
+      }
+      setIsInitialized(true);
+    });
+  }, [isLoaded, isSignedIn, user]);
 
   useEffect(() => {
     if (!isInitialized) return;
     const key = isSignedIn && user ? `santiago-cart-${user.id}` : GUEST_CART_KEY;
     localStorage.setItem(key, JSON.stringify(cart));
-  }, [cart, isInitialized, isSignedIn, user?.id]);
+  }, [cart, isInitialized, isSignedIn, user]);
 
   const addToCart = (product) => {
     if (isAdmin) {
       toast.error('Admins cannot add items to cart.');
       return;
     }
-    setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
-      if (existing) {
-        toast.info(`${product.name} quantity updated`);
-        return prev.map((item) => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item);
-      }
+
+    const existing = cart.find((item) => item.id === product.id);
+    if (existing) {
+      toast.info(`${product.name} quantity updated`);
+    } else {
       toast.success(`${product.name} added to cart`);
       event('AddToCart', { content_ids: [product.id], content_name: product.name, value: product.price, currency: 'EUR' });
+    }
+
+    setCart((prev) => {
+      const isItemInCart = prev.find((item) => item.id === product.id);
+      if (isItemInCart) {
+        return prev.map((item) => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item);
+      }
       return [...prev, { ...product, quantity: 1, status: 'in-cart' }];
     });
   };

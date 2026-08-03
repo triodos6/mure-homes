@@ -16,7 +16,7 @@ export default function DeleteModal({ itemName, onCancel, onConfirm, isDeleting 
           <div className="space-y-2 text-center">
             <h3 className="font-serif text-2xl font-medium text-foreground">Confirm Deletion</h3>
             <p className="text-sm font-light text-muted-foreground px-4">
-              Are you sure you want to permanently remove <span className="font-semibold text-foreground">"{itemName}"</span> from the database? This action cannot be undone.
+              Are you sure you want to permanently remove <span className="font-semibold text-foreground">&quot;{itemName}&quot;</span> from the database? This action cannot be undone.
             </p>
           </div>
         </div>

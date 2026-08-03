@@ -9,22 +9,43 @@ import WhatsAppButton from "@/components/WhatsAppButton/WhatsAppButton";
 import { getSession } from "@/lib/auth";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
+
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   weight: ["300", "400", "500", "600"],
+  display: "swap",
 });
+
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   variable: "--font-serif",
   weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
+  display: "swap",
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://mura-homes.com';
+
 export const metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "MuraHomes | Muebles de Lujo y Diseño de Interiores",
   description:
     "Curadores de muebles mediterráneos excepcionales y diseño de interiores atemporal.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "MuraHomes | Muebles de Lujo y Diseño de Interiores",
+    description:
+      "Curadores de muebles mediterráneos excepcionales y diseño de interiores atemporal.",
+    url: SITE_URL,
+    siteName: "MuraHomes",
+    type: "website",
+  },
+  verification: {
+    google: "SM6VBtUlw2UgwgEEspqi4fnRFd2WjB3_p9M1TwNVYmw",
+  },
 };
 
 export default async function RootLayout({ children }) {
@@ -32,25 +53,78 @@ export default async function RootLayout({ children }) {
   const dbRole = session?.role || "USER";
   const serverUserId = session?.userId || null;
 
+  const organizationJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'MuraHomes',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://mura-homes.com',
+    logo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://mura-homes.com'}/images/logo.png`,
+    description: 'Curadores de muebles mediterráneos excepcionales y diseño de interiores atemporal.',
+    telephone: '+34627080811',
+    email: 'info@mura-homes.com',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Bo. Txiki-Erdi, 7',
+      addressLocality: 'Usurbil',
+      addressRegion: 'Gipuzkoa',
+      postalCode: '20170',
+      addressCountry: 'ES',
+    },
+    sameAs: [],
+  };
+
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        <script src="/polyfill-listener.js" async={false} />
         <Script
-          id="fb-pixel"
+          id="org-jsonld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+      </head>
+      <body
+        suppressHydrationWarning
+        className={`${dmSans.variable} ${cormorant.variable} antialiased selection:bg-primary selection:text-white`}
+      >
+        {/* Next.js Scripts belong here in <body>, not inside <head> */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-RBMPMTNQNX"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="google-analytics"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
-              !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-              n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-              n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-              t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-              document,'script','https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '${process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID}');
-              fbq('track', 'PageView');
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-RBMPMTNQNX');
             `,
           }}
         />
+
+        <Script src="/polyfill-listener.js" strategy="beforeInteractive" />
+
+        {process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID && (
+          <Script
+            id="fb-pixel"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+                n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+                document,'script','https://connect.facebook.net/en_US/fbevents.js');
+                fbq('init', '${process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID}');
+                fbq('track', 'PageView');
+              `,
+            }}
+          />
+        )}
+
         <Script
           id="tiktok-pixel"
           strategy="afterInteractive"
@@ -64,11 +138,7 @@ export default async function RootLayout({ children }) {
             `,
           }}
         />
-      </head>
-      <body
-        suppressHydrationWarning
-        className={`${dmSans.variable} ${cormorant.variable} antialiased selection:bg-primary selection:text-white`}
-      >
+
         <AuthProvider>
           <CartProvider>
             <ThemeProvider

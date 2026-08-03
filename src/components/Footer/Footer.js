@@ -6,27 +6,16 @@ export default function Footer() {
   return (
     <footer className="bg-black border-t border-white/10">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="py-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
+        <div className="py-12 sm:py-16 lg:py-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 lg:gap-16">
           {/* Brand Column */}
           <div className="flex flex-col gap-6">
             <Link href="/" className="flex items-center">
-              <Image src="/logo.png" alt="MuraHomes" width={160} height={48} className="h-12 w-auto object-contain brightness-0 invert" />
+              <Image src="/logo.png" alt="MuraHomes" width={160} height={48} className="h-12 w-auto object-contain brightness-0 invert" style={{ width: 'auto', height: 'auto' }} />
             </Link>
             <p className="text-sm leading-relaxed text-white/50 max-w-xs">
               Seleccionando muebles de lujo y diseño de interiores desde 2005.
               Herencia mediterránea con elegancia contemporánea.
             </p>
-            <div className="flex gap-4">
-              <a href="#" aria-label="Instagram" className="w-10 h-10 flex items-center justify-center rounded-full border border-white/20 text-white/50 hover:text-white hover:border-white hover:-translate-y-1 transition-all duration-300">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
-              </a>
-              <a href="#" aria-label="Pinterest" className="w-10 h-10 flex items-center justify-center rounded-full border border-white/20 text-white/50 hover:text-white hover:border-white hover:-translate-y-1 transition-all duration-300">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 21c1-3 2-6 3-8 .5-1 1-2 2-2s2 1 2 2c0 2-1 4-1 5s1 2 3 1"/></svg>
-              </a>
-              <a href="#" aria-label="LinkedIn" className="w-10 h-10 flex items-center justify-center rounded-full border border-white/20 text-white/50 hover:text-white hover:border-white hover:-translate-y-1 transition-all duration-300">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 11v6M7 7v.01M11 11v6m0-3c0-2 1-3 3-3s3 1 3 3v3"/></svg>
-              </a>
-            </div>
           </div>
 
           {/* Navigation */}
@@ -83,8 +72,8 @@ export default function Footer() {
 
         {/* Payment Trust Bar */}
         <div className="py-6 border-t border-white/10">
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-6">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 mr-2">Pago Seguro</span>
+          <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 mb-4 sm:mb-6">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 mr-1 sm:mr-2">Pago Seguro</span>
             {/* Visa */}
             <div className="h-8 px-3 bg-white/10 rounded flex items-center justify-center">
               <span className="font-bold text-white text-sm tracking-wider">VISA</span>
@@ -116,12 +105,12 @@ export default function Footer() {
       </div>
 
       <div className="py-6 border-t border-white/10">
-        <div className="container mx-auto px-4 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="container mx-auto px-4 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
           <p className="text-xs text-white/40">© 2025 MuraHomes. Todos los derechos reservados.</p>
-          <div className="flex gap-8">
-            <a href="#" className="text-xs text-white/40 hover:text-white transition-colors">Política de Privacidad</a>
-            <a href="#" className="text-xs text-white/40 hover:text-white transition-colors">Política de Devoluciones</a>
-            <a href="#" className="text-xs text-white/40 hover:text-white transition-colors">Términos y Condiciones</a>
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-8">
+            <Link href="/privacy" className="text-xs text-white/40 hover:text-white transition-colors">Política de Privacidad</Link>
+            <Link href="/returns" className="text-xs text-white/40 hover:text-white transition-colors">Política de Devoluciones</Link>
+            <Link href="/terms" className="text-xs text-white/40 hover:text-white transition-colors">Términos y Condiciones</Link>
           </div>
         </div>
       </div>

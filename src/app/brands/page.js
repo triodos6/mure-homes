@@ -8,6 +8,15 @@ import img16 from '@/../public/images/img16.png';
 export const metadata = {
   title: 'Nuestras Marcas | MuraHomes',
   description: "Colaboramos con los fabricantes de muebles y casas de diseño más prestigiosos del mundo.",
+  alternates: {
+    canonical: '/brands',
+  },
+  openGraph: {
+    title: 'Nuestras Marcas | MuraHomes',
+    description: 'Colaboramos con los fabricantes de muebles y casas de diseño más prestigiosos del mundo.',
+    url: 'https://mura-homes.com/brands',
+    type: 'website',
+  },
 };
 
 const pillars = [
@@ -24,24 +33,24 @@ export default async function BrandsPage() {
       {/* ── PAGE HERO ────────────────────────────────────────────── */}
       <section className="relative bg-[#f9f7f4] overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#f0ece4]" style={{ clipPath: 'polygon(12% 0, 100% 0, 100% 100%, 0% 100%)' }} />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pt-28 pb-16 sm:py-24 lg:py-28">
+          <div className="grid lg:grid-cols-2 gap-12 sm:gap-16 items-center">
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-px w-10 bg-black" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/50">Asociaciones Exclusivas</span>
               </div>
-              <h1 className="font-serif text-5xl md:text-6xl font-semibold leading-[1.05] tracking-tight mb-6">
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-semibold leading-[1.05] tracking-tight mb-6">
                 Nuestras <span className="text-amber-500">Marcas</span> Asociadas
               </h1>
-              <p className="text-base text-muted-foreground font-light leading-relaxed mb-8 max-w-lg">
+              <p className="text-sm sm:text-base text-muted-foreground font-light leading-relaxed mb-8 max-w-lg">
                 Cada marca de nuestro portafolio es seleccionada mediante un riguroso proceso que evalúa el origen de los materiales, la artesanía tradicional, la responsabilidad medioambiental y el vocabulario de diseño atemporal.
               </p>
-              <Link href="/showroom" className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-black/80 transition-all group">
+              <Link href="/showroom" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black text-white px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-black/80 transition-all group">
                 Explorar Showroom <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
-            <div className="relative h-[380px]">
+            <div className="relative h-[300px] sm:h-[380px] lg:h-[420px] mt-4 lg:mt-0">
               <div className="absolute inset-0 rounded-2xl shadow-2xl overflow-hidden bg-[#0d0d0d]">
                 <Image
                   src={img16}
@@ -51,9 +60,9 @@ export default async function BrandsPage() {
                   priority
                 />
               </div>
-              <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl px-5 py-4">
-                <p className="text-3xl font-bold font-serif">{brands.length || '40'}+</p>
-                <p className="text-[10px] text-muted-foreground uppercase tracking-wider mt-0.5">Marcas Asociadas</p>
+              <div className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 bg-white rounded-2xl shadow-xl px-4 py-3 sm:px-5 sm:py-4 z-10">
+                <p className="text-2xl sm:text-3xl font-bold font-serif">{brands.length || '40'}+</p>
+                <p className="text-[9px] sm:text-[10px] text-muted-foreground uppercase tracking-wider mt-0.5">Marcas Asociadas</p>
               </div>
             </div>
           </div>

@@ -1,22 +1,20 @@
-'use client';
-
-import { use, useState, useEffect } from 'react';
 import { notFound } from 'next/navigation';
-import { categories } from '@/data/products';
+import Script from 'next/script';
+import Link from 'next/link';
+import { categories, products as staticProducts, getProductBySlug } from '@/data/products';
+import prisma from '@/lib/prisma';
 import ProductGallery from '@/components/ProductGallery/ProductGallery';
 import ProductCard from '@/components/ProductCard/ProductCard';
 import SectionHeading from '@/components/SectionHeading/SectionHeading';
-import { Button } from '@/components/ui/button';
-import { toast } from "sonner";
+import ProductActions from '@/components/ProductActions/ProductActions';
+import ProductPixelTracker from '@/components/ProductPixelTracker/ProductPixelTracker';
 import { RefreshCw, Shield, Truck, Wrench } from 'lucide-react';
-import { useCart } from '@/context/CartContext';
-import { event } from '@/lib/pixel';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
+} from "@/components/ui/accordion";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,80 +22,188 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+} from "@/components/ui/breadcrumb";
 
-export default function ProductPageClient({ params }) {
-  const resolvedParams = use(params);
-  const { category, slug } = resolvedParams;
+export const revalidate = 3600;
 
-  const [product, setProduct] = useState(null);
-  const [relatedProducts, setRelatedProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://mura-homes.com';
 
-  const { addToCart } = useCart();
+async function fetchWithTimeout(promise, ms = 2500) {
+  let timer;
+  const timeoutPromise = new Promise((_, reject) => {
+    timer = setTimeout(() => reject(new Error('DB Query Timeout')), ms);
+  });
+  try {
+    const result = await Promise.race([promise, timeoutPromise]);
+    return result;
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
-  const categoryName = categories.find(c => c.id === category)?.name || 'Categoría';
+export async function generateMetadata({ params }) {
+  const { category, slug } = await params;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch('/api/products?limit=1000');
-        if (!res.ok) throw new Error('Failed to fetch');
-        const { products: allProducts } = await res.json();
+  let product = null;
+  try {
+    product = await fetchWithTimeout(prisma.product.findUnique({
+      where: { slug },
+    }));
+  } catch (error) {
+    console.error('Prisma metadata lookup error:', error.message);
+  }
 
-        const found = allProducts.find(p => p.slug === slug);
-        if (!found) return;
+  if (!product) {
+    product = getProductBySlug(slug);
+  }
 
-        setProduct(found);
-        setRelatedProducts(
-          allProducts.filter(p => p.category === category && p.id !== found.id).slice(0, 3)
-        );
-        event('ViewContent', {
-          content_ids: [found.id],
-          content_name: found.name,
-          content_category: found.category,
-          value: found.price,
-          currency: 'EUR',
-        });
-      } catch (error) {
-        console.error('Failed to load product:', error);
-      } finally {
-        setLoading(false);
-      }
+  if (!product) {
+    return {
+      title: 'Producto no encontrado | MuraHomes',
     };
-    fetchData();
-  }, [category, slug]);
+  }
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(price);
+  const categoryName = categories.find((c) => c.id === category)?.name || product.category;
+  const plainDescription = product.description
+    ? product.description.replace(/<[^>]*>?/gm, '').slice(0, 160)
+    : `${product.name} de ${product.brand} — ${categoryName} de lujo desde ${new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(product.price)} en MuraHomes.`;
+  const canonicalUrl = `${SITE_URL}/products/${category}/${slug}`;
+
+  return {
+    title: `${product.name} | MuraHomes`,
+    description: plainDescription,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: `${product.name} | MuraHomes`,
+      description: plainDescription,
+      url: canonicalUrl,
+      type: 'website',
+      images: product.images?.[0] ? [{ url: product.images[0], width: 1200, height: 900, alt: product.name }] : [],
+    },
   };
+}
 
-  const handleAddToCart = () => {
-    addToCart(product);
-    event('AddToCart', {
-      content_ids: [product.id],
-      content_name: product.name,
-      content_category: product.category,
-      value: product.price,
-      currency: 'EUR',
-    });
-  };
+export async function generateStaticParams() {
+  try {
+    const products = await fetchWithTimeout(prisma.product.findMany({
+      select: { category: true, slug: true },
+    }));
 
-  if (loading) {
-    return (
-      <div className="flex h-[60vh] flex-col items-center justify-center gap-4 text-muted-foreground animate-pulse font-serif">
-        <RefreshCw size={40} className="animate-spin" />
-        <p className="tracking-widest uppercase text-xs">Cargando detalles de la pieza...</p>
-      </div>
-    );
+    if (products && products.length > 0) {
+      return products.map((p) => ({
+        category: p.category,
+        slug: p.slug,
+      }));
+    }
+  } catch (error) {
+    console.error('Failed to generate static params for products from DB:', error.message);
+  }
+
+  return staticProducts.map((p) => ({
+    category: p.category,
+    slug: p.slug,
+  }));
+}
+
+export default async function ProductPage({ params }) {
+  const { category, slug } = await params;
+
+  let product = null;
+  try {
+    product = await fetchWithTimeout(prisma.product.findUnique({
+      where: { slug },
+    }));
+  } catch (error) {
+    console.error('Prisma product lookup error:', error.message);
+  }
+
+  if (!product) {
+    product = getProductBySlug(slug);
   }
 
   if (!product) {
     notFound();
   }
 
+  let relatedProducts = [];
+  try {
+    relatedProducts = await fetchWithTimeout(prisma.product.findMany({
+      where: {
+        category: product.category,
+        slug: { not: product.slug },
+      },
+      take: 4,
+    }));
+  } catch (error) {
+    console.error('Prisma related products lookup error:', error.message);
+  }
+
+  if (!relatedProducts || relatedProducts.length === 0) {
+    relatedProducts = staticProducts
+      .filter((p) => p.category === product.category && p.slug !== product.slug)
+      .slice(0, 4);
+  }
+
+  const categoryName = categories.find((c) => c.id === category)?.name || product.category;
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(price);
+  };
+
+  const canonicalUrl = `${SITE_URL}/products/${category}/${slug}`;
+
+  // Product JSON-LD
+  const productJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description?.replace(/<[^>]*>?/gm, '').slice(0, 500) || '',
+    image: product.images || [],
+    brand: {
+      '@type': 'Brand',
+      name: product.brand || 'MuraHomes',
+    },
+    offers: {
+      '@type': 'Offer',
+      url: canonicalUrl,
+      priceCurrency: 'EUR',
+      price: product.price,
+      availability: 'https://schema.org/InStock',
+      seller: {
+        '@type': 'Organization',
+        name: 'MuraHomes',
+      },
+    },
+  };
+
+  // BreadcrumbList JSON-LD
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Productos', item: `${SITE_URL}/products` },
+      { '@type': 'ListItem', position: 3, name: categoryName, item: `${SITE_URL}/products/${category}` },
+      { '@type': 'ListItem', position: 4, name: product.name, item: canonicalUrl },
+    ],
+  };
+
   return (
     <div className="bg-white min-h-screen">
+      <Script
+        id="product-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <Script
+        id="product-breadcrumb-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <ProductPixelTracker product={product} />
+
       <div className="container mx-auto px-4 lg:px-8 py-24">
         {/* Breadcrumb Navigation */}
         <Breadcrumb className="mb-12">
@@ -128,9 +234,9 @@ export default function ProductPageClient({ params }) {
 
           {/* Details */}
           <div className="flex flex-col">
-            <span className="text-sm font-semibold tracking-widest text-primary uppercase mb-4">
+            <Link href="/brands" className="text-sm font-semibold tracking-widest text-primary hover:underline uppercase mb-4 inline-block w-fit">
               {product.brand}
-            </span>
+            </Link>
             <h1 className="font-serif text-4xl lg:text-5xl font-medium tracking-tight mb-6">
               {product.name}
             </h1>
@@ -158,12 +264,8 @@ export default function ProductPageClient({ params }) {
               </div>
             </div>
 
-            {/* Actions */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <Button size="lg" className="flex-1 py-6 text-sm uppercase tracking-widest" onClick={handleAddToCart}>
-                Añadir a mi cesta
-              </Button>
-            </div>
+            {/* Interactive Actions */}
+            <ProductActions product={product} />
 
             {/* Specifications Accordion */}
             <Accordion type="single" collapsible="true" className="w-full">
@@ -233,7 +335,7 @@ export default function ProductPageClient({ params }) {
         <section className="bg-secondary/30 py-24 border-t border-border">
           <div className="container mx-auto px-4 lg:px-8">
             <SectionHeading title="Completa el Look" align="center" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
               {relatedProducts.map(product => (
                 <ProductCard key={product.id} product={product} />
               ))}

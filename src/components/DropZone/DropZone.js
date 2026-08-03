@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback } from 'react';
+import Image from 'next/image';
 import { Upload, RefreshCw, X } from 'lucide-react';
 
 export default function DropZone({
@@ -99,10 +100,12 @@ export default function DropZone({
         children
       ) : preview ? (
         <div className="relative w-full h-full group">
-          <img
+          <Image
             src={preview}
             alt="Preview"
+            fill
             className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
+            unoptimized
           />
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
             <span className="text-white text-[10px] font-bold uppercase tracking-widest">

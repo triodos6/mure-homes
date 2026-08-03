@@ -22,12 +22,22 @@ import {
 
 export default async function Home() {
   let [featuredProducts, brands] = await Promise.all([
-    prisma.product.findMany({ where: { featured: true }, take: 8, orderBy: { createdAt: 'desc' } }),
-    prisma.brand.findMany({ take: 6, orderBy: { createdAt: 'asc' } }),
+    prisma.product.findMany({
+      where: { featured: true },
+      take: 8,
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.brand.findMany({
+      take: 6,
+      orderBy: { createdAt: 'asc' },
+    }),
   ]);
 
   if (featuredProducts.length === 0) {
-    featuredProducts = await prisma.product.findMany({ take: 8, orderBy: { createdAt: 'desc' } });
+    featuredProducts = await prisma.product.findMany({
+      take: 8,
+      orderBy: { createdAt: 'desc' },
+    });
   }
 
   const trustItems = [
@@ -45,15 +55,15 @@ export default async function Home() {
       {/* ── TRUST BAR ───────────────────────────────────────────── */}
       <section className="border-y border-border bg-white">
         <div className="container mx-auto px-4 lg:px-12">
-          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-border">
+          <div className="grid grid-cols-2 lg:grid-cols-4 divide-y divide-border sm:divide-y-0 lg:divide-x">
             {trustItems.map(({ icon: Icon, title, sub }) => (
-              <div key={title} className="flex items-center gap-4 px-6 py-6 group hover:bg-secondary/30 transition-colors">
-                <div className="h-10 w-10 rounded-xl bg-black flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                  <Icon size={18} className="text-white" />
+              <div key={title} className="flex items-center gap-3 sm:gap-4 px-3 sm:px-6 py-4 sm:py-6 group hover:bg-secondary/30 transition-colors">
+                <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl bg-black flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                  <Icon size={16} className="text-white sm:w-[18px] sm:h-[18px]" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-foreground">{title}</p>
-                  <p className="text-xs text-muted-foreground font-light">{sub}</p>
+                  <p className="text-xs sm:text-sm font-semibold text-foreground">{title}</p>
+                  <p className="text-[11px] sm:text-xs text-muted-foreground font-light">{sub}</p>
                 </div>
               </div>
             ))}
@@ -70,7 +80,7 @@ export default async function Home() {
             {categories.slice(0, 8).map((category, i) => (
               <Link
                 key={category.id}
-                href={`/products?category=${category.slug}`}
+                href={`/products/${category.id}`}
                 className={`group relative overflow-hidden rounded-2xl bg-secondary/50
                   ${i === 0 ? 'col-span-2 row-span-2' : ''}
                   ${i === 3 ? 'col-span-2' : ''}
@@ -83,7 +93,7 @@ export default async function Home() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
-                  <p className="text-white font-serif text-lg font-medium leading-tight">{category.name}</p>
+                  <h3 className="text-white font-serif text-lg font-medium leading-tight">{category.name}</h3>
                   <span className="inline-flex items-center gap-1 text-white/60 text-[10px] uppercase tracking-wider mt-1 group-hover:text-white transition-colors">
                     Ver <ArrowRight size={9} />
                   </span>
@@ -138,12 +148,16 @@ export default async function Home() {
           <div className="grid lg:grid-cols-[45fr_55fr] min-h-[520px]">
             {/* Image side */}
             <div className="relative overflow-hidden min-h-[320px]">
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: 'url("/images/img3.jpg")' }}
+              <Image
+                src="/images/img3.jpg"
+                alt="Interiorismo mediterráneo MuraHomes"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 45vw"
+                quality={80}
               />
               <div className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.35)' }} />
-              <div className="absolute bottom-8 left-8 right-8">
+              <div className="absolute bottom-8 left-8 right-8 z-10">
                 <div className="h-px bg-white/20" />
                 <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] mt-3 font-semibold">Fund. Barcelona, 2005</p>
               </div>
@@ -259,15 +273,15 @@ export default async function Home() {
 
       {/* ── BRANDS ──────────────────────────────────────────────── */}
       {brands.length > 0 && (
-        <section className="py-16 bg-white border-t border-border">
+        <section className="py-12 sm:py-16 bg-white border-t border-border">
           <div className="container mx-auto px-4 lg:px-12">
-            <p className="text-center text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground mb-10">Nuestras Marcas Asociadas</p>
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+            <p className="text-center text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground mb-8 sm:mb-10">Nuestras Marcas Asociadas</p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 sm:gap-4">
               {brands.map((brand) => (
                 <BrandCard key={brand.id} brand={brand} />
               ))}
             </div>
-            <div className="mt-10 text-center">
+            <div className="mt-8 sm:mt-10 text-center">
               <Link href="/brands" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-black transition-colors group">
                 Todas las Marcas Asociadas <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </Link>

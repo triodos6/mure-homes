@@ -1,9 +1,19 @@
 import Link from 'next/link';
+import Script from 'next/script';
 import { ArrowRight, Star } from 'lucide-react';
 
 export const metadata = {
   title: 'Reseñas de Clientes | MuraHomes',
   description: 'Lo que dicen nuestros clientes sobre su experiencia con MuraHomes. Reseñas verificadas.',
+  alternates: {
+    canonical: '/resenas',
+  },
+  openGraph: {
+    title: 'Reseñas de Clientes | MuraHomes',
+    description: 'Lo que dicen nuestros clientes sobre su experiencia con MuraHomes. Reseñas verificadas.',
+    url: 'https://mura-homes.com/resenas',
+    type: 'website',
+  },
 };
 
 const reviews = [
@@ -103,21 +113,57 @@ function StarRating({ rating }) {
 }
 
 export default function ResenasPage() {
+  // Review + AggregateRating JSON-LD
+  const avgRating = (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1);
+
+  const reviewJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: 'MuraHomes',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: avgRating,
+      bestRating: '5',
+      worstRating: '1',
+      reviewCount: String(reviews.length),
+    },
+    review: reviews.map((r) => ({
+      '@type': 'Review',
+      author: {
+        '@type': 'Person',
+        name: r.name,
+      },
+      datePublished: r.date,
+      reviewRating: {
+        '@type': 'Rating',
+        ratingValue: String(r.rating),
+        bestRating: '5',
+      },
+      name: r.title,
+      reviewBody: r.body,
+    })),
+  };
+
   return (
     <>
+      <Script
+        id="resenas-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewJsonLd) }}
+      />
       {/* ── HERO ─────────────────────────────────────────────────── */}
       <section className="relative bg-[#f9f7f4] overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#f0ece4]" style={{ clipPath: 'polygon(12% 0, 100% 0, 100% 100%, 0% 100%)' }} />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-20 lg:py-28">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pt-28 pb-16 sm:py-24 lg:py-28">
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-6">
               <div className="h-px w-10 bg-black" />
               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/50">Opiniones Verificadas</span>
             </div>
-            <h1 className="font-serif text-5xl md:text-6xl font-semibold leading-[1.05] tracking-tight mb-6">
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-semibold leading-[1.05] tracking-tight mb-6">
               Lo Que Dicen <span className="text-amber-500">Nuestros Clientes</span>
             </h1>
-            <p className="text-base text-muted-foreground font-light leading-relaxed max-w-lg">
+            <p className="text-sm sm:text-base text-muted-foreground font-light leading-relaxed max-w-lg">
               Más de 3.000 familias confían en MuraHomes para decorar sus hogares. Estas son algunas de sus historias.
             </p>
           </div>
@@ -127,12 +173,12 @@ export default function ResenasPage() {
       {/* ── STATS BAR ────────────────────────────────────────────── */}
       <section className="border-y border-border bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-border">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-border">
             {stats.map(({ value, label, sub }) => (
-              <div key={label} className="flex flex-col items-center justify-center py-10 px-6 text-center">
-                <p className="font-serif text-4xl font-bold text-black mb-1">{value}</p>
+              <div key={label} className="flex flex-col items-center justify-center py-6 sm:py-8 lg:py-10 px-4 sm:px-6 text-center">
+                <p className="font-serif text-3xl sm:text-4xl font-bold text-black mb-1">{value}</p>
                 <p className="text-[10px] uppercase tracking-[0.2em] text-foreground font-semibold">{label}</p>
-                <p className="text-xs text-muted-foreground mt-1">{sub}</p>
+                <p className="text-[11px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1">{sub}</p>
               </div>
             ))}
           </div>
@@ -140,11 +186,11 @@ export default function ResenasPage() {
       </section>
 
       {/* ── REVIEWS GRID ─────────────────────────────────────────── */}
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {reviews.map((review) => (
-              <div key={review.id} className="bg-[#f9f7f4] rounded-2xl p-6 border border-border/50 flex flex-col gap-4 hover:shadow-md transition-all duration-300">
+              <div key={review.id} className="bg-[#f9f7f4] rounded-2xl p-5 sm:p-6 border border-border/50 flex flex-col gap-4 hover:shadow-md transition-all duration-300">
                 {/* Header */}
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
@@ -177,7 +223,7 @@ export default function ResenasPage() {
 
                 {/* Title + body */}
                 <div>
-                  <p className="font-serif text-base font-semibold mb-2 text-foreground">"{review.title}"</p>
+                  <p className="font-serif text-base font-semibold mb-2 text-foreground">&quot;{review.title}&quot;</p>
                   <p className="text-sm text-muted-foreground font-light leading-relaxed line-clamp-4">{review.body}</p>
                 </div>
               </div>
@@ -187,13 +233,13 @@ export default function ResenasPage() {
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────────── */}
-      <section className="py-20 bg-black">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <section className="py-12 sm:py-16 lg:py-20 bg-black">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div>
             <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-400 block mb-2">Únete a Nuestra Comunidad</span>
             <h3 className="font-serif text-2xl font-medium text-white">Conviértete en el Próximo Cliente Satisfecho</h3>
           </div>
-          <Link href="/products" className="inline-flex items-center gap-2 bg-white text-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-amber-400 transition-all group shrink-0">
+          <Link href="/products" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-black px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-amber-400 transition-all group shrink-0">
             Explorar Colecciones <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>

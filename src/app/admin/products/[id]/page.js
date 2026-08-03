@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import RichTextEditor from '@/components/RichTextEditor/RichTextEditor';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter, useParams } from 'next/navigation';
 import {
   ChevronLeft,
@@ -285,7 +286,7 @@ export default function EditProductPage() {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {formData.images.map((url, idx) => (
                 <div key={idx} className="relative aspect-square rounded-xl border border-border overflow-hidden group">
-                  <img src={url} alt={`Gallery ${idx + 1}`} className="h-full w-full object-cover" />
+                  <Image src={url} alt={`Gallery ${idx + 1}`} fill className="object-cover" unoptimized />
                   <button
                     type="button"
                     onClick={() => removeImage(idx)}

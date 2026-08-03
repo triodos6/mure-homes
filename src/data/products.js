@@ -1,49 +1,72 @@
+export const categoryIcons = {
+  outdoor: '🌿',
+  sofas: '🛋️',
+  armchair: '💺',
+  tables: '🪑',
+  chairs: '🪜',
+  bedroom: '🛏️',
+  cabinets: '🗄️',
+  lighting: '💡',
+};
+
+export function getCategoryIcon(id) {
+  return categoryIcons[id] || '✦';
+}
+
 export const categories = [
   {
     id: 'outdoor',
     name: 'Exterior',
+    icon: '🌿',
     description: 'Eleva tus espacios exteriores con nuestra colección al aire libre',
     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=1000&fit=crop',
   },
   {
     id: 'sofas',
     name: 'Sofás',
+    icon: '🛋️',
     description: 'El lujo y la comodidad se unen al diseño contemporáneo',
     image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&h=1000&fit=crop',
   },
   {
     id: 'armchair',
     name: 'Sillones',
+    icon: '💺',
     description: 'Piezas únicas que definen tu espacio de vida',
     image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=1000&fit=crop',
   },
   {
     id: 'tables',
     name: 'Mesas',
+    icon: '🪑',
     description: 'De comedor a centro de sala, elaboradas con precisión',
     image: 'https://images.unsplash.com/photo-1611967164521-abae8fba4668?w=800&h=1000&fit=crop',
   },
   {
     id: 'chairs',
     name: 'Sillas',
+    icon: '🪜',
     description: 'Elegancia ergonómica para cada estancia',
     image: 'https://images.unsplash.com/photo-1503602642458-232111445657?w=800&h=1000&fit=crop',
   },
   {
     id: 'bedroom',
     name: 'Dormitorio',
+    icon: '🛏️',
     description: 'Transforma tu santuario con mobiliario de dormitorio refinado',
     image: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=800&h=1000&fit=crop',
   },
   {
     id: 'cabinets',
     name: 'Armarios',
+    icon: '🗄️',
     description: 'Soluciones de almacenamiento que son obras de arte',
     image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=800&h=1000&fit=crop',
   },
   {
     id: 'lighting',
     name: 'Iluminación',
+    icon: '💡',
     description: 'Ilumina tu mundo con luminarias de diseñador',
     image: 'https://images.unsplash.com/photo-1718221621618-e477ce33485a?q=80&w=2089&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },

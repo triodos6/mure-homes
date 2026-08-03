@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Card, CardContent } from "@/components/ui/card";
+import { useState, useEffect } from 'react';
+import { Card } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -9,9 +9,34 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { getOptimizedImageUrl } from '@/lib/image-utils';
 
 export default function ProductGallery({ images, title }) {
+  const [api, setApi] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    if (!api) return;
+
+    const onSelect = () => {
+      setActiveIndex(api.selectedScrollSnap());
+    };
+
+    onSelect();
+
+    api.on('select', onSelect);
+    api.on('reInit', onSelect);
+
+    return () => {
+      api.off('select', onSelect);
+      api.off('reInit', onSelect);
+    };
+  }, [api]);
+
+  const handleThumbnailClick = (idx) => {
+    setActiveIndex(idx);
+    api?.scrollTo(idx);
+  };
 
   if (!images || images.length === 0) {
     return (
@@ -24,7 +49,8 @@ export default function ProductGallery({ images, title }) {
   return (
     <div className="flex flex-col gap-4">
       {/* Main Feature Image Container */}
-      <Carousel 
+      <Carousel
+        setApi={setApi}
         opts={{
           align: "start",
           loop: true,
@@ -35,8 +61,8 @@ export default function ProductGallery({ images, title }) {
           {images.map((img, idx) => (
             <CarouselItem key={idx}>
               <div 
-                className="aspect-[4/3] w-full bg-secondary bg-cover bg-center rounded-xl overflow-hidden" 
-                style={{ backgroundImage: `url('${img.replace(/['"]/g, '')}')` }} 
+                className="aspect-[4/3] w-full bg-secondary bg-cover bg-center rounded-xl overflow-hidden shadow-sm" 
+                style={{ backgroundImage: `url('${getOptimizedImageUrl(img, 1200)}')` }} 
                 role="img" 
                 aria-label={`${title} view ${idx + 1}`}
               />
@@ -63,12 +89,12 @@ export default function ProductGallery({ images, title }) {
                   ? 'border-primary shadow-[0_0_15px_rgba(201,169,110,0.3)] scale-[1.05] z-10' 
                   : 'border-transparent opacity-70 hover:opacity-100 hover:scale-[1.02]'
               }`}
-              onClick={() => setActiveIndex(idx)}
+              onClick={() => handleThumbnailClick(idx)}
               aria-label={`View ${title} image ${idx + 1}`}
             >
               <div 
                 className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url('${img.replace(/['"]/g, '')}')` }}
+                style={{ backgroundImage: `url('${getOptimizedImageUrl(img, 300)}')` }}
               />
             </button>
           ))}

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import {
   MessageSquare, Search, Filter, ChevronDown, ChevronUp,
   Mail, Calendar, Clock, CheckCircle2, XCircle, RefreshCw,
@@ -240,7 +241,7 @@ export default function AdminConsultationsPage() {
                               {Array.isArray(inquiry.items) && inquiry.items.map((item, idx) => (
                                 <div key={idx} className="flex gap-3 items-center bg-white p-3 rounded-xl border border-border/50">
                                   <div className="h-10 w-10 rounded bg-secondary/30 overflow-hidden shrink-0">
-                                    <img src={item.images?.[0]} className="h-full w-full object-cover" alt="" />
+                                    <Image src={item.images?.[0]} width={40} height={40} className="h-full w-full object-cover" alt={item.name || ''} unoptimized />
                                   </div>
                                   <div className="flex-grow min-w-0">
                                     <p className="text-sm font-medium truncate">{item.name}</p>

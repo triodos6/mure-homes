@@ -1,0 +1,36 @@
+# MuraHomes
+
+> MuraHomes es una tienda de muebles de lujo y diseño de interiores contemporáneo con herencia mediterránea desde 2005.
+
+## Core Sections
+
+- [Inicio](https://mura-homes.com/): Página principal con colecciones destacadas, productos populares y marcas asociadas.
+- [Nosotros](https://mura-homes.com/about): Herencia mediterránea, artesanía de lujo, valores de diseño y trayectoria desde 2005.
+- [Productos & Colecciones](https://mura-homes.com/products): Catálogo completo de mobiliario de lujo para el hogar.
+- [Nuestras Marcas](https://mura-homes.com/brands): Fabricantes y casas de diseño prestigiosas asociadas.
+- [Pedido Online](https://mura-homes.com/pedido-online): Guía paso a paso para realizar pedidos online y envíos a toda España.
+- [Showroom](https://mura-homes.com/showroom): Visita nuestro showroom de 929 m² en Usurbil, Gipuzkoa y reserva consultas privadas.
+- [Reseñas](https://mura-homes.com/resenas): Opiniones e historias verificadas de clientes.
+
+## Categories
+
+- [Sofás](https://mura-homes.com/products/sofas): Sofás de lujo, chaise longues, módulos y sillones de diseño.
+- [Mesas](https://mura-homes.com/products/mesas): Mesas de comedor, mesas de centro, auxiliares y de escritorio.
+- [Sillas](https://mura-homes.com/products/sillas): Sillas de comedor, taburetes de bar y butacas exclusivas.
+- [Dormitorios](https://mura-homes.com/products/dormitorios): Camas de diseño, mesillas de noche, armarios y cabeceros.
+- [Iluminación](https://mura-homes.com/products/iluminacion): Lámparas de suspensión, lámparas de pie, de sobremesa y apliques.
+- [Exterior](https://mura-homes.com/products/exterior): Muebles para terrazas, jardines, tumbonas y conjuntos de exterior.
+- [Almacenaje](https://mura-homes.com/products/almacenaje): Aparadores, estanterías, vitrinas y muebles de televisión.
+- [Decoración](https://mura-homes.com/products/decoracion): Espejos, alfombras, jarrones y objetos decorativos artesanales.
+
+## Contact & Location
+
+- Dirección: Bo. Txiki-Erdi, 7, 20170 Usurbil, Gipuzkoa, España.
+- Teléfono / WhatsApp: +34 627 080 811
+- Email: info@mura-homes.com
+- Horario: Lunes a Sábado: 10:00 – 20:00
+
+## Technical & AI Resources
+
+- [Sitemap](https://mura-homes.com/sitemap.xml): Mapa del sitio XML dinámico.
+- [Robots.txt](https://mura-homes.com/robots.txt): Directivas para crawlers.

@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import DeleteModal from '@/components/DeleteModal/DeleteModal';
@@ -134,11 +135,14 @@ export default function AdminProductsPage() {
                   <tr key={product.id} className="group hover:bg-secondary/10 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
-                        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-md border border-border bg-secondary/50 shadow-sm">
-                          <img 
+                        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-md border border-border bg-secondary/50 shadow-sm relative">
+                          <Image 
                             src={product.images?.[0] || 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=200&q=80'} 
-                            alt={product.name} 
+                            alt={product.name || 'Producto'} 
+                            width={48}
+                            height={48}
                             className="h-full w-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500" 
+                            unoptimized
                           />
                         </div>
                         <span className="font-medium text-foreground">{product.name}</span>

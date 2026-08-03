@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet";
 import { useCart } from "@/context/CartContext";
 import { ShoppingBag, X, ArrowRight, Minus, Plus, Lock, Shield } from "lucide-react";
@@ -21,14 +22,14 @@ export default function CartDrawer({ open, setOpen }) {
   return (
     <>
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent className="w-full sm:max-w-md bg-white p-0 flex flex-col h-full border-l border-border shadow-2xl">
+        <SheetContent className="w-full sm:max-w-md bg-white p-0 flex flex-col h-full border-l border-border shadow-2xl z-[100]">
           <SheetHeader className="p-6 border-b border-border bg-secondary/10">
             <div className="flex items-center justify-between">
               <SheetTitle className="font-serif text-2xl font-medium flex items-center gap-2">
-                <ShoppingBag size={22} className="text-primary" /> Tu Selección
+                <ShoppingBag size={22} className="text-amber-500" /> Tu Selección
               </SheetTitle>
             </div>
-            <SheetDescription className="text-sm font-light uppercase tracking-widest text-muted-foreground mt-1">
+            <SheetDescription className="text-xs font-light uppercase tracking-widest text-muted-foreground mt-1">
               {cartCount} {cartCount === 1 ? 'Artículo' : 'Artículos'} en la Cesta
             </SheetDescription>
           </SheetHeader>
@@ -40,33 +41,43 @@ export default function CartDrawer({ open, setOpen }) {
                   <ShoppingBag size={32} />
                 </div>
                 <p className="text-muted-foreground font-light italic">Tu cesta está vacía.</p>
-                <button onClick={() => setOpen(false)} className="text-sm font-medium text-primary hover:underline uppercase tracking-wider">Explorar Colecciones</button>
+                <button onClick={() => setOpen(false)} className="text-xs font-bold uppercase tracking-widest text-black border-b border-black/20 hover:border-black transition-all">
+                  Explorar Colecciones
+                </button>
               </div>
             ) : (
               cart.map((item) => (
                 <div key={item.id} className="group relative flex gap-4 animate-in fade-in slide-in-from-right-4 duration-300">
-                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-border bg-secondary/50">
-                    <img src={item.images[0]} alt={item.name} className="h-full w-full object-cover" />
+                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border border-border bg-secondary/30 relative">
+                    <Image src={item.images?.[0] || '/images/img1.jpg'} alt={item.name || 'Producto'} width={96} height={96} className="h-full w-full object-cover" unoptimized />
                   </div>
                   <div className="flex flex-grow flex-col justify-between py-0.5">
                     <div>
                       <div className="flex justify-between items-start">
-                        <h4 className="font-serif text-base font-medium text-foreground">{item.name}</h4>
-                        <button onClick={() => removeFromCart(item.id)} className="text-muted-foreground hover:text-destructive p-1 transition-colors"><X size={16} /></button>
+                        <h4 className="font-serif text-base font-medium text-foreground leading-tight">{item.name}</h4>
+                        <button onClick={() => removeFromCart(item.id)} className="text-muted-foreground hover:text-destructive p-1 transition-colors" aria-label="Eliminar producto">
+                          <X size={16} />
+                        </button>
                       </div>
-                      <p className="text-xs text-muted-foreground font-light uppercase tracking-tight">{item.brand}</p>
+                      <p className="text-xs text-muted-foreground font-light uppercase tracking-tight mt-0.5">{item.brand}</p>
                     </div>
                     <div className="flex justify-between items-end">
                       <div className="flex flex-col gap-1.5">
-                        <span className="text-[10px] bg-secondary px-2 py-0.5 rounded text-primary capitalize font-medium w-fit">{item.status.replace('-', ' ')}</span>
-                        <div className="flex items-center border border-border rounded-md overflow-hidden h-8 w-24">
-                          <button onClick={() => updateQuantity(item.id, -1)} className="flex-1 flex items-center justify-center hover:bg-secondary transition-colors"><Minus size={12} /></button>
+                        <span className="text-[10px] bg-secondary px-2 py-0.5 rounded text-foreground capitalize font-medium w-fit">
+                          {(item.status || 'en stock').replace('-', ' ')}
+                        </span>
+                        <div className="flex items-center border border-border rounded-lg overflow-hidden h-8 w-24 bg-white shadow-xs">
+                          <button onClick={() => updateQuantity(item.id, -1)} className="flex-1 flex items-center justify-center hover:bg-secondary transition-colors" aria-label="Reducir cantidad">
+                            <Minus size={12} />
+                          </button>
                           <span className="flex-1 flex items-center justify-center text-xs font-medium border-x border-border">{item.quantity}</span>
-                          <button onClick={() => updateQuantity(item.id, 1)} className="flex-1 flex items-center justify-center hover:bg-secondary transition-colors"><Plus size={12} /></button>
+                          <button onClick={() => updateQuantity(item.id, 1)} className="flex-1 flex items-center justify-center hover:bg-secondary transition-colors" aria-label="Aumentar cantidad">
+                            <Plus size={12} />
+                          </button>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-semibold text-primary">{formatPrice(item.price * item.quantity)}</p>
+                        <p className="text-sm font-semibold text-foreground">{formatPrice(item.price * item.quantity)}</p>
                         {item.quantity > 1 && <p className="text-[10px] text-muted-foreground">{formatPrice(item.price)} c/u</p>}
                       </div>
                     </div>
@@ -80,12 +91,12 @@ export default function CartDrawer({ open, setOpen }) {
             <SheetFooter className="p-6 border-t border-border bg-white mt-auto block">
               <div className="space-y-4">
                 <div className="flex justify-between items-baseline">
-                  <span className="text-sm font-light uppercase tracking-widest text-muted-foreground">Subtotal</span>
+                  <span className="text-xs font-light uppercase tracking-widest text-muted-foreground">Subtotal</span>
                   <span className="text-xl font-medium text-foreground">{formatPrice(cartTotal)}</span>
                 </div>
                 <p className="text-[10px] text-muted-foreground italic leading-relaxed">Impuestos y envío calculados en consulta. Todos los precios son orientativos de la colección actual.</p>
                 <div className="grid grid-cols-1 gap-3 pt-2">
-                  <button onClick={handleCheckout} className="w-full bg-black text-white py-3.5 px-4 rounded-md font-semibold text-sm uppercase tracking-widest hover:bg-black/80 transition-all flex items-center justify-center gap-2 group">
+                  <button onClick={handleCheckout} className="w-full bg-black text-white py-3.5 px-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-black/80 transition-all flex items-center justify-center gap-2 group shadow-md active:scale-[0.99]">
                     Proceder al Pago <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </button>
                   <div className="flex items-center justify-center gap-3 py-1">
@@ -101,7 +112,9 @@ export default function CartDrawer({ open, setOpen }) {
                     <span className="text-border">·</span>
                     <span className="text-[10px] text-muted-foreground">30 días devolución</span>
                   </div>
-                  <button onClick={() => setOpen(false)} className="w-full bg-transparent text-muted-foreground py-2 text-xs font-medium hover:text-foreground transition-colors">Continuar Comprando</button>
+                  <button onClick={() => setOpen(false)} className="w-full bg-transparent text-muted-foreground py-2 text-xs font-medium hover:text-foreground transition-colors">
+                    Continuar Comprando
+                  </button>
                 </div>
               </div>
             </SheetFooter>
@@ -109,7 +122,7 @@ export default function CartDrawer({ open, setOpen }) {
         </SheetContent>
       </Sheet>
 
-      <CheckoutModal open={checkoutOpen} onClose={() => setCheckoutOpen(false)} cart={cart} cartTotal={cartTotal} onSuccess={() => { clearCart(); setCheckoutOpen(false); }} />
+      <CheckoutModal open={checkoutOpen} onClose={() => setCheckoutOpen(false)} cart={cart} cartTotal={cartTotal} onSuccess={clearCart} />
     </>
   );
 }

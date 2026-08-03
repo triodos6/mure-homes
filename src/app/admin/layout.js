@@ -23,7 +23,7 @@ export default async function AdminLayout({ children }) {
       <aside className="hidden lg:flex flex-col w-64 h-screen bg-white border-r border-border flex-shrink-0 overflow-hidden">
         <div className="flex h-16 items-center px-6 pt-2 border-b border-border flex-shrink-0">
           <Link href="/" className="flex items-center">
-            <Image src={logo} alt="MuraHomes" width={120} height={40} className="object-contain" priority />
+            <Image src={logo} alt="MuraHomes" width={120} height={40} className="object-contain" style={{ width: 'auto', height: 'auto' }} priority />
           </Link>
           <span className="ml-auto text-[9px] font-bold uppercase tracking-widest text-muted-foreground bg-secondary px-1.5 py-0.5 rounded">Admin</span>
         </div>

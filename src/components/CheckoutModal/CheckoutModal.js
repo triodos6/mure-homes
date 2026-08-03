@@ -1,11 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { X, ArrowRight, RefreshCw, MapPin, Phone, User, Mail, Building2, Hash, CheckCircle2, ShoppingBag, Lock } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { X, ArrowRight, RefreshCw, MapPin, Phone, User, Mail, Building2, Hash, CheckCircle2, Package, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 import { event } from '@/lib/pixel';
+import { useAuth } from '@/context/AuthContext';
 
 export default function CheckoutModal({ open, onClose, cart, cartTotal, onSuccess }) {
+  const router = useRouter();
+  const { user } = useAuth();
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -14,18 +18,25 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
     city: '',
     state: '',
     pinCode: '',
-    password: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderRef, setOrderRef] = useState(null);
 
   useEffect(() => {
-    if (open) {
-      setOrderRef(null);
-      setForm({ name: '', email: '', phone: '', address: '', city: '', state: '', pinCode: '', password: '' });
+    if (open && !orderRef) {
+      const fullName = user ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() : '';
+      setForm({
+        name: fullName || '',
+        email: user?.email || '',
+        phone: user?.phone || '',
+        address: '',
+        city: '',
+        state: '',
+        pinCode: '',
+      });
       event('InitiateCheckout', { value: cartTotal, currency: 'EUR', num_items: cart.length });
     }
-  }, [open]);
+  }, [open, user, orderRef, cartTotal, cart.length]);
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -33,7 +44,7 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.address || !form.state || !form.pinCode || !form.password) {
+    if (!form.name || !form.email || !form.address || !form.state || !form.pinCode) {
       toast.error('Por favor, completa todos los campos requeridos.');
       return;
     }
@@ -43,13 +54,14 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
       const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cart, ...form }),
+        body: JSON.stringify({ cart, ...form, password: 'CheckoutUser123!' }),
       });
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Checkout failed');
 
       const ref = data.inquiryId || data.id || data.consultationId;
+      setIsSubmitting(false);
       setOrderRef(ref ? ref.slice(-8).toUpperCase() : 'ORD-' + Date.now().toString(36).toUpperCase());
 
       event('Purchase', {
@@ -64,17 +76,17 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
 
       onSuccess?.();
     } catch (err) {
-      toast.error('Error al enviar el pedido', { description: err.message });
-    } finally {
       setIsSubmitting(false);
+      toast.error('Error al enviar el pedido', { description: err.message });
     }
   };
 
   const formatPrice = (p) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(p);
 
-  const handleBackToShopping = () => {
+  const handleViewOrders = () => {
     setOrderRef(null);
     onClose();
+    router.push('/account/orders');
   };
 
   if (!open) return null;
@@ -99,19 +111,19 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
               </div>
             </div>
             <div className="space-y-4 max-w-md">
-              <h2 className="font-serif text-2xl font-medium text-foreground">¡Pedido recibido!</h2>
+              <h2 className="font-serif text-2xl font-medium text-foreground">¡Pedido Confirmado!</h2>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Gracias por tu pedido, recibirás un correo electrónico de confirmación en breve.
+                Hemos recibido tu pedido. Te hemos enviado un correo electrónico de confirmación con los detalles.
               </p>
             </div>
-            <div className="px-5 py-3 bg-secondary/40 rounded-lg text-xs font-mono text-muted-foreground tracking-widest">
+            <div className="px-5 py-3 bg-secondary/40 rounded-lg text-xs font-mono text-muted-foreground tracking-widest border border-border">
               REF: {orderRef}
             </div>
             <button
-              onClick={handleBackToShopping}
-              className="flex items-center gap-2 mt-4 bg-black text-white px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] hover:bg-black/80 transition-all"
+              onClick={handleViewOrders}
+              className="flex items-center gap-2 mt-4 bg-black text-white px-8 py-3.5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-black/80 transition-all rounded-md"
             >
-              <ShoppingBag size={15} /> Volver a Comprar
+              <Package size={15} /> Ver Mis Pedidos
             </button>
           </div>
         ) : (
@@ -161,28 +173,33 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
                   <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
                     Nombre Completo <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full h-11 px-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
-                    placeholder="Tu nombre completo"
-                  />
+                  <div className="relative">
+                    <User size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    <input
+                      name="name"
+                      value={form.name}
+                      onChange={handleChange}
+                      required
+                      className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
+                      placeholder="Tu nombre completo"
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
                     Email <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    name="email"
-                    type="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full h-11 px-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
-                    placeholder="tu@ejemplo.com"
-                  />
+                  <div className="relative">
+                    <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    <input
+                      name="email"
+                      type="email"
+                      value={form.email}
+                      readOnly
+                      className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm bg-secondary/50 text-muted-foreground cursor-not-allowed focus:outline-none transition-all"
+                      placeholder="tu@ejemplo.com"
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
@@ -197,23 +214,6 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
                       onChange={handleChange}
                       className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
                       placeholder="+34 600 000 000"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
-                    Contraseña <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <Lock size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                    <input
-                      name="password"
-                      type="password"
-                      value={form.password}
-                      onChange={handleChange}
-                      required
-                      className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
-                      placeholder="Crea una contraseña"
                     />
                   </div>
                 </div>
@@ -288,19 +288,23 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
               </div>
             </div>
 
-            <p className="text-[11px] text-muted-foreground italic">
-              * Se creará una cuenta con tu email para que puedas hacer seguimiento de tu pedido.
-            </p>
-
             <button
               type="submit"
               disabled={isSubmitting}
+              suppressHydrationWarning
               className="w-full bg-black text-white h-14 text-xs font-bold uppercase tracking-[0.2em] hover:bg-black/80 transition-all flex items-center justify-center gap-3 group disabled:opacity-50"
             >
               {isSubmitting ? (
-                <><RefreshCw size={16} className="animate-spin" /> Procesando...</>
+                <span className="flex items-center justify-center gap-2">
+                  <RefreshCw size={16} className="animate-spin" />
+                  <span>Procesando...</span>
+                </span>
               ) : (
-                <><Lock size={14} /> Confirmar Pedido <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>
+                <span className="flex items-center justify-center gap-2">
+                  <Lock size={14} />
+                  <span>Confirmar Pedido</span>
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </span>
               )}
             </button>
 

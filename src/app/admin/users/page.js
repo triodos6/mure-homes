@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Users, Search, RefreshCw, Mail, Shield, UserCircle2, Crown, Phone } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -91,10 +92,13 @@ export default function AdminUsersPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         {user.image ? (
-                          <img
+                          <Image
                             src={user.image}
                             alt={user.name ?? ''}
+                            width={36}
+                            height={36}
                             className="h-9 w-9 rounded-full object-cover border border-border shrink-0"
+                            unoptimized
                           />
                         ) : (
                           <div className="h-9 w-9 rounded-full bg-secondary flex items-center justify-center shrink-0">

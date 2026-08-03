@@ -32,7 +32,7 @@ const reviews = [
   {
     id: 2,
     name: 'Carlos Ruiz Peñalver',
-    location: 'Barcelona',
+    location: 'Usurbil',
     rating: 5,
     date: 'Febrero 2025',
     product: 'Mesa de Comedor Giardino',
@@ -47,7 +47,7 @@ const reviews = [
     location: 'Bilbao',
     rating: 5,
     date: 'Enero 2025',
-    product: 'Sillón Barcelona Edition',
+    product: 'Sillón Usurbil Edition',
     title: 'El sillón que lleva años siendo mi favorito',
     body: 'He comprado muebles en muchos sitios pero MuraHomes tiene algo diferente: te tratan como a un cliente valioso, no como a un número. El sillón es simplemente perfecto. El cuero italiano mejora con el tiempo. Lo puse junto a la chimenea y es el rincón favorito de casa. 100% recomendado.',
     avatar: 'IF',

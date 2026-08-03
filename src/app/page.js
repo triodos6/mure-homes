@@ -159,7 +159,7 @@ export default async function Home() {
               <div className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.35)' }} />
               <div className="absolute bottom-8 left-8 right-8 z-10">
                 <div className="h-px bg-white/20" />
-                <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] mt-3 font-semibold">Fund. Barcelona, 2005</p>
+                <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] mt-3 font-semibold">Fund. Usurbil, 2005</p>
               </div>
             </div>
 
@@ -217,7 +217,7 @@ export default async function Home() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
                 <p className="text-white font-serif text-xl font-medium">Colección Mediterráneo-Escandinava</p>
-                <p className="text-white/60 text-xs uppercase tracking-wider mt-1">MuraHomes · Barcelona</p>
+                <p className="text-white/60 text-xs uppercase tracking-wider mt-1">MuraHomes · Usurbil</p>
               </div>
               <div className="absolute top-4 left-4 bg-amber-400 text-black px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-full">
                 Colección 2025

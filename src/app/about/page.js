@@ -67,7 +67,7 @@ export default function AboutPage() {
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-px w-10 bg-black" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/50">Fund. Barcelona, 2005</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/50">Fund. Usurbil, 2005</span>
               </div>
               <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-semibold leading-[1.05] tracking-tight mb-6">
                 Nuestra <span className="text-amber-500">Historia</span>
@@ -167,7 +167,7 @@ export default function AboutPage() {
               Detrás de Cada Pieza, <span className="text-amber-400">Una Promesa</span>
             </h2>
             <p className="text-white/50 text-sm font-light leading-relaxed max-w-md">
-              Nuestro almacén en Barcelona gestiona cientos de piezas de diseño en tránsito. Cada entrega está embalada con el mismo cuidado con el que fue fabricada — protegida hasta el último metro.
+              Nuestro almacén en Usurbil gestiona cientos de piezas de diseño en tránsito. Cada entrega está embalada con el mismo cuidado con el que fue fabricada — protegida hasta el último metro.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-5">

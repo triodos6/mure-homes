@@ -126,7 +126,7 @@ export async function POST(request, { params }) {
 
           <div style="background-color: #0a0a0a; color: #888; padding: 24px 40px; text-align: center;">
             <p style="font-size: 11px; margin: 0; letter-spacing: 2px; text-transform: uppercase; color: #fff;">MuraHomes</p>
-            <p style="font-size: 10px; margin: 6px 0 0; color: #666;">Passeig de Gràcia 55, 08007 Barcelona, Spain</p>
+            <p style="font-size: 10px; margin: 6px 0 0; color: #666;">Passeig de Gràcia 55, 08007 Usurbil, Spain</p>
           </div>
         </div>
       `;

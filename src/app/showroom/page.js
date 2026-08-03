@@ -106,7 +106,7 @@ export default function ShowroomPage() {
               <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between">
                 <div>
-                  <p className="text-white font-serif text-xl">Showroom de Barcelona</p>
+                  <p className="text-white font-serif text-xl">Showroom de Usurbil</p>
                   <p className="text-white/60 text-xs uppercase tracking-wider mt-1">929 m²</p>
                 </div>
                 <div className="bg-amber-400 text-black rounded-full px-3 py-1.5 text-[9px] font-black uppercase tracking-wider">

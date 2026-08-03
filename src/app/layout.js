@@ -29,16 +29,16 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://mura-homes.com';
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "MuraHomes | Muebles de Lujo y Diseño de Interiores",
+  title: "MuraHomes | Compra Muebles Online y Decoración de Diseño",
   description:
-    "Curadores de muebles mediterráneos excepcionales y diseño de interiores atemporal.",
+    "Compra muebles online en MuraHomes: sofás, sillones, mesas, sillas, dormitorios, armarios e iluminación. Descubre muebles de diseño y decoración para cada espacio.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "MuraHomes | Muebles de Lujo y Diseño de Interiores",
+    title: "MuraHomes | Compra Muebles Online y Decoración de Diseño",
     description:
-      "Curadores de muebles mediterráneos excepcionales y diseño de interiores atemporal.",
+      "Compra muebles online en MuraHomes: sofás, sillones, mesas, sillas, dormitorios, armarios e iluminación. Descubre muebles de diseño y decoración para cada espacio.",
     url: SITE_URL,
     siteName: "MuraHomes",
     type: "website",

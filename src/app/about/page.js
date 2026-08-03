@@ -5,14 +5,14 @@ import img13 from '@/../public/images/img13.png';
 import img14 from '@/../public/images/img14.png';
 
 export const metadata = {
-  title: 'Nosotros | MuraHomes',
-  description: 'La historia de MuraHomes: herencia mediterránea y visión contemporánea.',
+  title: 'Nosotros MuraHomes – Muebles Asequibles y Diseño Internacional',
+  description: 'Descubre la historia de MuraHomes y nuestra pasión por el diseño de lujo. Explora muebles artesanales y piezas internacionales seleccionadas para transformar tu hogar.',
   alternates: {
     canonical: '/about',
   },
   openGraph: {
-    title: 'Nosotros | MuraHomes',
-    description: 'La historia de MuraHomes: herencia mediterránea y visión contemporánea.',
+    title: 'Nosotros MuraHomes – Muebles Asequibles y Diseño Internacional',
+    description: 'Descubre la historia de MuraHomes y nuestra pasión por el diseño de lujo. Explora muebles artesanales y piezas internacionales seleccionadas para transformar tu hogar.',
     url: 'https://mura-homes.com/about',
     type: 'website',
   },

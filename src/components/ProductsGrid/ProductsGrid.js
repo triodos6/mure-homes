@@ -22,8 +22,27 @@ export default function ProductsGrid({ category = '', categoryName = '', initial
 
   const debouncedSearch = useDebounce(search, 300);
 
+  // Initialize page and query from URL search parameters on client mount / popstate
   useEffect(() => {
-    setPage(1);
+    const syncFromUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      const pageParam = parseInt(params.get('page') || '1', 10);
+      const searchParam = params.get('search') || '';
+      
+      setPage(isNaN(pageParam) || pageParam < 1 ? 1 : pageParam);
+      if (searchParam !== search) {
+        setSearch(searchParam);
+        setQuery(searchParam.trim());
+      }
+    };
+
+    syncFromUrl();
+
+    window.addEventListener('popstate', syncFromUrl);
+    return () => window.removeEventListener('popstate', syncFromUrl);
+  }, []);
+
+  useEffect(() => {
     setQuery(debouncedSearch.trim());
   }, [debouncedSearch]);
 
@@ -77,6 +96,16 @@ export default function ProductsGrid({ category = '', categoryName = '', initial
     shouldScrollRef.current = true;
     setLoadingPage(newPage);
     setPage(newPage);
+
+    // Update URL parameter without full page refresh
+    const url = new URL(window.location.href);
+    if (newPage > 1) {
+      url.searchParams.set('page', newPage);
+    } else {
+      url.searchParams.delete('page');
+    }
+    window.history.pushState({}, '', url.toString());
+
     scrollToGrid();
   };
 

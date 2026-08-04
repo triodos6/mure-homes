@@ -40,7 +40,7 @@ export const categories = [
     name: 'Mesas',
     icon: '🪑',
     description: 'De comedor a centro de sala, elaboradas con precisión',
-    image: 'https://images.unsplash.com/photo-1611967164521-abae8fba4668?w=800&h=1000&fit=crop',
+    image: 'https://res.cloudinary.com/djmavvggl/image/upload/f_auto,q_auto,w_1200/v1776519102/murahomes/products/gallery/auouvx3rkp78cdm3hqbj.png',
   },
   {
     id: 'chairs',

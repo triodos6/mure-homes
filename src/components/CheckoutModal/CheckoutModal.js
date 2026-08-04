@@ -18,6 +18,7 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
     city: '',
     state: '',
     pinCode: '',
+    password: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderRef, setOrderRef] = useState(null);
@@ -28,7 +29,7 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
       try {
         const stored = localStorage.getItem('mure_checkout_info');
         if (stored) saved = JSON.parse(stored);
-      } catch {}
+      } catch { }
 
       const fullName = user ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() : '';
       setForm({
@@ -50,7 +51,7 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
       const updated = { ...prev, [name]: value };
       try {
         localStorage.setItem('mure_checkout_info', JSON.stringify(updated));
-      } catch {}
+      } catch { }
       return updated;
     });
   };
@@ -61,11 +62,15 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
       toast.error('Por favor, completa todos los campos requeridos.');
       return;
     }
+    if (!user && !form.password) {
+      toast.error('Por favor, crea o introduce tu contraseña para continuar.');
+      return;
+    }
 
     // Persist latest info to localStorage
     try {
       localStorage.setItem('mure_checkout_info', JSON.stringify(form));
-    } catch {}
+    } catch { }
 
     setIsSubmitting(true);
     try {
@@ -145,212 +150,237 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
             </button>
           </div>
         ) : (
-        <>
-        {/* Header */}
-        <div className="sticky top-0 bg-black text-white px-8 py-6 flex items-center justify-between z-10">
-          <div>
-            <h2 className="font-serif text-2xl font-medium">Completar Tu Pedido</h2>
-            <p className="text-white/50 text-xs uppercase tracking-widest mt-1">Datos de Entrega y Contacto</p>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-2 rounded-full hover:bg-white/10 transition-colors"
-          >
-            <X size={20} />
-          </button>
-        </div>
-
-        <div className="p-8">
-          {/* Order Summary */}
-          <div className="mb-8 p-5 bg-secondary/40 rounded-lg">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">Resumen del Pedido</h3>
-            <div className="space-y-2">
-              {cart.map((item) => (
-                <div key={item.id} className="flex justify-between text-sm">
-                  <span className="text-foreground font-medium">{item.name} <span className="text-muted-foreground font-normal">×{item.quantity}</span></span>
-                  <span className="font-medium">{formatPrice(item.price * item.quantity)}</span>
-                </div>
-              ))}
+          <>
+            {/* Header */}
+            <div className="sticky top-0 bg-black text-white px-8 py-6 flex items-center justify-between z-10">
+              <div>
+                <h2 className="font-serif text-2xl font-medium">Completar Tu Pedido</h2>
+                <p className="text-white/50 text-xs uppercase tracking-widest mt-1">Datos de Entrega y Contacto</p>
+              </div>
+              <button
+                onClick={onClose}
+                className="p-2 rounded-full hover:bg-white/10 transition-colors"
+              >
+                <X size={20} />
+              </button>
             </div>
-            <div className="mt-4 pt-4 border-t border-border flex justify-between items-baseline">
-              <span className="text-xs uppercase tracking-widest text-muted-foreground">Total</span>
-              <span className="font-serif text-xl font-medium">{formatPrice(cartTotal)}</span>
-            </div>
-          </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-
-            {/* Contact Info */}
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
-                <User size={12} />Información de Contacto
-              </h3>
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
-                    Nombre Completo <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <User size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                    <input
-                      name="name"
-                      value={form.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
-                      placeholder="Tu nombre completo"
-                    />
-                  </div>
+            <div className="p-8">
+              {/* Order Summary */}
+              <div className="mb-8 p-5 bg-secondary/40 rounded-lg">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">Resumen del Pedido</h3>
+                <div className="space-y-2">
+                  {cart.map((item) => (
+                    <div key={item.id} className="flex justify-between text-sm">
+                      <span className="text-foreground font-medium">{item.name} <span className="text-muted-foreground font-normal">×{item.quantity}</span></span>
+                      <span className="font-medium">{formatPrice(item.price * item.quantity)}</span>
+                    </div>
+                  ))}
                 </div>
-                <div>
-                  <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
-                    Email <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                    <input
-                      name="email"
-                      type="email"
-                      value={form.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
-                      placeholder="tu@ejemplo.com"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
-                    Número de Teléfono
-                  </label>
-                  <div className="relative">
-                    <Phone size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                    <input
-                      name="phone"
-                      type="tel"
-                      value={form.phone}
-                      onChange={handleChange}
-                      className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
-                      placeholder="+34 600 000 000"
-                    />
-                  </div>
+                <div className="mt-4 pt-4 border-t border-border flex justify-between items-baseline">
+                  <span className="text-xs uppercase tracking-widest text-muted-foreground">Total</span>
+                  <span className="font-serif text-xl font-medium">{formatPrice(cartTotal)}</span>
                 </div>
               </div>
-            </div>
 
-            {/* Shipping Address */}
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
-                <MapPin size={12} />Dirección de Entrega
-              </h3>
-              <div className="space-y-4">
+              {/* Form */}
+              <form onSubmit={handleSubmit} className="space-y-6">
+
+                {/* Contact Info */}
                 <div>
-                  <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
-                    Dirección <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    name="address"
-                    value={form.address}
-                    onChange={handleChange}
-                    required
-                    className="w-full h-11 px-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
-                    placeholder="Calle Mayor 123, Piso 4B"
-                  />
-                </div>
-                <div className="grid sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
-                      Ciudad
-                    </label>
-                    <div className="relative">
-                      <Building2 size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                      <input
-                        name="city"
-                        value={form.city}
-                        onChange={handleChange}
-                        className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
-                        placeholder="Ciudad"
-                      />
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
+                    <User size={12} />Información de Contacto
+                  </h3>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
+                        Nombre Completo <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <User size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                        <input
+                          name="name"
+                          value={form.name}
+                          onChange={handleChange}
+                          required
+                          className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
+                          placeholder="Tu nombre completo"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
+                        Email <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                        <input
+                          name="email"
+                          type="email"
+                          value={form.email}
+                          onChange={handleChange}
+                          required
+                          className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
+                          placeholder="tu@ejemplo.com"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
+                        Número de Teléfono
+                      </label>
+                      <div className="relative">
+                        <Phone size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                        <input
+                          name="phone"
+                          type="tel"
+                          value={form.phone}
+                          onChange={handleChange}
+                          className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
+                          placeholder="+34 600 000 000"
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
-                      Provincia <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      name="state"
-                      value={form.state}
-                      onChange={handleChange}
-                      required
-                      className="w-full h-11 px-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
-                      placeholder="Provincia"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
-                      Código Postal <span className="text-red-500">*</span>
-                    </label>
-                    <div className="relative">
-                      <Hash size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+
+                  {/* Password — only shown to guest (not logged-in) users */}
+                  {!user && (
+                    <div className="mt-4">
+                      <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
+                        Contraseña <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <Lock size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                        <input
+                          name="password"
+                          type="password"
+                          value={form.password}
+                          onChange={handleChange}
+                          required
+                          minLength={6}
+                          className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
+                          placeholder="Mínimo 6 caracteres"
+                        />
+                      </div>
+                      <p className="text-[10px] text-muted-foreground mt-1.5">
+                        Si ya tienes cuenta, introduce tu contraseña para iniciar sesión. Si eres nuevo, crearemos tu cuenta automáticamente.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Shipping Address */}
+                <div>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
+                    <MapPin size={12} />Dirección de Entrega
+                  </h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
+                        Dirección <span className="text-red-500">*</span>
+                      </label>
                       <input
-                        name="pinCode"
-                        value={form.pinCode}
+                        name="address"
+                        value={form.address}
                         onChange={handleChange}
                         required
-                        className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
-                        placeholder="28001"
+                        className="w-full h-11 px-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
+                        placeholder="Calle Mayor 123, Piso 4B"
                       />
+                    </div>
+                    <div className="grid sm:grid-cols-3 gap-4">
+                      <div>
+                        <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
+                          Ciudad
+                        </label>
+                        <div className="relative">
+                          <Building2 size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                          <input
+                            name="city"
+                            value={form.city}
+                            onChange={handleChange}
+                            className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
+                            placeholder="Ciudad"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
+                          Provincia <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          name="state"
+                          value={form.state}
+                          onChange={handleChange}
+                          required
+                          className="w-full h-11 px-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
+                          placeholder="Provincia"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
+                          Código Postal <span className="text-red-500">*</span>
+                        </label>
+                        <div className="relative">
+                          <Hash size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                          <input
+                            name="pinCode"
+                            value={form.pinCode}
+                            onChange={handleChange}
+                            required
+                            className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
+                            placeholder="28001"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              suppressHydrationWarning
-              className="w-full bg-black text-white h-14 text-xs font-bold uppercase tracking-[0.2em] hover:bg-black/80 transition-all flex items-center justify-center gap-3 group disabled:opacity-50"
-            >
-              {isSubmitting ? (
-                <span className="flex items-center justify-center gap-2">
-                  <RefreshCw size={16} className="animate-spin" />
-                  <span>Procesando...</span>
-                </span>
-              ) : (
-                <span className="flex items-center justify-center gap-2">
-                  <Lock size={14} />
-                  <span>Confirmar Pedido</span>
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </span>
-              )}
-            </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  suppressHydrationWarning
+                  className="w-full bg-black text-white h-14 text-xs font-bold uppercase tracking-[0.2em] hover:bg-black/80 transition-all flex items-center justify-center gap-3 group disabled:opacity-50"
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <RefreshCw size={16} className="animate-spin" />
+                      <span>Procesando...</span>
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-center gap-2">
+                      <Lock size={14} />
+                      <span>Confirmar Pedido</span>
+                      <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  )}
+                </button>
 
-            {/* Payment trust badges */}
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <div className="flex items-center gap-1 text-emerald-600">
-                <Lock size={11} />
-                <span className="text-[10px] font-semibold">SSL 256-bit</span>
-              </div>
-              <span className="text-border text-xs">·</span>
-              <div className="h-6 px-2 bg-secondary rounded flex items-center">
-                <span className="font-bold text-[11px] text-[#1A1F71] tracking-wider">VISA</span>
-              </div>
-              <div className="h-6 px-2 bg-secondary rounded flex items-center gap-0.5">
-                <div className="w-4 h-4 rounded-full bg-red-500/70" />
-                <div className="w-4 h-4 rounded-full bg-amber-400/70 -ml-2" />
-              </div>
-              <div className="h-6 px-2 bg-secondary rounded flex items-center">
-                <span className="font-bold text-[11px]"><span className="text-[#009cde]">Pay</span><span className="text-[#003087]">Pal</span></span>
-              </div>
-              <div className="h-6 px-2 bg-[#FFB3C7]/20 rounded flex items-center">
-                <span className="font-bold text-[11px] text-[#17120E]">klarna</span>
-              </div>
+                {/* Payment trust badges */}
+                <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                  <div className="flex items-center gap-1 text-emerald-600">
+                    <Lock size={11} />
+                    <span className="text-[10px] font-semibold">SSL 256-bit</span>
+                  </div>
+                  <span className="text-border text-xs">·</span>
+                  <div className="h-6 px-2 bg-secondary rounded flex items-center">
+                    <span className="font-bold text-[11px] text-[#1A1F71] tracking-wider">VISA</span>
+                  </div>
+                  <div className="h-6 px-2 bg-secondary rounded flex items-center gap-0.5">
+                    <div className="w-4 h-4 rounded-full bg-red-500/70" />
+                    <div className="w-4 h-4 rounded-full bg-amber-400/70 -ml-2" />
+                  </div>
+                  <div className="h-6 px-2 bg-secondary rounded flex items-center">
+                    <span className="font-bold text-[11px]"><span className="text-[#009cde]">Pay</span><span className="text-[#003087]">Pal</span></span>
+                  </div>
+                  <div className="h-6 px-2 bg-[#FFB3C7]/20 rounded flex items-center">
+                    <span className="font-bold text-[11px] text-[#17120E]">klarna</span>
+                  </div>
+                </div>
+              </form>
             </div>
-          </form>
-        </div>
-        </>
+          </>
         )}
       </div>
     </div>

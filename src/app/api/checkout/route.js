@@ -14,12 +14,15 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    // Create user account if it doesn't already exist
+    // Create user account or verify existing
     const existingUser = await prisma.user.findUnique({ where: { email } });
     let accountCreated = false;
     if (!existingUser) {
-      const userPassword = password || 'CheckoutUser123!';
-      const hashedPassword = await bcrypt.hash(userPassword, 10);
+      // New user — create account with provided password
+      if (!password) {
+        return NextResponse.json({ error: 'Se requiere una contraseña para crear tu cuenta' }, { status: 400 });
+      }
+      const hashedPassword = await bcrypt.hash(password, 10);
       const nameParts = (name || '').trim().split(' ');
       await prisma.user.create({
         data: {
@@ -32,8 +35,17 @@ export async function POST(request) {
         },
       });
       accountCreated = true;
+    } else if (password) {
+      // Existing user — verify their password
+      if (existingUser.password) {
+        const valid = await bcrypt.compare(password, existingUser.password);
+        if (!valid) {
+          return NextResponse.json({ error: 'Contraseña incorrecta. Por favor, intenta de nuevo.' }, { status: 401 });
+        }
+      }
+      // If they have no password set (legacy / social account), skip verification
     }
-
+    
     const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     const savedInquiry = await prisma.consultation.create({

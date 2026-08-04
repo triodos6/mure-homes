@@ -24,22 +24,35 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
 
   useEffect(() => {
     if (open && !orderRef) {
+      let saved = {};
+      try {
+        const stored = localStorage.getItem('mure_checkout_info');
+        if (stored) saved = JSON.parse(stored);
+      } catch {}
+
       const fullName = user ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() : '';
       setForm({
-        name: fullName || '',
-        email: user?.email || '',
-        phone: user?.phone || '',
-        address: '',
-        city: '',
-        state: '',
-        pinCode: '',
+        name: fullName || saved.name || '',
+        email: user?.email || saved.email || '',
+        phone: user?.phone || saved.phone || '',
+        address: saved.address || '',
+        city: saved.city || '',
+        state: saved.state || '',
+        pinCode: saved.pinCode || '',
       });
       event('InitiateCheckout', { value: cartTotal, currency: 'EUR', num_items: cart.length });
     }
   }, [open, user, orderRef, cartTotal, cart.length]);
 
   const handleChange = (e) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setForm(prev => {
+      const updated = { ...prev, [name]: value };
+      try {
+        localStorage.setItem('mure_checkout_info', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -49,12 +62,17 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
       return;
     }
 
+    // Persist latest info to localStorage
+    try {
+      localStorage.setItem('mure_checkout_info', JSON.stringify(form));
+    } catch {}
+
     setIsSubmitting(true);
     try {
       const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cart, ...form, password: 'CheckoutUser123!' }),
+        body: JSON.stringify({ cart, ...form }),
       });
 
       const data = await response.json();
@@ -195,8 +213,9 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
                       name="email"
                       type="email"
                       value={form.email}
-                      readOnly
-                      className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm bg-secondary/50 text-muted-foreground cursor-not-allowed focus:outline-none transition-all"
+                      onChange={handleChange}
+                      required
+                      className="w-full h-11 pl-9 pr-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white"
                       placeholder="tu@ejemplo.com"
                     />
                   </div>

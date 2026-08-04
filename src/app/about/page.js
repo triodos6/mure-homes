@@ -115,16 +115,16 @@ export default function AboutPage() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="relative h-[460px] rounded-2xl overflow-hidden shadow-xl order-2 lg:order-1">
+            <div className="relative aspect-[4/3] lg:h-[460px] w-full rounded-2xl overflow-hidden shadow-xl order-2 lg:order-1 bg-[#1a1a1a]">
               <Image
                 src={img14}
                 alt="Fundadores de MuraHomes junto a los vehículos de distribución"
                 fill
-                className="object-cover"
+                className="object-contain"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
-              <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
-              <div className="absolute bottom-6 left-6">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute bottom-6 left-6 z-10">
                 <p className="text-white font-serif text-xl">Mateo y Julián Santiago</p>
                 <p className="text-white/60 text-xs uppercase tracking-wider mt-1">Co-Fundadores</p>
               </div>

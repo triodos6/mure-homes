@@ -7,7 +7,7 @@ import { useDebounce } from '@/hooks/useDebounce';
 
 const LIMIT = 12;
 
-export default function ProductsGrid({ initialProducts = [], initialTotal = 0, initialTotalPages = 1 }) {
+export default function ProductsGrid({ category = '', categoryName = '', initialProducts = [], initialTotal = 0, initialTotalPages = 1 }) {
   const containerRef = useRef(null);
   const gridListingRef = useRef(null);
   const isInitialMount = useRef(true);
@@ -31,6 +31,7 @@ export default function ProductsGrid({ initialProducts = [], initialTotal = 0, i
     setLoading(true);
     try {
       const params = new URLSearchParams({ limit: LIMIT, page: p });
+      if (category) params.set('category', category);
       if (q) params.set('search', q);
       const res = await fetch(`/api/products?${params}`);
       const data = await res.json();
@@ -43,7 +44,7 @@ export default function ProductsGrid({ initialProducts = [], initialTotal = 0, i
       setLoading(false);
       setLoadingPage(null);
     }
-  }, []);
+  }, [category]);
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -94,6 +95,7 @@ export default function ProductsGrid({ initialProducts = [], initialTotal = 0, i
   const getStatusText = () => {
     let text = `${total} artículo${total !== 1 ? 's' : ''}`;
     if (query) text += ` para "${query}"`;
+    else if (categoryName) text += ` en ${categoryName}`;
     if (totalPages > 1) text += ` · Página ${page} de ${totalPages}`;
     return text;
   };
@@ -108,7 +110,7 @@ export default function ProductsGrid({ initialProducts = [], initialTotal = 0, i
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Buscar por nombre, marca o categoría..."
+            placeholder={categoryName ? `Buscar en ${categoryName}...` : "Buscar por nombre, marca o categoría..."}
             className="w-full h-12 pl-11 pr-10 border border-border bg-white rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all"
           />
           {search && (

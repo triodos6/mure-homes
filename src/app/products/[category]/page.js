@@ -1,10 +1,9 @@
 import { categories, getCategoryIcon } from '@/data/products';
 import Script from 'next/script';
-import ProductCard from '@/components/ProductCard/ProductCard';
+import ProductsGrid from '@/components/ProductsGrid/ProductsGrid';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -14,7 +13,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import CategoryPixelTracker from '@/components/CategoryPixelTracker/CategoryPixelTracker';
-import CategorySearch from '@/components/CategorySearch/CategorySearch';
 
 export const revalidate = 3600;
 
@@ -49,9 +47,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function CategoryPage({ params, searchParams }) {
+export default async function CategoryPage({ params }) {
   const { category } = await params;
-  const sParams = await searchParams;
   const categoryData = categories.find(c => c.id === category);
 
   if (!categoryData) {
@@ -59,42 +56,18 @@ export default async function CategoryPage({ params, searchParams }) {
   }
 
   const LIMIT = 12;
-  const page = Math.max(1, parseInt(sParams?.page || '1', 10));
-  const search = sParams?.search || '';
-  const skip = (page - 1) * LIMIT;
-
-  // Build Prisma where clause — category is always applied, search is optional
-  const where = search
-    ? {
-        category,
-        OR: [
-          { name: { contains: search, mode: 'insensitive' } },
-          { brand: { contains: search, mode: 'insensitive' } },
-          { description: { contains: search, mode: 'insensitive' } },
-        ],
-      }
-    : { category };
 
   const [categoryProducts, total] = await Promise.all([
     prisma.product.findMany({
-      where,
+      where: { category },
       orderBy: { createdAt: 'desc' },
-      skip,
+      skip: 0,
       take: LIMIT,
     }),
-    prisma.product.count({ where }),
+    prisma.product.count({ where: { category } }),
   ]);
 
   const totalPages = Math.ceil(total / LIMIT);
-
-  // Build pagination URLs preserving the current search param
-  const getPageUrl = (p) => {
-    const params = new URLSearchParams();
-    if (p > 1) params.set('page', String(p));
-    if (search) params.set('search', search);
-    const qs = params.toString();
-    return qs ? `/products/${category}?${qs}` : `/products/${category}`;
-  };
 
   // BreadcrumbList JSON-LD
   const breadcrumbJsonLd = {
@@ -146,120 +119,13 @@ export default async function CategoryPage({ params, searchParams }) {
 
       <section className="py-24 bg-white min-h-[50vh]">
         <div className="container mx-auto px-4 lg:px-8">
-          {/* Search form — client component that updates URL params */}
-          <CategorySearch initialSearch={search} />
-
-          {/* Header: count + active search indicator */}
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xs text-muted-foreground uppercase tracking-widest font-semibold">
-              {total} artículo{total !== 1 ? 's' : ''}
-              {search ? ` para "${search}"` : ` en ${categoryData.name}`}
-              {totalPages > 1 ? ` · Página ${page} de ${totalPages}` : ''}
-            </h2>
-            {search && (
-              <Link
-                href={`/products/${category}`}
-                className="text-xs text-black underline underline-offset-2 hover:text-muted-foreground transition-colors"
-              >
-                Limpiar búsqueda
-              </Link>
-            )}
-          </div>
-
-          {categoryProducts.length > 0 ? (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                {categoryProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-
-              {/* Server-rendered Pagination Controls */}
-              {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-2 mt-16">
-                  {page > 1 ? (
-                    <Link
-                      href={getPageUrl(page - 1)}
-                      className="h-10 w-10 flex items-center justify-center border border-border rounded-lg hover:bg-secondary transition-colors"
-                      aria-label="Página anterior"
-                    >
-                      <ChevronLeft size={16} />
-                    </Link>
-                  ) : (
-                    <span className="h-10 w-10 flex items-center justify-center border border-border rounded-lg opacity-30 cursor-not-allowed">
-                      <ChevronLeft size={16} />
-                    </span>
-                  )}
-
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
-                    const isEllipsis =
-                      totalPages > 7 &&
-                      p !== 1 &&
-                      p !== totalPages &&
-                      (p < page - 2 || p > page + 2);
-                    const isPrevEllipsis = totalPages > 7 && p === 2 && page > 4;
-                    const isNextEllipsis = totalPages > 7 && p === totalPages - 1 && page < totalPages - 3;
-
-                    if (isEllipsis && !isPrevEllipsis && !isNextEllipsis) return null;
-                    if (isEllipsis) {
-                      return (
-                        <span key={p} className="h-10 w-10 flex items-center justify-center text-muted-foreground text-sm">
-                          …
-                        </span>
-                      );
-                    }
-
-                    return (
-                      <Link
-                        key={p}
-                        href={getPageUrl(p)}
-                        className={`h-10 w-10 flex items-center justify-center border rounded-lg text-sm font-medium transition-colors ${
-                          page === p
-                            ? 'bg-black text-white border-black'
-                            : 'border-border hover:bg-secondary'
-                        }`}
-                      >
-                        {p}
-                      </Link>
-                    );
-                  })}
-
-                  {page < totalPages ? (
-                    <Link
-                      href={getPageUrl(page + 1)}
-                      className="h-10 w-10 flex items-center justify-center border border-border rounded-lg hover:bg-secondary transition-colors"
-                      aria-label="Página siguiente"
-                    >
-                      <ChevronRight size={16} />
-                    </Link>
-                  ) : (
-                    <span className="h-10 w-10 flex items-center justify-center border border-border rounded-lg opacity-30 cursor-not-allowed">
-                      <ChevronRight size={16} />
-                    </span>
-                  )}
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="text-center py-20 bg-secondary/20 rounded-xl border border-border">
-              <h2 className="font-serif text-2xl font-medium mb-4">
-                {search ? 'Sin resultados' : 'Colección Próximamente'}
-              </h2>
-              <p className="text-muted-foreground max-w-md mx-auto">
-                {search
-                  ? `No se encontraron productos para "${search}" en ${categoryData.name}.`
-                  : 'Actualmente estamos seleccionando nuevas piezas para esta colección. Por favor, vuelve más tarde.'}
-              </p>
-              {search && (
-                <Link
-                  href={`/products/${category}`}
-                  className="inline-block mt-6 text-xs font-bold uppercase tracking-widest text-black border-b border-black/20 hover:border-black transition-all"
-                >
-                  Ver todos los productos →
-                </Link>
-              )}
-            </div>
-          )}
+          <ProductsGrid
+            category={category}
+            categoryName={categoryData.name}
+            initialProducts={categoryProducts}
+            initialTotal={total}
+            initialTotalPages={totalPages}
+          />
 
           {/* Category Cross-Links: Links to all other 7 categories with category icons */}
           <div className="mt-20 pt-16 border-t border-border/60">

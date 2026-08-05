@@ -63,17 +63,19 @@ export async function POST(request) {
       }
     });
 
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
-      console.warn('Email credentials missing. Consultation saved but email skipped.');
-      return NextResponse.json({ success: true, inquiryId: savedInquiry.id, accountCreated });
+    const emailPass = process.env.EMAIL_PASSWORD || process.env.EMAIL_APP_PASSWORD;
+
+    if (!process.env.EMAIL_USER || !emailPass) {
+      console.warn('Email credentials missing. Order saved but email skipped.');
+      return NextResponse.json({ success: true, inquiryId: savedInquiry.id, accountCreated, emailSent: false });
     }
 
     const emailPort = parseInt(process.env.EMAIL_PORT || '465', 10);
     const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST || 'mail.privateemail.com',
+      host: process.env.EMAIL_HOST || 'smtp.gmail.com',
       port: isNaN(emailPort) ? 465 : emailPort,
-      secure: true,
-      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASSWORD },
+      secure: emailPort === 465,
+      auth: { user: process.env.EMAIL_USER, pass: emailPass },
     });
 
     const formatPrice = (price) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(price);
@@ -125,14 +127,26 @@ export async function POST(request) {
       </div>
     `;
 
-    await transporter.sendMail({
-      from: `"MuraHomes" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: `Confirmación de Pedido #${savedInquiry.id.slice(-8).toUpperCase()} | MuraHomes`,
-      html: emailHtml,
-    });
+    let emailSent = false;
+    try {
+      await transporter.sendMail({
+        from: `"MuraHomes" <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject: `Confirmación de Pedido #${savedInquiry.id.slice(-8).toUpperCase()} | MuraHomes`,
+        html: emailHtml,
+      });
+      emailSent = true;
+    } catch (mailError) {
+      console.error('Nodemailer Error sending checkout confirmation:', mailError);
+    }
 
-    return NextResponse.json({ success: true, message: 'Order placed and confirmation sent.', inquiryId: savedInquiry.id, accountCreated });
+    return NextResponse.json({
+      success: true,
+      message: emailSent ? 'Order placed and confirmation sent.' : 'Order placed but email delivery failed.',
+      inquiryId: savedInquiry.id,
+      accountCreated,
+      emailSent,
+    });
   } catch (error) {
     console.error('Checkout Error:', error);
     return NextResponse.json({ error: 'System error during checkout' }, { status: 500 });

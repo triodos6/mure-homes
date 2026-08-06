@@ -2,14 +2,14 @@ import Link from 'next/link';
 import { ArrowRight, ShoppingBag, ClipboardList, Truck, CheckCircle2, Shield, RotateCcw, Headphones, Lock } from 'lucide-react';
 
 export const metadata = {
-  title: 'Cómo Pedir Online | MuraHomes',
-  description: 'Realiza tu pedido de muebles de lujo online de forma fácil y segura. Envío a toda España.',
+  title: 'Compra Muebles de Lujo Online | Envío Fácil y Seguro en España',
+  description: 'Realiza tu pedido online de muebles de lujo en Mura Homes. Compra fácil y segura, con entrega a domicilio en toda España. ¡Haz tu pedido ahora y transforma tu hogar con elegancia!',
   alternates: {
     canonical: '/pedido-online',
   },
   openGraph: {
-    title: 'Cómo Pedir Online | MuraHomes',
-    description: 'Realiza tu pedido de muebles de lujo online de forma fácil y segura. Envío a toda España.',
+    title: 'Compra Muebles de Lujo Online | Envío Fácil y Seguro en España',
+    description: 'Realiza tu pedido online de muebles de lujo en Mura Homes. Compra fácil y segura, con entrega a domicilio en toda España. ¡Haz tu pedido ahora y transforma tu hogar con elegancia!',
     url: 'https://mura-homes.com/pedido-online',
     type: 'website',
   },

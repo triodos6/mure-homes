@@ -88,9 +88,9 @@ export default function Footer() {
               <span className="font-bold text-sm"><span className="text-[#009cde]">Pay</span><span className="text-[#003087]">Pal</span></span>
             </div>
             {/* Klarna */}
-            <div className="h-8 px-3 bg-[#FFB3C7]/20 rounded flex items-center justify-center">
+            {/* <div className="h-8 px-3 bg-[#FFB3C7]/20 rounded flex items-center justify-center">
               <span className="font-bold text-sm text-[#FFB3C7]">klarna</span>
-            </div>
+            </div> */}
             {/* Bizum */}
             <div className="h-8 px-3 bg-white/10 rounded flex items-center justify-center">
               <span className="font-bold text-sm text-[#00B4F1]">Bizum</span>

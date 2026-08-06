@@ -191,9 +191,9 @@ export default function PedidoOnlinePage() {
               <span className="font-bold text-sm text-[#003087]">Pay<span className="text-[#009cde]">Pal</span></span>
             </div>
             {/* Klarna */}
-            <div className="h-10 px-4 bg-[#FFB3C7]/30 rounded-lg flex items-center justify-center border border-[#FFB3C7]/50">
+            {/* <div className="h-10 px-4 bg-[#FFB3C7]/30 rounded-lg flex items-center justify-center border border-[#FFB3C7]/50">
               <span className="font-bold text-sm text-[#17120E]">klarna</span>
-            </div>
+            </div> */}
             {/* Bizum */}
             <div className="h-10 px-4 bg-secondary/40 rounded-lg flex items-center justify-center border border-border/50">
               <span className="font-bold text-sm text-[#00B4F1]">Bizum</span>

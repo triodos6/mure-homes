@@ -374,9 +374,9 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
                   <div className="h-6 px-2 bg-secondary rounded flex items-center">
                     <span className="font-bold text-[11px]"><span className="text-[#009cde]">Pay</span><span className="text-[#003087]">Pal</span></span>
                   </div>
-                  <div className="h-6 px-2 bg-[#FFB3C7]/20 rounded flex items-center">
+                  {/* <div className="h-6 px-2 bg-[#FFB3C7]/20 rounded flex items-center">
                     <span className="font-bold text-[11px] text-[#17120E]">klarna</span>
-                  </div>
+                  </div> */}
                 </div>
               </form>
             </div>

@@ -129,6 +129,7 @@ export async function POST(request) {
 
     let emailSent = false;
     try {
+      await transporter.verify();
       await transporter.sendMail({
         from: `"MuraHomes" <${process.env.EMAIL_USER}>`,
         to: email,
@@ -137,7 +138,7 @@ export async function POST(request) {
       });
       emailSent = true;
     } catch (mailError) {
-      console.error('Nodemailer Error sending checkout confirmation:', mailError);
+      console.error('Nodemailer Error sending checkout confirmation:', mailError.message || mailError);
     }
 
     return NextResponse.json({

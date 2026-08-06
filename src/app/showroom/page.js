@@ -6,16 +6,16 @@ import ShowroomBookingForm from '@/components/ShowroomBookingForm/ShowroomBookin
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://mura-homes.com';
 
 export const metadata = {
-  title: 'Showroom en Usurbil, Gipuzkoa | MuraHomes',
+  title: 'Showroom Mura Homes en Usurbil | Muebles y Diseño Exclusivo',
   description:
-    'Visita nuestro showroom de 929 m² en Usurbil, Gipuzkoa. Reserva una cita privada con nuestros diseñadores de interiores y experimenta nuestras colecciones de lujo en persona.',
+    'Visita el showroom de Mura Homes en Usurbil y descubre nuestros muebles de diseño en más de 929 m². Conoce materiales, texturas y acabados en persona. ¡Visítanos!',
   alternates: {
     canonical: '/showroom',
   },
   openGraph: {
-    title: 'Showroom en Usurbil, Gipuzkoa | MuraHomes',
+    title: 'Showroom Mura Homes en Usurbil | Muebles y Diseño Exclusivo',
     description:
-      'Showroom de mobiliario de lujo en Usurbil. 929 m² de colecciones exclusivas. Reserva tu consulta privada.',
+      'Visita el showroom de Mura Homes en Usurbil y descubre nuestros muebles de diseño en más de 929 m². Conoce materiales, texturas y acabados en persona. ¡Visítanos!',
     url: `${SITE_URL}/showroom`,
     type: 'website',
   },

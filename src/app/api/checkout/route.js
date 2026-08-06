@@ -45,7 +45,7 @@ export async function POST(request) {
       }
       // If they have no password set (legacy / social account), skip verification
     }
-    
+
     const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     const savedInquiry = await prisma.consultation.create({
@@ -63,7 +63,7 @@ export async function POST(request) {
       }
     });
 
-    const emailPass = process.env.EMAIL_PASSWORD || process.env.EMAIL_APP_PASSWORD;
+    const emailPass = process.env.EMAIL_APP_PASSWORD;
 
     if (!process.env.EMAIL_USER || !emailPass) {
       console.warn('Email credentials missing. Order saved but email skipped.');

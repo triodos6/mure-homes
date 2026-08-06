@@ -6,14 +6,14 @@ import { ArrowRight, Globe, Award, Handshake } from 'lucide-react';
 import img16 from '@/../public/images/img16.png';
 
 export const metadata = {
-  title: 'Nuestras Marcas | MuraHomes',
-  description: "Colaboramos con los fabricantes de muebles y casas de diseño más prestigiosos del mundo.",
+  title: 'Nuestras Marcas | Diseño muebles, Calidad y Artesanía Exclusiva',
+  description: 'Descubre nuestras marcas asociadas, seleccionadas por su calidad, artesanía y diseño atemporal. Explora una colección exclusiva y encuentra piezas únicas para tu hogar.',
   alternates: {
     canonical: '/brands',
   },
   openGraph: {
-    title: 'Nuestras Marcas | MuraHomes',
-    description: 'Colaboramos con los fabricantes de muebles y casas de diseño más prestigiosos del mundo.',
+    title: 'Nuestras Marcas | Diseño muebles, Calidad y Artesanía Exclusiva',
+    description: 'Descubre nuestras marcas asociadas, seleccionadas por su calidad, artesanía y diseño atemporal. Explora una colección exclusiva y encuentra piezas únicas para tu hogar.',
     url: 'https://mura-homes.com/brands',
     type: 'website',
   },

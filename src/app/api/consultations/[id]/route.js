@@ -59,17 +59,20 @@ export async function POST(request, { params }) {
       }
     });
 
+    const emailPass = process.env.EMAIL_APP_PASSWORD || process.env.EMAIL_PASSWORD;
+    const emailUser = process.env.EMAIL_USER || 'info@mura-homes.com';
+
     // Send email if requested
-    if (sendEmail && process.env.EMAIL_USER && process.env.EMAIL_PASSWORD) {
+    if (sendEmail && emailUser && emailPass) {
       const emailPort = parseInt(process.env.EMAIL_PORT || '465', 10);
       const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST || 'mail.privateemail.com',
         port: isNaN(emailPort) ? 465 : emailPort,
-        secure: true,
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASSWORD,
-        },
+        secure: emailPort === 465,
+        auth: { user: emailUser, pass: emailPass },
+        connectionTimeout: 10000,
+        greetingTimeout: 5000,
+        socketTimeout: 15000,
       });
 
       const formatPrice = (p) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(p);
@@ -131,13 +134,22 @@ export async function POST(request, { params }) {
         </div>
       `;
 
-      await transporter.sendMail({
-        from: `"MuraHomes" <${process.env.EMAIL_USER}>`,
-        to: consultation.customerEmail,
-        subject: `Your Invoice #${orderNum} is Ready | MuraHomes`,
-        html: emailHtml,
-        attachments: invoiceUrl.startsWith('http') ? [] : [] // attachment handled via URL link
-      });
+      try {
+        await transporter.sendMail({
+          from: `"MuraHomes" <${emailUser}>`,
+          to: consultation.customerEmail,
+          subject: `Your Invoice #${orderNum} is Ready | MuraHomes`,
+          html: emailHtml,
+        });
+      } catch (mailError) {
+        console.error('Nodemailer Error sending invoice:', mailError.message || mailError);
+        return NextResponse.json({ 
+          success: true, 
+          consultation, 
+          emailSent: false, 
+          emailError: mailError.message || 'Mail server connection timeout' 
+        });
+      }
     }
 
     return NextResponse.json({ success: true, consultation });

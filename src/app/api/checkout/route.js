@@ -121,7 +121,7 @@ export async function POST(request) {
         </div>
         <div style="background-color: #0a0a0a; color: #888; padding: 24px 40px; text-align: center;">
           <p style="font-size: 11px; margin: 0; letter-spacing: 2px; text-transform: uppercase; color: #fff;">MuraHomes</p>
-          <p style="font-size: 10px; margin: 6px 0 0; color: #666;">Passeig de Gràcia 55, 08007 Usurbil, Spain</p>
+          <p style="font-size: 10px; margin: 6px 0 0; color: #666;">Bo. Txiki-Erdi, 7, 20170 Usurbil, Gipuzkoa, España</p>
           <p style="font-size: 10px; margin: 4px 0 0; color: #555;">info@mura-homes.com | +34 627 080 811</p>
         </div>
       </div>
@@ -130,9 +130,13 @@ export async function POST(request) {
     let emailSent = false;
     try {
       await transporter.verify();
+      const recipients = [email];
+      if (process.env.EMAIL_USER && process.env.EMAIL_USER !== email) {
+        recipients.push(process.env.EMAIL_USER);
+      }
       await transporter.sendMail({
         from: `"MuraHomes" <${process.env.EMAIL_USER}>`,
-        to: email,
+        to: recipients,
         subject: `Confirmación de Pedido #${savedInquiry.id.slice(-8).toUpperCase()} | MuraHomes`,
         html: emailHtml,
       });

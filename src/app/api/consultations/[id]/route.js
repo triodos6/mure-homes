@@ -87,11 +87,21 @@ export async function POST(request, { params }) {
           </div>
 
           <div style="padding: 40px;">
-            <p style="font-size: 17px; margin: 0 0 8px;">Dear ${consultation.customerName},</p>
-            <p style="font-size: 14px; line-height: 1.7; color: #555; margin: 0 0 32px;">
-              Your invoice for order <strong>#${orderNum}</strong> is now ready. 
-              Please find it attached to this email and also accessible via the button below.
+            <p style="font-size: 17px; margin: 0 0 16px;">Dear ${consultation.customerName},</p>
+            
+            <p style="font-size: 14px; line-height: 1.7; color: #333; margin: 0 0 20px;">
+              Your invoice for order <strong>#${orderNum}</strong> is now ready. You can find it attached to this email and also accessible through the button below.
             </p>
+
+            <div style="background-color: #f4f2ed; border-left: 3px solid #0a0a0a; padding: 18px 22px; margin-bottom: 28px;">
+              <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px; color: #0a0a0a;">Important details about your order:</h4>
+              <p style="font-size: 13px; line-height: 1.6; color: #444; margin: 0 0 12px;">
+                <strong>Payment method:</strong> Payment is made via bank transfer, and all the necessary details to complete it are inside the attached invoice.
+              </p>
+              <p style="font-size: 13px; line-height: 1.6; color: #444; margin: 0;">
+                <strong>Shipping:</strong> The shipment will begin once we receive confirmation of the payment. Please send us a copy of the transfer receipt so we can proceed with the shipment as soon as possible.
+              </p>
+            </div>
 
             <!-- Invoice Summary -->
             <h3 style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; border-bottom: 1px solid #1a1a1a; padding-bottom: 10px; margin: 0 0 16px;">Order Summary</h3>
@@ -129,10 +139,48 @@ export async function POST(request, { params }) {
 
           <div style="background-color: #0a0a0a; color: #888; padding: 24px 40px; text-align: center;">
             <p style="font-size: 11px; margin: 0; letter-spacing: 2px; text-transform: uppercase; color: #fff;">MuraHomes</p>
-            <p style="font-size: 10px; margin: 6px 0 0; color: #666;">Passeig de Gràcia 55, 08007 Usurbil, Spain</p>
+            <p style="font-size: 10px; margin: 6px 0 0; color: #666;">Bo. Txiki-Erdi, 7, 20170 Usurbil, Gipuzkoa, España</p>
+            <p style="font-size: 10px; margin: 4px 0 0; color: #555;">info@mura-homes.com | +34 627 080 811</p>
           </div>
         </div>
       `;
+
+      // Build attachment array if valid invoice URL/path exists
+      const attachments = [];
+      if (invoiceUrl) {
+        let filename = `Invoice_${orderNum}.pdf`;
+        const lowerUrl = invoiceUrl.toLowerCase();
+        if (lowerUrl.includes('.pdf')) {
+          filename = `Invoice_${orderNum}.pdf`;
+        } else if (lowerUrl.includes('.jpg') || lowerUrl.includes('.jpeg')) {
+          filename = `Invoice_${orderNum}.jpg`;
+        } else if (lowerUrl.includes('.png')) {
+          filename = `Invoice_${orderNum}.png`;
+        }
+
+        if (invoiceUrl.startsWith('http://') || invoiceUrl.startsWith('https://')) {
+          try {
+            const fileRes = await fetch(invoiceUrl);
+            if (fileRes.ok) {
+              const arrayBuffer = await fileRes.arrayBuffer();
+              const buffer = Buffer.from(arrayBuffer);
+              attachments.push({
+                filename: filename,
+                content: buffer,
+              });
+            } else {
+              console.warn('Could not download remote invoice for attachment, status:', fileRes.status);
+            }
+          } catch (fetchErr) {
+            console.error('Error fetching remote invoice file for attachment:', fetchErr.message);
+          }
+        } else {
+          attachments.push({
+            filename: filename,
+            path: invoiceUrl,
+          });
+        }
+      }
 
       try {
         await transporter.sendMail({
@@ -140,6 +188,7 @@ export async function POST(request, { params }) {
           to: consultation.customerEmail,
           subject: `Your Invoice #${orderNum} is Ready | MuraHomes`,
           html: emailHtml,
+          attachments,
         });
       } catch (mailError) {
         console.error('Nodemailer Error sending invoice:', mailError.message || mailError);

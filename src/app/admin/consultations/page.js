@@ -330,8 +330,10 @@ export default function AdminConsultationsPage() {
                                   disabled={uploadingId === inquiry.id}
                                   className="w-full h-9 bg-black text-white rounded-lg text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-black/80 transition-all disabled:opacity-50"
                                 >
-                                  {uploadingId === inquiry.id ? <RefreshCw size={12} className="animate-spin" /> : <Upload size={12} />}
-                                  Save Invoice URL
+                                  <span className="flex items-center justify-center gap-2">
+                                    {uploadingId === inquiry.id ? <RefreshCw size={12} className="animate-spin" /> : <Upload size={12} />}
+                                    <span>Save Invoice URL</span>
+                                  </span>
                                 </button>
 
                                 <button
@@ -339,8 +341,10 @@ export default function AdminConsultationsPage() {
                                   disabled={sharingId === inquiry.id || (!inquiry.invoiceUrl && !invoiceUrls[inquiry.id])}
                                   className="w-full h-9 bg-emerald-600 text-white rounded-lg text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all disabled:opacity-40"
                                 >
-                                  {sharingId === inquiry.id ? <RefreshCw size={12} className="animate-spin" /> : <Send size={12} />}
-                                  Share with Customer
+                                  <span className="flex items-center justify-center gap-2">
+                                    {sharingId === inquiry.id ? <RefreshCw size={12} className="animate-spin" /> : <Send size={12} />}
+                                    <span>Share with Customer</span>
+                                  </span>
                                 </button>
 
                                 {inquiry.invoiceShared && (

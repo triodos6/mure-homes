@@ -83,35 +83,35 @@ export async function POST(request, { params }) {
           
           <div style="background-color: #0a0a0a; padding: 36px 40px; text-align: center;">
             <h1 style="color: #fff; font-size: 22px; font-weight: normal; letter-spacing: 6px; text-transform: uppercase; margin: 0;">MuraHomes</h1>
-            <p style="color: #888; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin: 8px 0 0;">Invoice Ready — Order #${orderNum}</p>
+            <p style="color: #888; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin: 8px 0 0;">Factura Lista — Pedido #${orderNum}</p>
           </div>
 
           <div style="padding: 40px;">
-            <p style="font-size: 17px; margin: 0 0 16px;">Dear ${consultation.customerName},</p>
+            <p style="font-size: 17px; margin: 0 0 16px;">Estimado/a ${consultation.customerName},</p>
             
             <p style="font-size: 14px; line-height: 1.7; color: #333; margin: 0 0 20px;">
-              Your invoice for order <strong>#${orderNum}</strong> is now ready. You can find it attached to this email and also accessible through the button below.
+              Tu factura para el pedido <strong>#${orderNum}</strong> ya está lista. La encontrarás adjunta a este correo electrónico y también accesible mediante el botón de abajo.
             </p>
 
             <div style="background-color: #f4f2ed; border-left: 3px solid #0a0a0a; padding: 18px 22px; margin-bottom: 28px;">
-              <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px; color: #0a0a0a;">Important details about your order:</h4>
+              <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px; color: #0a0a0a;">Detalles importantes sobre tu pedido:</h4>
               <p style="font-size: 13px; line-height: 1.6; color: #444; margin: 0 0 12px;">
-                <strong>Payment method:</strong> Payment is made via bank transfer, and all the necessary details to complete it are inside the attached invoice.
+                <strong>Método de pago:</strong> El pago se realiza mediante transferencia bancaria y todos los datos necesarios para completarlo se encuentran en la factura adjunta.
               </p>
               <p style="font-size: 13px; line-height: 1.6; color: #444; margin: 0;">
-                <strong>Shipping:</strong> The shipment will begin once we receive confirmation of the payment. Please send us a copy of the transfer receipt so we can proceed with the shipment as soon as possible.
+                <strong>Envío:</strong> El envío comenzará una vez recibamos la confirmación del pago. Por favor, envíanos una copia del comprobante de transferencia para que podamos proceder con el envío lo antes posible.
               </p>
             </div>
 
-            <!-- Invoice Summary -->
-            <h3 style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; border-bottom: 1px solid #1a1a1a; padding-bottom: 10px; margin: 0 0 16px;">Order Summary</h3>
+            <!-- Resumen del Pedido -->
+            <h3 style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; border-bottom: 1px solid #1a1a1a; padding-bottom: 10px; margin: 0 0 16px;">Resumen del Pedido</h3>
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
               <tbody>
                 ${Array.isArray(consultation.items) ? consultation.items.map(item => `
                   <tr style="border-bottom: 1px solid #efefef;">
                     <td style="padding: 12px 0;">
                       <strong style="font-size: 14px; font-weight: normal;">${item.name}</strong>
-                      <span style="font-size: 11px; color: #888; display: block;">Qty: ${item.quantity}</span>
+                      <span style="font-size: 11px; color: #888; display: block;">Cant: ${item.quantity}</span>
                     </td>
                     <td style="padding: 12px 0; text-align: right; font-size: 14px;">${formatPrice(item.price * item.quantity)}</td>
                   </tr>
@@ -120,20 +120,20 @@ export async function POST(request, { params }) {
             </table>
             
             <div style="text-align: right; border-top: 2px solid #1a1a1a; padding-top: 14px; margin-bottom: 36px;">
-              <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #888; margin: 0 0 4px;">Total Amount</p>
+              <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #888; margin: 0 0 4px;">Monto Total</p>
               <p style="font-size: 26px; font-weight: bold; margin: 0;">${formatPrice(consultation.totalPrice)}</p>
             </div>
 
-            <!-- CTA Button -->
+            <!-- Botón de Descarga -->
             <div style="text-align: center; margin-bottom: 32px;">
               <a href="${invoiceUrl}" 
                 style="display: inline-block; background-color: #0a0a0a; color: #fff; padding: 16px 40px; text-decoration: none; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: bold;">
-                Download Invoice
+                Descargar Factura
               </a>
             </div>
 
             <p style="font-size: 12px; color: #888; font-style: italic; text-align: center;">
-              If you have any questions, please contact us at info@mura-homes.com
+              Si tienes alguna duda, ponte en contacto con nosotros en info@mura-homes.com
             </p>
           </div>
 
@@ -148,14 +148,14 @@ export async function POST(request, { params }) {
       // Build attachment array if valid invoice URL/path exists
       const attachments = [];
       if (invoiceUrl) {
-        let filename = `Invoice_${orderNum}.pdf`;
+        let filename = `Factura_${orderNum}.pdf`;
         const lowerUrl = invoiceUrl.toLowerCase();
         if (lowerUrl.includes('.pdf')) {
-          filename = `Invoice_${orderNum}.pdf`;
+          filename = `Factura_${orderNum}.pdf`;
         } else if (lowerUrl.includes('.jpg') || lowerUrl.includes('.jpeg')) {
-          filename = `Invoice_${orderNum}.jpg`;
+          filename = `Factura_${orderNum}.jpg`;
         } else if (lowerUrl.includes('.png')) {
-          filename = `Invoice_${orderNum}.png`;
+          filename = `Factura_${orderNum}.png`;
         }
 
         if (invoiceUrl.startsWith('http://') || invoiceUrl.startsWith('https://')) {
@@ -186,7 +186,7 @@ export async function POST(request, { params }) {
         await transporter.sendMail({
           from: `"MuraHomes" <${emailUser}>`,
           to: consultation.customerEmail,
-          subject: `Your Invoice #${orderNum} is Ready | MuraHomes`,
+          subject: `Tu Factura del Pedido #${orderNum} está lista | MuraHomes`,
           html: emailHtml,
           attachments,
         });

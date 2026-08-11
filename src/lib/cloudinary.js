@@ -7,19 +7,23 @@ cloudinary.config({
 });
 
 export async function uploadToCloudinary(buffer, options = {}) {
+  const uploadOptions = { folder: 'murahomes', resource_type: 'auto', ...options };
+  const resourceType = uploadOptions.resource_type;
+
   return new Promise((resolve, reject) => {
-    const uploadStream = cloudinary.uploader.upload_stream(
-      {
-        folder: options.folder || 'murahomes',
-        resource_type: options.resourceType || 'auto',
-        ...options,
-      },
-      (error, result) => {
-        if (error) reject(error);
-        else resolve(result);
-      }
-    );
-    uploadStream.end(buffer);
+    const doUpload = (opts) => {
+      const stream = cloudinary.uploader.upload_stream(opts, (err, res) => {
+        if (err && (opts.resource_type === 'auto' || opts.resource_type === 'image')) {
+          doUpload({ ...opts, resource_type: 'raw' });
+        } else if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+      });
+      stream.end(buffer);
+    };
+    doUpload(uploadOptions);
   });
 }
 

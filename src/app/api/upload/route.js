@@ -22,10 +22,16 @@ export async function POST(request) {
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
+    const resource_type = file.type?.startsWith('image/') ? 'image' : 'auto';
 
-    const result = await uploadToCloudinary(buffer, { folder: `murahomes/${folder}` });
+    const result = await uploadToCloudinary(buffer, { folder: `murahomes/${folder}`, resource_type });
 
-    return NextResponse.json({ url: result.secure_url, publicId: result.public_id, width: result.width, height: result.height });
+    return NextResponse.json({
+      url: result.secure_url || result.url,
+      publicId: result.public_id,
+      width: result.width || null,
+      height: result.height || null,
+    });
   } catch (error) {
     console.error('Cloudinary upload failed:', error);
     return NextResponse.json({ error: `Upload failed: ${error.message || 'Unknown error'}` }, { status: 500 });

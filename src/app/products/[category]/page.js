@@ -31,16 +31,18 @@ export async function generateMetadata({ params }) {
   if (!categoryData) return { title: 'Categoría no encontrada' };
 
   const canonicalPath = `/products/${categoryData.id}`;
+  const pageTitle = categoryData.metaTitle || `${categoryData.name} | MuraHomes`;
+  const pageDescription = categoryData.metaDescription || categoryData.description;
 
   return {
-    title: `${categoryData.name} | MuraHomes`,
-    description: categoryData.description,
+    title: pageTitle,
+    description: pageDescription,
     alternates: {
       canonical: canonicalPath,
     },
     openGraph: {
-      title: `${categoryData.name} | MuraHomes`,
-      description: categoryData.description,
+      title: pageTitle,
+      description: pageDescription,
       url: `${SITE_URL}${canonicalPath}`,
       type: 'website',
     },

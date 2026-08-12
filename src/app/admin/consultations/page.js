@@ -63,15 +63,27 @@ export default function AdminConsultationsPage() {
     } finally { setUploadingId(null); }
   };
 
+  const MAX_FILE_SIZE_MB = 10;
+  const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
   const handleInvoiceFileUpload = async (id, file) => {
     if (!file) return;
+
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      toast.error(`Has excedido el límite de tamaño de archivo (${MAX_FILE_SIZE_MB}MB). Por favor, sube un archivo más pequeño.`);
+      return;
+    }
+
     setFileUploadingId(id);
     try {
       const form = new FormData();
       form.append('file', file);
       form.append('folder', 'invoices');
       const res = await fetch('/api/upload', { method: 'POST', body: form });
-      if (!res.ok) throw new Error('Upload failed');
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Error al subir');
+      }
       const data = await res.json();
       setInvoiceUrls(prev => ({ ...prev, [id]: data.url }));
       // Auto-save to DB
@@ -81,9 +93,9 @@ export default function AdminConsultationsPage() {
         body: JSON.stringify({ invoiceUrl: data.url, sendEmail: false })
       });
       setConsultations(prev => prev.map(c => c.id === id ? { ...c, invoiceUrl: data.url } : c));
-      toast.success('Invoice uploaded and saved');
-    } catch {
-      toast.error('Failed to upload invoice');
+      toast.success('Factura subida y guardada correctamente');
+    } catch (err) {
+      toast.error(err.message || 'Error al subir la factura');
     } finally {
       setFileUploadingId(null);
     }
@@ -91,7 +103,7 @@ export default function AdminConsultationsPage() {
 
   const handleShareInvoice = async (id) => {
     const c = consultations.find(x => x.id === id);
-    if (!c?.invoiceUrl && !invoiceUrls[id]) { toast.error('Please save an invoice first'); return; }
+    if (!c?.invoiceUrl && !invoiceUrls[id]) { toast.error('Por favor, guarda o sube una factura primero'); return; }
 
     setSharingId(id);
     try {
@@ -103,8 +115,8 @@ export default function AdminConsultationsPage() {
       });
       if (!res.ok) throw new Error();
       setConsultations(prev => prev.map(c => c.id === id ? { ...c, invoiceShared: true, status: 'contacted' } : c));
-      toast.success('Invoice sent to customer email!');
-    } catch { toast.error('Failed to send invoice');
+      toast.success('¡Factura enviada al correo del cliente!');
+    } catch { toast.error('Error al enviar la factura por correo');
     } finally { setSharingId(null); }
   };
 

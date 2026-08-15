@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import Link from 'next/link';
-import { categories, products as staticProducts, getProductBySlug } from '@/data/products';
+import { categories, products as staticProducts, getProductBySlug, getProductMetadata } from '@/data/products';
 import prisma from '@/lib/prisma';
 import ProductGallery from '@/components/ProductGallery/ProductGallery';
 import ProductCard from '@/components/ProductCard/ProductCard';
@@ -63,20 +63,22 @@ export async function generateMetadata({ params }) {
     };
   }
 
+  const customMeta = getProductMetadata(slug);
   const categoryName = categories.find((c) => c.id === category)?.name || product.category;
-  const plainDescription = product.description
+  const plainDescription = customMeta?.description || (product.description
     ? product.description.replace(/<[^>]*>?/gm, '').slice(0, 160)
-    : `${product.name} de ${product.brand} — ${categoryName} de lujo desde ${new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(product.price)} en MuraHomes.`;
+    : `${product.name} de ${product.brand} — ${categoryName} de lujo desde ${new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(product.price)} en MuraHomes.`);
+  const pageTitle = customMeta?.title || `${product.name} | MuraHomes`;
   const canonicalUrl = `${SITE_URL}/products/${category}/${slug}`;
 
   return {
-    title: `${product.name} | MuraHomes`,
+    title: pageTitle,
     description: plainDescription,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: `${product.name} | MuraHomes`,
+      title: pageTitle,
       description: plainDescription,
       url: canonicalUrl,
       type: 'website',

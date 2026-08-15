@@ -554,6 +554,45 @@ export const products = [
   },
 ];
 
+export const productMetadata = {
+  'sofa-cloud-xl-mura-home': {
+    title: 'Sofá Cloud XL Mura Home | Sofá Modular Grande y Cómodo | Elige Ya',
+    description: 'Compra el sofá Cloud XL Mura Home, un sofá modular de 6 módulos, amplio, versátil y muy cómodo. Ideal para descansar y disfrutar en familia. Elige tu composición y color favoritos.',
+  },
+  'sombrilla-lateral-cuadrada-summit-con-led': {
+    title: 'Sombrilla lateral cuadrada Summit con LED premium para exteriores',
+    description: 'Compra la sombrilla lateral cuadrada Summit con LED, protección UV 50+, giro 360° y estructura de aluminio reforzado. Disfruta de un diseño premium para exteriores elegantes.',
+  },
+  'sofa-cama-extensible-mura-design': {
+    title: 'Compra el Sofá Cama Eléctrico Mura Design para un Hogar Moderno',
+    description: 'Compra el Sofá Cama Extensible Mura Design con chenilla pet-friendly, mesa integrada y carga USB y Tipo-C. Elige tu color favorito y disfruta de máximo confort y diseño.',
+  },
+  'sofa-modular-kioto': {
+    title: 'Sofá Modular Kioto – Compra Diseño Japonés para tu Hogar',
+    description: 'Descubre el sofá modular Kioto de Mura Homes, inspirado en los jardines japoneses y sus formas naturales. Diseño elegante y versátil para tu hogar. ¡Compra ahora!',
+  },
+  'lampara-de-piso-de-cobre-con-diseno-estetico': {
+    title: 'Compra Lámpara de Piso de Cobre con Diseño Estético | Mura Homes',
+    description: 'Compra una lámpara de piso de cobre con diseño estético y 3 bombillas LED. Aporta un toque elegante y único a cualquier habitación o pasillo sin ocupar mucho espacio.',
+  },
+  'lampara-de-mesa-moderna-con-cabeza-de-cristal': {
+    title: 'Lámpara de Mesa Moderna de Cristal | Diseño Elegante y Único',
+    description: 'Ilumina tu hogar con una lámpara de mesa moderna de cristal. Diseño elegante, cuerpo y pantalla de cristal y práctico interruptor de perilla. ¡Compra ahora online!',
+  },
+  'lampara-de-cristal-lustroso-dorado-contemporanea': {
+    title: 'Lámpara de Cristal Dorado Contemporánea | Mura Homes',
+    description: 'Ilumina tu hogar con una elegante lámpara de cristal dorado contemporánea. Disfruta de luz cálida o fría, diseño sofisticado y gran durabilidad. ¡Compra ahora online!',
+  },
+  'lampara-colgante-de-cristal-transparente': {
+    title: 'Lámpara Colgante de Cristal Transparente | Mura Homes',
+    description: 'Renueva tu hogar con nuestra lámpara colgante de cristal transparente y acabado dorado. Diseño elegante, cristal K9 y LED duradero para crear un ambiente sofisticado. ¡Compra ahora!',
+  },
+};
+
+export function getProductMetadata(slug) {
+  return productMetadata[slug] || null;
+}
+
 export function getProductsByCategory(categoryId) {
   return products.filter((p) => p.category === categoryId);
 }
@@ -569,3 +608,4 @@ export function getFeaturedProducts() {
 export function getCategoryById(categoryId) {
   return categories.find((c) => c.id === categoryId);
 }
+

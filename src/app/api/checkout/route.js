@@ -115,7 +115,7 @@ export async function POST(request) {
       auth: { user: process.env.EMAIL_USER, pass: emailPass },
     });
 
-    const formattedTotal = formatPrice(cartTotal, currency, locale);
+    const formattedTotal = formatPrice(computedTotal, currency, locale);
 
     const emailHtml = `
       <div style="font-family: 'Times New Roman', Times, serif; color: #1a1a1a; max-width: 620px; margin: 0 auto; background-color: #fcfbf9; border: 1px solid #e5e5e5;">

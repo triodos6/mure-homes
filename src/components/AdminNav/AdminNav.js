@@ -10,15 +10,17 @@ import {
   Calendar,
   ChevronRight,
   Users,
+  Coins,
 } from 'lucide-react';
 
 const menuItems = [
   { name: 'Dashboard',     icon: LayoutDashboard, href: '/admin' },
-  { name: 'Users',         icon: Users,           href: '/admin/users' },
+  { name: 'Products',      icon: Package,         href: '/admin/products' },
+  { name: 'Currencies',    icon: Coins,           href: '/admin/currencies' },
+  { name: 'Brands',        icon: Layers,          href: '/admin/brands' },
   { name: 'Appointments',  icon: Calendar,        href: '/admin/appointments' },
   { name: 'Consultations', icon: MessageSquare,   href: '/admin/consultations' },
-  { name: 'Products',      icon: Package,         href: '/admin/products' },
-  { name: 'Brands',        icon: Layers,          href: '/admin/brands' },
+  { name: 'Users',         icon: Users,           href: '/admin/users' },
 ];
 
 export default function AdminNav() {

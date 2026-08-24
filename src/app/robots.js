@@ -5,7 +5,16 @@ export default function robots() {
     rules: [
       {
         userAgent: '*',
-        allow: '/',
+        allow: [
+          '/',
+          '/es/',
+          '/fr/',
+          '/de/',
+          '/it/',
+          '/lt/',
+          '/pt/',
+          '/pl/'
+        ],
         disallow: ['/admin', '/api/', '/account'],
       },
       { userAgent: 'GPTBot', allow: '/' },

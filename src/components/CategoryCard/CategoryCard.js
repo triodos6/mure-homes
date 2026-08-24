@@ -1,8 +1,23 @@
+'use client';
+
 import Link from 'next/link';
+import { useI18n } from '@/context/I18nContext';
 
 export default function CategoryCard({ category }) {
+  const { t, locale } = useI18n();
+
+  const getLocalizedHref = (path) => {
+    if (locale === 'es') return path;
+    return `/${locale}${path}`;
+  };
+
+  const localizedName = t(`categories.${category.id}`) || category.name;
+
   return (
-    <Link href={`/products/${category.id}`} className="group block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-xl transition-transform duration-300 hover:-translate-y-1">
+    <Link
+      href={getLocalizedHref(`/products/${category.id}`)}
+      className="group block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-xl transition-transform duration-300 hover:-translate-y-1"
+    >
       <div className="overflow-hidden rounded-xl border border-border/50 bg-card shadow-sm hover:shadow-md transition-all duration-300">
         {/* Image — flush to top corners */}
         <div className="relative aspect-[4/5] bg-secondary w-full overflow-hidden">
@@ -19,7 +34,7 @@ export default function CategoryCard({ category }) {
         {/* Text */}
         <div className="p-5 text-center">
           <h3 className="font-serif text-xl font-medium tracking-wide mb-2">
-            {category.name}
+            {localizedName}
           </h3>
           <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
             {category.description}

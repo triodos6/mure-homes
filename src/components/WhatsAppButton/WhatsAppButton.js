@@ -1,23 +1,39 @@
 'use client';
 
+import { useI18n } from '@/context/I18nContext';
+import { useMarket } from '@/context/MarketContext';
 import { event } from '@/lib/pixel';
 
 const WA_NUMBER = '34627080811';
-const WA_URL = `https://wa.me/${WA_NUMBER}?text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos.`;
 
-export default function WhatsAppButton() {
+export default function WhatsAppButton({ customMessage = null }) {
+  const { t, locale } = useI18n();
+  const { marketCode } = useMarket();
+
+  const message = customMessage || t('whatsapp.generalMessage');
+  const encodedText = encodeURIComponent(message);
+  const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodedText}`;
+
+  const handleClick = () => {
+    event('Contact', {
+      content_name: 'WhatsApp',
+      locale: locale,
+      market: marketCode,
+    });
+  };
+
   return (
     <a
-      href={WA_URL}
+      href={waUrl}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Contactar por WhatsApp"
-      onClick={() => event('Contact', { content_name: 'WhatsApp' })}
+      aria-label={t('whatsapp.buttonLabel')}
+      onClick={handleClick}
       className="fixed bottom-6 right-6 z-[999] flex items-center gap-2.5 bg-[#25D366] text-white rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group"
     >
       {/* Label bubble — visible on hover */}
-      <span className="max-w-0 overflow-hidden group-hover:max-w-[140px] transition-all duration-300 ease-in-out text-xs font-semibold uppercase tracking-wider whitespace-nowrap pl-0 group-hover:pl-4">
-        Chatea con nosotros
+      <span className="max-w-0 overflow-hidden group-hover:max-w-[160px] transition-all duration-300 ease-in-out text-xs font-semibold uppercase tracking-wider whitespace-nowrap pl-0 group-hover:pl-4">
+        {t('whatsapp.buttonLabel')}
       </span>
 
       {/* WhatsApp icon */}

@@ -9,8 +9,9 @@ const PUBLIC_PATHS = [
   '/about',
   '/products',
   '/brands',
-
   '/showroom',
+  '/pedido-online',
+  '/resenas',
   '/sign-in',
   '/sign-up',
   '/api/auth/signin',
@@ -40,31 +41,124 @@ async function getSession(request: NextRequest) {
   }
 }
 
+import { SUPPORTED_LOCALES } from '@/i18n/config';
+import { COUNTRY_TO_LOCALE } from '@/lib/markets/config';
+
+function extractLocale(pathname: string): { locale: string; cleanPath: string } {
+  for (const loc of SUPPORTED_LOCALES) {
+    if (loc === 'es') continue; // Spanish is default without prefix
+    if (pathname === `/${loc}`) {
+      return { locale: loc, cleanPath: '/' };
+    }
+    if (pathname.startsWith(`/${loc}/`)) {
+      return { locale: loc, cleanPath: pathname.replace(`/${loc}`, '') || '/' };
+    }
+  }
+  return { locale: 'es', cleanPath: pathname };
+}
+
+/**
+ * Extracts Vercel Geolocation headers according to official specification:
+ * https://vercel.com/kb/guide/geo-ip-headers-geolocation-vercel-functions
+ * Supports query params (?geo=RO, ?country=DE, ?region=Bavaria, ?city=Munich) & cookie (murahomes_market) for effortless dev testing.
+ */
+function getVercelGeoHeaders(request: NextRequest) {
+  // 1. Query parameter override (?geo=XX or ?country=XX)
+  const devGeoOverride = request.nextUrl.searchParams.get('geo') || request.nextUrl.searchParams.get('country');
+  const devRegionOverride = request.nextUrl.searchParams.get('region');
+  const devCityOverride = request.nextUrl.searchParams.get('city');
+
+  const country = (
+    devGeoOverride ||
+    request.headers.get('x-vercel-ip-country') ||
+    request.headers.get('cf-ipcountry') ||
+    request.headers.get('x-country') ||
+    'ES'
+  ).toUpperCase();
+
+  const region = devRegionOverride || request.headers.get('x-vercel-ip-country-region') || '';
+  const city = devCityOverride || decodeURIComponent(request.headers.get('x-vercel-ip-city') || '');
+  const latitude = request.headers.get('x-vercel-ip-latitude') || '';
+  const longitude = request.headers.get('x-vercel-ip-longitude') || '';
+  const timezone = request.headers.get('x-vercel-ip-timezone') || '';
+
+  return { country, region, city, latitude, longitude, timezone };
+}
+
+function detectLocaleFromRequest(request: NextRequest): string {
+  // 1. Explicit user cookie preference
+  const cookieLocale = request.cookies.get('murahomes_locale')?.value;
+  if (cookieLocale && SUPPORTED_LOCALES.includes(cookieLocale)) {
+    return cookieLocale;
+  }
+
+  // 2. Vercel Geo-IP Country Header (x-vercel-ip-country)
+  const { country } = getVercelGeoHeaders(request);
+  console.log("[COUNTRY] => ", country);
+  if (country && COUNTRY_TO_LOCALE[country]) {
+    return COUNTRY_TO_LOCALE[country];
+  }
+
+  // 3. Accept-Language header fallback
+  const acceptLang = request.headers.get('accept-language') || '';
+  for (const loc of SUPPORTED_LOCALES) {
+    if (acceptLang.toLowerCase().includes(loc)) {
+      return loc;
+    }
+  }
+
+  return 'es';
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const { locale, cleanPath } = extractLocale(pathname);
+  const geo = getVercelGeoHeaders(request);
+  console.log('[GEO] => ', geo);
+
+  // Automatic Geo-Locale Redirection on Root '/'
+  // When user visits root without existing preference and their Vercel IP country is Netherlands (NL -> /nl), Germany (DE -> /de), etc.
+  if (pathname === '/' && !request.cookies.get('murahomes_locale')) {
+    const detectedLocale = detectLocaleFromRequest(request);
+    if (detectedLocale !== 'es') {
+      const redirectUrl = new URL(`/${detectedLocale}`, request.url);
+      const response = NextResponse.redirect(redirectUrl);
+      response.cookies.set('murahomes_locale', detectedLocale, { path: '/', maxAge: 31536000, sameSite: 'lax' });
+      return response;
+    }
+  }
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-pathname', pathname);
+  requestHeaders.set('x-locale', locale);
+  requestHeaders.set('x-clean-pathname', cleanPath);
 
-  // Admin routes — require ADMIN role
+  // Forward all Vercel Geolocation attributes downstream
+  requestHeaders.set('x-country', geo.country);
+  requestHeaders.set('x-region', geo.region);
+  requestHeaders.set('x-city', geo.city);
+  requestHeaders.set('x-latitude', geo.latitude);
+  requestHeaders.set('x-longitude', geo.longitude);
+  requestHeaders.set('x-timezone', geo.timezone);
+
+  // Admin routes — require ADMIN role (Always un-prefixed)
   if (pathname.startsWith('/admin')) {
     const session = await getSession(request);
     if (!session) return Response.redirect(new URL('/sign-in', request.url));
     if (session.role !== 'ADMIN') return Response.redirect(new URL('/', request.url));
-    console.log(`[Proxy] Admin: ${session.email}, Role: ${session.role}`);
     return NextResponse.next({ request: { headers: requestHeaders } });
   }
 
-  // Account routes — require any authenticated user
-  if (pathname.startsWith('/account')) {
+  // Account routes — require any authenticated user (both /account and /[locale]/account)
+  if (cleanPath.startsWith('/account')) {
     const session = await getSession(request);
-    if (!session) return Response.redirect(new URL('/sign-in', request.url));
+    const signInPath = locale === 'es' ? '/sign-in' : `/${locale}/sign-in`;
+    if (!session) return Response.redirect(new URL(signInPath, request.url));
     return NextResponse.next({ request: { headers: requestHeaders } });
   }
 
   // Protected API routes
   if (pathname.startsWith('/api/') && !isPublic(pathname)) {
-    // API routes handle their own auth via getSession()
     return NextResponse.next({ request: { headers: requestHeaders } });
   }
 

@@ -4,10 +4,12 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import ProductCard from '@/components/ProductCard/ProductCard';
 import { Search, Package, ChevronLeft, ChevronRight, X, Loader2 } from 'lucide-react';
 import { useDebounce } from '@/hooks/useDebounce';
+import { useI18n } from '@/context/I18nContext';
 
 const LIMIT = 12;
 
 export default function ProductsGrid({ category = '', categoryName = '', initialProducts = [], initialTotal = 0, initialTotalPages = 1 }) {
+  const { t, locale } = useI18n();
   const containerRef = useRef(null);
   const gridListingRef = useRef(null);
   const isInitialMount = useRef(true);
@@ -21,6 +23,13 @@ export default function ProductsGrid({ category = '', categoryName = '', initial
   const [loadingPage, setLoadingPage] = useState(null);
 
   const debouncedSearch = useDebounce(search, 300);
+
+  // Sync initialProducts when locale changes
+  useEffect(() => {
+    setProducts(initialProducts);
+    setTotal(initialTotal);
+    setTotalPages(initialTotalPages);
+  }, [initialProducts, initialTotal, initialTotalPages]);
 
   // Initialize page and query from URL search parameters on client mount / popstate
   useEffect(() => {
@@ -49,7 +58,7 @@ export default function ProductsGrid({ category = '', categoryName = '', initial
   const fetchProducts = useCallback(async (q, p) => {
     setLoading(true);
     try {
-      const params = new URLSearchParams({ limit: LIMIT, page: p });
+      const params = new URLSearchParams({ limit: LIMIT, page: p, locale });
       if (category) params.set('category', category);
       if (q) params.set('search', q);
       const res = await fetch(`/api/products?${params}`);
@@ -63,7 +72,7 @@ export default function ProductsGrid({ category = '', categoryName = '', initial
       setLoading(false);
       setLoadingPage(null);
     }
-  }, [category]);
+  }, [category, locale]);
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -109,63 +118,89 @@ export default function ProductsGrid({ category = '', categoryName = '', initial
     scrollToGrid();
   };
 
-  const handleSearch = (e) => {
+  const handleSearchSubmit = (e) => {
     e.preventDefault();
-    setPage(1);
     setQuery(search.trim());
+    setPage(1);
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete('page');
+    if (search.trim()) {
+      url.searchParams.set('search', search.trim());
+    } else {
+      url.searchParams.delete('search');
+    }
+    window.history.pushState({}, '', url.toString());
   };
 
   const clearSearch = () => {
     setSearch('');
     setQuery('');
     setPage(1);
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete('search');
+    url.searchParams.delete('page');
+    window.history.pushState({}, '', url.toString());
   };
 
   const getStatusText = () => {
-    let text = `${total} artículo${total !== 1 ? 's' : ''}`;
-    if (query) text += ` para "${query}"`;
-    else if (categoryName) text += ` en ${categoryName}`;
-    if (totalPages > 1) text += ` · Página ${page} de ${totalPages}`;
-    return text;
+    if (query) {
+      return `${t('products.showingResults', { count: total }) || `Mostrando ${total} productos`} ${t('products.filters') ? `· ${query}` : ''}`;
+    }
+    const resolvedCatName = category ? (t(`categories.${category}`) || categoryName) : '';
+    if (resolvedCatName) {
+      return `${total} ${resolvedCatName} ${t('common.all') || ''}`;
+    }
+    return t('products.showingResults', { count: total }) || `${total} piezas en catálogo`;
   };
 
   return (
-    <div ref={containerRef} className="scroll-mt-24">
-      {/* Search bar */}
-      <form onSubmit={handleSearch} className="mb-8">
-        <div className="relative max-w-lg">
-          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
+    <div ref={containerRef}>
+      {/* Search Input Bar */}
+      <form onSubmit={handleSearchSubmit} className="mb-10">
+        <div className="relative max-w-xl">
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder={categoryName ? `Buscar en ${categoryName}...` : "Buscar por nombre, marca o categoría..."}
-            className="w-full h-12 pl-11 pr-10 border border-border bg-white rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all"
+            placeholder={
+              category
+                ? (t('products.searchCategoryPlaceholder', { category: t(`categories.${category}`) || categoryName }) || `Buscar en ${t(`categories.${category}`) || categoryName}...`)
+                : (t('products.searchPlaceholder') || t('navigation.products') || 'Buscar piezas, marcas, estilos...')
+            }
+            className="w-full pl-11 pr-10 py-3.5 bg-white border border-border/80 rounded-xl text-sm placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all shadow-xs"
           />
           {search && (
-            <button type="button" onClick={clearSearch} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
+            <button
+              type="button"
+              onClick={clearSearch}
+              aria-label={t('products.resetFilters') || "Limpiar búsqueda"}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-black transition-colors rounded-full hover:bg-secondary cursor-pointer"
+            >
               <X size={16} />
             </button>
           )}
         </div>
       </form>
 
-      {/* Product Listing Header (Scroll Target) */}
+      {/* Product Listing Header */}
       <div ref={gridListingRef} className="scroll-mt-28">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xs text-muted-foreground uppercase tracking-widest font-semibold flex items-center gap-2 min-h-[20px]">
             {loading ? (
               <div key="status-loading" className="flex items-center gap-2">
                 <Loader2 size={14} className="animate-spin text-amber-500 shrink-0" />
-                <span>Actualizando catálogo...</span>
+                <span>{t('common.loading') || 'Cargando...'}</span>
               </div>
             ) : (
               <span key="status-loaded">{getStatusText()}</span>
             )}
           </h2>
           {query && (
-            <button onClick={clearSearch} className="text-xs text-black underline underline-offset-2 hover:text-muted-foreground transition-colors">
-              Limpiar búsqueda
+            <button onClick={clearSearch} className="text-xs text-black underline underline-offset-2 hover:text-muted-foreground transition-colors cursor-pointer">
+              {t('products.resetFilters') || 'Limpiar búsqueda'}
             </button>
           )}
         </div>
@@ -183,12 +218,14 @@ export default function ProductsGrid({ category = '', categoryName = '', initial
           <div className="h-16 w-16 rounded-full bg-secondary/50 flex items-center justify-center">
             <Package size={28} className="text-muted-foreground/40" />
           </div>
-          <p className="text-muted-foreground italic">
-            {query ? `No se encontraron productos para "${query}".` : 'No hay productos disponibles.'}
+          <p className="text-muted-foreground italic text-sm">
+            {query
+              ? (t('products.noProductsFound') || `No se encontraron productos para "${query}".`)
+              : (t('products.noProductsFound') || 'No hay productos disponibles.')}
           </p>
           {query && (
-            <button onClick={clearSearch} className="text-xs font-bold uppercase tracking-widest text-black border-b border-black/20 hover:border-black transition-all">
-              Ver todos los productos →
+            <button onClick={clearSearch} className="text-xs font-bold uppercase tracking-widest text-black border-b border-black/20 hover:border-black transition-all cursor-pointer">
+              {t('navigation.viewAll') || 'Ver todos los productos'} →
             </button>
           )}
         </div>
@@ -206,8 +243,8 @@ export default function ProductsGrid({ category = '', categoryName = '', initial
           <button
             onClick={() => handlePageChange(page - 1)}
             disabled={page === 1 || loading}
-            aria-label="Página anterior"
-            className="h-10 w-10 flex items-center justify-center border border-border rounded-lg hover:bg-secondary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            aria-label={t('common.back') || 'Página anterior'}
+            className="h-10 w-10 flex items-center justify-center border border-border rounded-lg hover:bg-secondary transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
           >
             {loadingPage === page - 1 ? <Loader2 size={16} className="animate-spin text-black" /> : <ChevronLeft size={16} />}
           </button>
@@ -243,7 +280,7 @@ export default function ProductsGrid({ category = '', categoryName = '', initial
                   page === p
                     ? 'bg-black text-white border-black'
                     : 'border-border hover:bg-secondary'
-                } disabled:opacity-50`}
+                } disabled:opacity-50 cursor-pointer`}
               >
                 {isPageLoading ? <Loader2 size={14} className="animate-spin" /> : p}
               </button>
@@ -254,7 +291,7 @@ export default function ProductsGrid({ category = '', categoryName = '', initial
             onClick={() => handlePageChange(page + 1)}
             disabled={page === totalPages || loading}
             aria-label="Página siguiente"
-            className="h-10 w-10 flex items-center justify-center border border-border rounded-lg hover:bg-secondary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            className="h-10 w-10 flex items-center justify-center border border-border rounded-lg hover:bg-secondary transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
           >
             {loadingPage === page + 1 ? <Loader2 size={16} className="animate-spin text-black" /> : <ChevronRight size={16} />}
           </button>

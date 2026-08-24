@@ -2,19 +2,22 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useI18n } from '@/context/I18nContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import AccountHeader from '@/components/Account/AccountHeader';
 import {
-  User, Mail, Phone, Lock, Camera, CheckCircle2, Shield,
+  User, Mail, Phone, Lock, Camera, Shield,
   RefreshCw, Eye, EyeOff, Package, LogOut, ArrowRight,
   Sparkles, Calendar, Save, KeyRound
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { LOCALE_FORMAT_MAP } from '@/lib/currency/currency-service';
 
 export default function ProfilePage() {
   const { user, isLoaded, refetch, signOut } = useAuth();
+  const { t, locale, getLocalizedHref } = useI18n();
   const router = useRouter();
   const fileInputRef = useRef(null);
 
@@ -42,9 +45,10 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (isLoaded && !user) {
-      router.push('/sign-in');
+      const signInHref = getLocalizedHref ? getLocalizedHref('/sign-in') : '/sign-in';
+      router.push(signInHref);
     }
-  }, [isLoaded, user, router]);
+  }, [isLoaded, user, router, getLocalizedHref]);
 
   useEffect(() => {
     if (user) {
@@ -78,7 +82,7 @@ export default function ProfilePage() {
     if (!file) return;
 
     if (file.size > 5 * 1024 * 1024) {
-      toast.error('La imagen no debe superar los 5MB.');
+      toast.error(t('common.error') || 'La imagen no debe superar los 5MB.');
       return;
     }
 
@@ -105,7 +109,7 @@ export default function ProfilePage() {
 
       if (!updateRes.ok) throw new Error('Error al actualizar la foto de perfil');
 
-      toast.success('Foto de perfil actualizada con éxito');
+      toast.success(t('account.savedSuccess') || 'Foto de perfil actualizada con éxito');
       await refetch();
     } catch (err) {
       toast.error(err.message || 'Error al subir la foto de perfil');
@@ -130,7 +134,7 @@ export default function ProfilePage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Error al actualizar el perfil');
 
-      toast.success('Perfil actualizado correctamente');
+      toast.success(t('account.savedSuccess') || 'Perfil actualizado correctamente');
       await refetch();
     } catch (err) {
       toast.error(err.message || 'No se pudo actualizar el perfil');
@@ -144,12 +148,12 @@ export default function ProfilePage() {
     e.preventDefault();
 
     if (passwordForm.newPassword.length < 6) {
-      toast.error('La nueva contraseña debe tener al menos 6 caracteres.');
+      toast.error(t('checkout.passwordRequiredError') || 'La nueva contraseña debe tener al menos 6 caracteres.');
       return;
     }
 
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      toast.error('Las contraseñas no coinciden.');
+      toast.error(t('auth.passwordsDoNotMatch') || 'Las contraseñas no coinciden.');
       return;
     }
 
@@ -168,7 +172,7 @@ export default function ProfilePage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Error al cambiar la contraseña');
 
-      toast.success('Contraseña cambiada correctamente');
+      toast.success(t('account.savedSuccess') || 'Contraseña cambiada correctamente');
       setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (err) {
       toast.error(err.message || 'No se pudo cambiar la contraseña');
@@ -180,15 +184,18 @@ export default function ProfilePage() {
   // Initials generator
   const initials = `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`.toUpperCase() || user.email?.[0]?.toUpperCase() || 'U';
 
+  const intlLocale = LOCALE_FORMAT_MAP[locale] || 'es-ES';
   const memberSince = user.createdAt
-    ? new Date(user.createdAt).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })
-    : 'recientemente';
+    ? new Date(user.createdAt).toLocaleDateString(intlLocale, { month: 'long', year: 'numeric' })
+    : (t('account.recently') || 'recientemente');
+
+  const ordersHref = getLocalizedHref ? getLocalizedHref('/account/orders') : '/account/orders';
 
   return (
     <div className="min-h-screen bg-[#f9f7f4] pb-24">
       <AccountHeader
-        title={`Bienvenido, ${user.firstName || 'Cliente'}`}
-        subtitle="Administra tus datos personales, foto de perfil y seguridad de la cuenta."
+        title={`${t('account.welcomeUser') || 'Bienvenido'}, ${user.firstName || t('account.client') || 'Cliente'}`}
+        subtitle={t('account.subtitle') || 'Administra tus datos personales, foto de perfil y seguridad de la cuenta.'}
       />
 
       <div className="max-w-5xl mx-auto px-6 lg:px-12 py-10 space-y-8">
@@ -215,9 +222,9 @@ export default function ProfilePage() {
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isUploadingImage}
-                className="absolute bottom-0 right-0 p-2 bg-black text-white rounded-full shadow-lg hover:bg-black/80 transition-all active:scale-95 disabled:opacity-50"
-                title="Cambiar foto de perfil"
-                aria-label="Cambiar foto de perfil"
+                className="absolute bottom-0 right-0 p-2 bg-black text-white rounded-full shadow-lg hover:bg-black/80 transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
+                title={t('account.profile') || 'Cambiar foto de perfil'}
+                aria-label={t('account.profile') || 'Cambiar foto de perfil'}
               >
                 <Camera size={14} />
               </button>
@@ -236,7 +243,7 @@ export default function ProfilePage() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h2 className="font-serif text-2xl font-medium text-foreground">
-                    {user.firstName ? `${user.firstName} ${user.lastName || ''}` : 'Usuario MuraHomes'}
+                    {user.firstName ? `${user.firstName} ${user.lastName || ''}` : 'MuraHomes Member'}
                   </h2>
                   <p className="text-sm text-muted-foreground flex items-center justify-center sm:justify-start gap-1.5 mt-0.5">
                     <Mail size={13} className="text-primary" />
@@ -250,19 +257,19 @@ export default function ProfilePage() {
                     : 'bg-emerald-50 text-emerald-700 border-emerald-200'
                 }`}>
                   <Shield size={11} />
-                  {user.role === 'ADMIN' ? 'Administrador' : 'Cliente Registrado'}
+                  {user.role === 'ADMIN' ? (t('account.admin') || 'Administrador') : (t('account.registeredClient') || 'Cliente Registrado')}
                 </span>
               </div>
 
               <div className="pt-3 flex flex-wrap items-center justify-center sm:justify-start gap-4 text-xs text-muted-foreground border-t border-border/60">
                 <span className="flex items-center gap-1.5">
                   <Calendar size={13} />
-                  Miembro desde <span className="capitalize text-foreground font-medium">{memberSince}</span>
+                  {t('account.memberSince') || 'Miembro desde'} <span className="capitalize text-foreground font-medium">{memberSince}</span>
                 </span>
                 <span>·</span>
                 <span className="flex items-center gap-1.5">
                   <Package size={13} />
-                  <span className="text-foreground font-medium">{ordersCount}</span> {ordersCount === 1 ? 'pedido realizado' : 'pedidos realizados'}
+                  <span className="text-foreground font-medium">{ordersCount}</span> {ordersCount === 1 ? (t('account.ordersCountSingular') || 'pedido registrado') : (t('account.ordersCountPlural') || 'pedidos registrados')}
                 </span>
               </div>
             </div>
@@ -281,10 +288,10 @@ export default function ProfilePage() {
               <div className="flex items-center justify-between border-b border-border pb-4 mb-6">
                 <div>
                   <h3 className="font-serif text-xl font-medium text-foreground flex items-center gap-2">
-                    <User size={18} className="text-primary" /> Información Personal
+                    <User size={18} className="text-primary" /> {t('account.personalInfo') || 'Información Personal'}
                   </h3>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    Actualiza tu nombre, apellidos y número de contacto.
+                    {t('account.personalDetailsDesc') || 'Actualiza tu nombre, apellidos y número de contacto.'}
                   </p>
                 </div>
               </div>
@@ -293,7 +300,7 @@ export default function ProfilePage() {
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-xs uppercase tracking-widest font-semibold text-muted-foreground mb-1.5">
-                      Nombre <span className="text-rose-500">*</span>
+                      {t('account.firstName') || 'Nombre'} <span className="text-rose-500">*</span>
                     </label>
                     <div className="relative">
                       <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -302,7 +309,7 @@ export default function ProfilePage() {
                         value={profileForm.firstName}
                         onChange={(e) => setProfileForm({ ...profileForm, firstName: e.target.value })}
                         required
-                        placeholder="Tu nombre"
+                        placeholder={t('account.firstName') || 'Tu nombre'}
                         className="w-full h-11 pl-10 pr-3 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-black transition-all bg-white"
                       />
                     </div>
@@ -310,7 +317,7 @@ export default function ProfilePage() {
 
                   <div>
                     <label className="block text-xs uppercase tracking-widest font-semibold text-muted-foreground mb-1.5">
-                      Apellidos
+                      {t('account.lastName') || 'Apellidos'}
                     </label>
                     <div className="relative">
                       <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -318,7 +325,7 @@ export default function ProfilePage() {
                         type="text"
                         value={profileForm.lastName}
                         onChange={(e) => setProfileForm({ ...profileForm, lastName: e.target.value })}
-                        placeholder="Tus apellidos"
+                        placeholder={t('account.lastName') || 'Tus apellidos'}
                         className="w-full h-11 pl-10 pr-3 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-black transition-all bg-white"
                       />
                     </div>
@@ -328,7 +335,7 @@ export default function ProfilePage() {
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-xs uppercase tracking-widest font-semibold text-muted-foreground mb-1.5">
-                      Correo Electrónico
+                      {t('account.email') || 'Correo Electrónico'}
                     </label>
                     <div className="relative">
                       <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/60" />
@@ -340,12 +347,14 @@ export default function ProfilePage() {
                       />
                       <Lock size={13} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/60" />
                     </div>
-                    <p className="text-[10px] text-muted-foreground/70 mt-1">El email no se puede cambiar directamente.</p>
+                    <p className="text-[10px] text-muted-foreground/70 mt-1">
+                      {t('account.emailCannotBeChanged') || 'El email no se puede cambiar directamente.'}
+                    </p>
                   </div>
 
                   <div>
                     <label className="block text-xs uppercase tracking-widest font-semibold text-muted-foreground mb-1.5">
-                      Teléfono de Contacto
+                      {t('account.phone') || 'Teléfono de Contacto'}
                     </label>
                     <div className="relative">
                       <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -364,17 +373,17 @@ export default function ProfilePage() {
                   <button
                     type="submit"
                     disabled={isUpdatingProfile}
-                    className="inline-flex items-center gap-2 bg-black text-white px-7 py-3 rounded-xl text-xs font-bold uppercase tracking-[0.15em] hover:bg-black/80 transition-all shadow-md active:scale-95 disabled:opacity-50"
+                    className="inline-flex items-center gap-2 bg-black text-white px-7 py-3 rounded-xl text-xs font-bold uppercase tracking-[0.15em] hover:bg-black/80 transition-all shadow-md active:scale-95 disabled:opacity-50 cursor-pointer"
                   >
                     {isUpdatingProfile ? (
                       <>
                         <RefreshCw size={14} className="animate-spin" />
-                        <span>Guardando...</span>
+                        <span>{t('account.saving') || 'Guardando...'}</span>
                       </>
                     ) : (
                       <>
                         <Save size={14} />
-                        <span>Guardar Cambios</span>
+                        <span>{t('account.saveChanges') || 'Guardar Cambios'}</span>
                       </>
                     )}
                   </button>
@@ -386,17 +395,17 @@ export default function ProfilePage() {
             <div className="bg-white rounded-2xl border border-border shadow-sm p-6 sm:p-8">
               <div className="border-b border-border pb-4 mb-6">
                 <h3 className="font-serif text-xl font-medium text-foreground flex items-center gap-2">
-                  <KeyRound size={18} className="text-primary" /> Seguridad y Contraseña
+                  <KeyRound size={18} className="text-primary" /> {t('account.securityTitle') || 'Seguridad y Contraseña'}
                 </h3>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  Cambia tu contraseña periódicamente para mantener tu cuenta protegida.
+                  {t('account.securityDesc') || 'Cambia tu contraseña periódicamente para mantener tu cuenta protegida.'}
                 </p>
               </div>
 
               <form onSubmit={handlePasswordSubmit} className="space-y-5">
                 <div>
                   <label className="block text-xs uppercase tracking-widest font-semibold text-muted-foreground mb-1.5">
-                    Contraseña Actual
+                    {t('account.currentPassword') || 'Contraseña Actual'}
                   </label>
                   <div className="relative">
                     <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -410,7 +419,7 @@ export default function ProfilePage() {
                     <button
                       type="button"
                       onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer"
                     >
                       {showCurrentPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                     </button>
@@ -420,7 +429,7 @@ export default function ProfilePage() {
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-xs uppercase tracking-widest font-semibold text-muted-foreground mb-1.5">
-                      Nueva Contraseña
+                      {t('account.newPassword') || 'Nueva Contraseña'}
                     </label>
                     <div className="relative">
                       <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -428,13 +437,13 @@ export default function ProfilePage() {
                         type={showNewPassword ? 'text' : 'password'}
                         value={passwordForm.newPassword}
                         onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
-                        placeholder="Mínimo 6 caracteres"
+                        placeholder="••••••••"
                         className="w-full h-11 pl-10 pr-10 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-black transition-all bg-white font-mono"
                       />
                       <button
                         type="button"
                         onClick={() => setShowNewPassword(!showNewPassword)}
-                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer"
                       >
                         {showNewPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                       </button>
@@ -443,7 +452,7 @@ export default function ProfilePage() {
 
                   <div>
                     <label className="block text-xs uppercase tracking-widest font-semibold text-muted-foreground mb-1.5">
-                      Confirmar Nueva Contraseña
+                      {t('account.confirmNewPassword') || 'Confirmar Nueva Contraseña'}
                     </label>
                     <div className="relative">
                       <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -451,7 +460,7 @@ export default function ProfilePage() {
                         type={showNewPassword ? 'text' : 'password'}
                         value={passwordForm.confirmPassword}
                         onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
-                        placeholder="Repite la contraseña"
+                        placeholder="••••••••"
                         className="w-full h-11 pl-10 pr-10 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-black transition-all bg-white font-mono"
                       />
                     </div>
@@ -462,17 +471,17 @@ export default function ProfilePage() {
                   <button
                     type="submit"
                     disabled={isUpdatingPassword || !passwordForm.newPassword}
-                    className="inline-flex items-center gap-2 bg-secondary text-foreground hover:bg-secondary/80 border border-border px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-[0.15em] transition-all disabled:opacity-40"
+                    className="inline-flex items-center gap-2 bg-secondary text-foreground hover:bg-secondary/80 border border-border px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-[0.15em] transition-all disabled:opacity-40 cursor-pointer"
                   >
                     {isUpdatingPassword ? (
                       <>
                         <RefreshCw size={14} className="animate-spin" />
-                        <span>Actualizando...</span>
+                        <span>{t('account.updating') || 'Actualizando...'}</span>
                       </>
                     ) : (
                       <>
                         <KeyRound size={14} />
-                        <span>Cambiar Contraseña</span>
+                        <span>{t('account.changePassword') || 'Cambiar Contraseña'}</span>
                       </>
                     )}
                   </button>
@@ -492,35 +501,35 @@ export default function ProfilePage() {
                   <Package size={20} />
                 </div>
                 <div>
-                  <h4 className="font-serif text-base font-medium">Mis Pedidos</h4>
-                  <p className="text-xs text-muted-foreground">{ordersCount} pedidos registrados</p>
+                  <h4 className="font-serif text-base font-medium">{t('account.orders') || 'Mis Pedidos'}</h4>
+                  <p className="text-xs text-muted-foreground">{ordersCount} {ordersCount === 1 ? (t('account.ordersCountSingular') || 'pedido registrado') : (t('account.ordersCountPlural') || 'pedidos registrados')}</p>
                 </div>
               </div>
 
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Rastrea el estado de tus compras, consulta el historial de envíos y descarga tus facturas oficiales.
+                {t('account.subtitle') || 'Rastrea el estado de tus compras, consulta el historial de envíos y descarga tus facturas oficiales.'}
               </p>
 
               <Link
-                href="/account/orders"
-                className="flex items-center justify-center gap-2 w-full py-3 bg-black text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-black/80 transition-all"
+                href={ordersHref}
+                className="flex items-center justify-center gap-2 w-full py-3 bg-black text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-black/80 transition-all cursor-pointer shadow-md"
               >
-                Ver Mis Pedidos <ArrowRight size={14} />
+                {t('account.viewOrders') || t('account.orders') || 'Ver Mis Pedidos'} <ArrowRight size={14} />
               </Link>
             </div>
 
             {/* Concierge Support Card */}
             <div className="bg-gradient-to-br from-secondary/40 to-secondary/10 rounded-2xl border border-border p-6 space-y-4">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
-                <Sparkles size={14} /> Atención Exclusiva
+                <Sparkles size={14} /> {t('account.exclusiveSupport') || 'Atención Exclusiva'}
               </div>
 
               <h4 className="font-serif text-lg font-medium text-foreground">
-                ¿Necesitas ayuda con tu pedido o proyecto de interiorismo?
+                {t('account.exclusiveSupportDesc') || '¿Necesitas ayuda con tu pedido o proyecto de interiorismo?'}
               </h4>
 
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Nuestro equipo de asesores está disponible para resolver cualquier consulta sobre tus piezas de diseño.
+                {t('checkout.subtitle') || 'Nuestro equipo de asesores está disponible para resolver cualquier consulta sobre tus piezas de diseño.'}
               </p>
 
               <div className="pt-2 space-y-2">
@@ -542,16 +551,16 @@ export default function ProfilePage() {
             {/* Sign Out Action */}
             <div className="bg-white rounded-2xl border border-rose-100 p-6 space-y-3">
               <h4 className="text-xs font-bold uppercase tracking-widest text-rose-700 flex items-center gap-2">
-                <LogOut size={14} /> Sesión de Usuario
+                <LogOut size={14} /> {t('account.sessionTitle') || 'Sesión de Usuario'}
               </h4>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                ¿Deseas salir de tu cuenta en este dispositivo?
+                {t('account.sessionDesc') || '¿Deseas salir de tu cuenta en este dispositivo?'}
               </p>
               <button
                 onClick={signOut}
-                className="w-full flex items-center justify-center gap-2 py-3 border border-rose-200 text-rose-600 bg-rose-50/50 hover:bg-rose-100/70 rounded-xl text-xs font-bold uppercase tracking-widest transition-all"
+                className="w-full flex items-center justify-center gap-2 py-3 border border-rose-200 text-rose-600 bg-rose-50/50 hover:bg-rose-100/70 rounded-xl text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
               >
-                <LogOut size={14} /> Cerrar Sesión
+                <LogOut size={14} /> {t('account.logout') || t('navigation.logout') || 'Cerrar Sesión'}
               </button>
             </div>
 

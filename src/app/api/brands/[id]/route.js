@@ -28,6 +28,7 @@ export async function PATCH(req, { params }) {
         slug: body.slug,
         description: body.description,
         logo: body.logo,
+        translations: body.translations,
       }
     });
 

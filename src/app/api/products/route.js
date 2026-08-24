@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAdmin } from '@/lib/adminAuth';
+import { getLocalizedProduct } from '@/lib/translations/translation-service';
 
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const search = searchParams.get('search') || '';
     const category = searchParams.get('category') || '';
+    const locale = searchParams.get('locale') || request.headers.get('x-locale') || 'es';
     const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
     const limit = Math.min(1000, Math.max(1, parseInt(searchParams.get('limit') || '12', 10)));
     const skip = (page - 1) * limit;
@@ -29,7 +31,9 @@ export async function GET(request) {
       prisma.product.count({ where }),
     ]);
 
-    return NextResponse.json({ products, total, page, totalPages: Math.ceil(total / limit) });
+    const localizedProducts = products.map((p) => getLocalizedProduct(p, locale));
+
+    return NextResponse.json({ products: localizedProducts, total, page, totalPages: Math.ceil(total / limit) });
   } catch (error) {
     console.error('Failed to fetch products:', error);
     return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });

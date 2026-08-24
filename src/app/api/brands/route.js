@@ -26,6 +26,7 @@ export async function POST(req) {
         name: body.name,
         description: body.description,
         logo: body.logo || null,
+        translations: body.translations || null,
       }
     });
 

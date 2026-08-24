@@ -1,7 +1,24 @@
 import React from 'react';
 import { AlertTriangle, Trash2 } from 'lucide-react';
 
-export default function DeleteModal({ itemName, onCancel, onConfirm, isDeleting }) {
+export default function DeleteModal({
+  isOpen,
+  itemName,
+  title = 'Confirm Deletion',
+  description,
+  onCancel,
+  onClose,
+  onConfirm,
+  isDeleting,
+  loading
+}) {
+  // If explicitly closed or no item provided without isOpen, do not render
+  if (isOpen === false) return null;
+  if (isOpen === undefined && !itemName) return null;
+
+  const handleClose = onClose || onCancel;
+  const deleting = isDeleting || loading;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
       <div 
@@ -14,9 +31,13 @@ export default function DeleteModal({ itemName, onCancel, onConfirm, isDeleting 
             <AlertTriangle size={32} />
           </div>
           <div className="space-y-2 text-center">
-            <h3 className="font-serif text-2xl font-medium text-foreground">Confirm Deletion</h3>
+            <h3 className="font-serif text-2xl font-medium text-foreground">{title}</h3>
             <p className="text-sm font-light text-muted-foreground px-4">
-              Are you sure you want to permanently remove <span className="font-semibold text-foreground">&quot;{itemName}&quot;</span> from the database? This action cannot be undone.
+              {description || (
+                <>
+                  Are you sure you want to permanently remove <span className="font-semibold text-foreground">&quot;{itemName}&quot;</span> from the database? This action cannot be undone.
+                </>
+              )}
             </p>
           </div>
         </div>
@@ -24,24 +45,24 @@ export default function DeleteModal({ itemName, onCancel, onConfirm, isDeleting 
         <div className="flex gap-3 bg-secondary/20 p-6 border-t border-border">
           <button
             type="button"
-            onClick={onCancel}
-            disabled={isDeleting}
-            className="flex-1 rounded-md border border-border bg-white px-4 py-3 text-sm font-semibold uppercase tracking-widest text-muted-foreground hover:bg-secondary hover:text-foreground transition-all disabled:opacity-50"
+            onClick={handleClose}
+            disabled={deleting}
+            className="flex-1 rounded-md border border-border bg-white px-4 py-3 text-sm font-semibold uppercase tracking-widest text-muted-foreground hover:bg-secondary hover:text-foreground transition-all disabled:opacity-50 cursor-pointer"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            disabled={isDeleting}
-            className="flex flex-1 items-center justify-center gap-2 rounded-md bg-destructive px-4 py-3 text-sm font-bold uppercase tracking-widest text-white hover:bg-destructive/90 transition-all font-sans disabled:opacity-50"
+            disabled={deleting}
+            className="flex flex-1 items-center justify-center gap-2 rounded-md bg-destructive px-4 py-3 text-sm font-bold uppercase tracking-widest text-white hover:bg-destructive/90 transition-all font-sans disabled:opacity-50 cursor-pointer"
           >
-            {isDeleting ? (
+            {deleting ? (
               <span className="animate-spin h-4 w-4 border-2 border-white/30 border-t-white rounded-full"></span>
             ) : (
               <Trash2 size={16} />
             )}
-            {isDeleting ? 'Deleting...' : 'Delete'}
+            {deleting ? 'Deleting...' : 'Delete'}
           </button>
         </div>
       </div>

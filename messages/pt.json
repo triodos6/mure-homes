@@ -563,5 +563,38 @@
       "title": "Muito feliz, pequeno atraso na entrega",
       "body": "O conjunto do terraço é espetacular, em teca de primeira qualidade e as almofadas resistem perfeitamente ao sol de Sevilha. Houve um atraso de 5 dias na entrega por problemas de estoque, mas me avisaram com antecedência e me ofereceram desconto no próximo pedido. No geral, experiência muito boa."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Consulta / Encomenda #{orderNum} | MuraHomes",
+      "headerTag": "Consulta / Encomenda #{orderNum}",
+      "greeting": "Estimado(a) {name},",
+      "body": "Confirmamos a receção da sua seleção de design. Obrigado por escolher a MuraHomes. A nossa equipa entrará em contacto brevemente com todos os detalhes da entrega.",
+      "selectionSummary": "Resumo da Seleção",
+      "qty": "Qtd",
+      "total": "Total",
+      "deliveryDetails": "Dados de Entrega",
+      "address": "Morada",
+      "regionState": "Distrito / Região",
+      "postalCode": "Código Postal",
+      "marketCountry": "Mercado / País",
+      "phone": "Telefone"
+    },
+    "invoice": {
+      "subject": "A sua fatura da encomenda #{orderNum} está pronta | MuraHomes",
+      "headerTag": "Fatura Pronta — Encomenda #{orderNum}",
+      "greeting": "Estimado(a) {name},",
+      "body": "A sua fatura para a encomenda #{orderNum} já está pronta. Encontra-se em anexo a este e-mail e acessível através do botão abaixo.",
+      "importantDetailsTitle": "Detalhes importantes sobre a sua encomenda:",
+      "paymentMethodLabel": "Método de pagamento:",
+      "paymentMethodDesc": "O pagamento é efetuado por transferência bancária e todos os dados necessários constam na fatura em anexo.",
+      "shippingLabel": "Envio:",
+      "shippingDesc": "O envio será iniciado assim que recebermos a confirmação do pagamento. Por favor, envie-nos o comprovativo de transferência para procedermos com o envio o mais rápido possível.",
+      "orderSummary": "Resumo da Encomenda",
+      "qty": "Qtd",
+      "totalAmount": "Montante Total",
+      "downloadInvoice": "Descarregar Fatura",
+      "questionsNote": "Se tiver alguma dúvida, entre em contacto connosco através de info@mura-homes.com"
+    }
   }
 }

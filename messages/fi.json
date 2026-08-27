@@ -563,5 +563,38 @@
       "title": "Erittäin tyytyväinen, pieni toimitusviive",
       "body": "Terassisarja on upea, laadukasta tiikkipuuta ja tyynyt kestävät täydellisesti Sevillan auringon. Toimitus viivästyi varastoongelmista johtuen 5 päivää, mutta minulle ilmoitettiin etukäteen ja tarjottiin alennusta seuraavasta tilauksesta. Kaiken kaikkiaan erittäin hyvä kokemus."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Tilauskysely #{orderNum} | MuraHomes",
+      "headerTag": "Kysely / Tilaus #{orderNum}",
+      "greeting": "Hyvä {name},",
+      "body": "Vahvistamme vastaanottaneemme huonekaluvalintasi. Kiitos, että valitsit MuraHomesin. Asiakaspalvelumme ottaa sinuun pian yhteyttä toimituksen yksityiskohdista.",
+      "selectionSummary": "Valintojen Yhteenveto",
+      "qty": "Määrä",
+      "total": "Yhteensä",
+      "deliveryDetails": "Toimitustiedot",
+      "address": "Osoite",
+      "regionState": "Maakunta / Alue",
+      "postalCode": "Postinumero",
+      "marketCountry": "Markkina / Maa",
+      "phone": "Puhelin"
+    },
+    "invoice": {
+      "subject": "Tilauksesi #{orderNum} lasku on valmis | MuraHomes",
+      "headerTag": "Lasku Valmis — Tilaus #{orderNum}",
+      "greeting": "Hyvä {name},",
+      "body": "Tilauksesi #{orderNum} lasku on nyt valmis. Löydät sen liitteenä tästä sähköpostista sekä alla olevasta painikkeesta.",
+      "importantDetailsTitle": "Tärkeitä tietoja tilauksestasi:",
+      "paymentMethodLabel": "Maksutapa:",
+      "paymentMethodDesc": "Maksu suoritetaan tilisiirrolla, ja kaikki tarvittavat tiedot löytyvät liitteenä olevasta laskusta.",
+      "shippingLabel": "Toimitus:",
+      "shippingDesc": "Toimitus alkaa heti, kun maksusuoritus on vahvistettu. Lähetäthän meille kuitin tilisiirrosta nopeimman mahdollisen käsittelyn takaamiseksi.",
+      "orderSummary": "Tilauksen Yhteenveto",
+      "qty": "Määrä",
+      "totalAmount": "Kokonaissumma",
+      "downloadInvoice": "Lataa Lasku",
+      "questionsNote": "Jos sinulla on kysyttävää, ota yhteyttä osoitteeseen info@mura-homes.com"
+    }
   }
 }

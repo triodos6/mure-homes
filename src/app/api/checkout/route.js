@@ -131,28 +131,40 @@ export async function POST(request) {
     const formattedTotal = formatPrice(computedTotal, currency, locale);
 
     const messages = await getMessages(locale);
-    const emailGreeting = getMessage(messages, 'email.greeting') || 'Dear';
-    const emailBody = getMessage(messages, 'email.body') || 'We confirm that we have received your design selection. Thank you for choosing MuraHomes. Our concierge will contact you shortly with full delivery details.';
+    const orderNum = savedInquiry.id.slice(-8).toUpperCase();
+    const emailSubject = getMessage(messages, 'emails.orderConfirmation.subject', { orderNum }) || `Order Inquiry #${orderNum} | MuraHomes`;
+    const emailHeaderTag = getMessage(messages, 'emails.orderConfirmation.headerTag', { orderNum }) || `Inquiry / Order #${orderNum}`;
+    const emailGreeting = getMessage(messages, 'emails.orderConfirmation.greeting', { name: name || 'Valued Client' }) || `Dear ${name || 'Client'},`;
+    const emailBody = getMessage(messages, 'emails.orderConfirmation.body') || 'We confirm that we have received your design selection. Thank you for choosing MuraHomes. Our concierge will contact you shortly with full delivery details.';
+    const txtSelectionSummary = getMessage(messages, 'emails.orderConfirmation.selectionSummary') || 'Selection Summary';
+    const txtQty = getMessage(messages, 'emails.orderConfirmation.qty') || 'Qty';
+    const txtTotal = getMessage(messages, 'emails.orderConfirmation.total') || 'Total';
+    const txtDeliveryDetails = getMessage(messages, 'emails.orderConfirmation.deliveryDetails') || 'Delivery Details';
+    const txtAddress = getMessage(messages, 'emails.orderConfirmation.address') || 'Address';
+    const txtRegionState = getMessage(messages, 'emails.orderConfirmation.regionState') || 'Region / State';
+    const txtPostalCode = getMessage(messages, 'emails.orderConfirmation.postalCode') || 'Postal Code';
+    const txtMarketCountry = getMessage(messages, 'emails.orderConfirmation.marketCountry') || 'Market / Country';
+    const txtPhone = getMessage(messages, 'emails.orderConfirmation.phone') || 'Phone';
 
     const emailHtml = `
       <div style="font-family: 'Times New Roman', Times, serif; color: #1a1a1a; max-width: 620px; margin: 0 auto; background-color: #fcfbf9; border: 1px solid #e5e5e5;">
         <div style="background-color: #0a0a0a; padding: 36px 40px; text-align: center;">
           <h1 style="color: #fff; font-size: 22px; font-weight: normal; letter-spacing: 6px; text-transform: uppercase; margin: 0;">MuraHomes</h1>
-          <p style="color: #888; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin: 8px 0 0;">Inquiry / Order #${savedInquiry.id.slice(-8).toUpperCase()}</p>
+          <p style="color: #888; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin: 8px 0 0;">${emailHeaderTag}</p>
         </div>
         <div style="padding: 40px;">
-          <p style="font-size: 17px; margin: 0 0 8px;">${emailGreeting} ${name},</p>
+          <p style="font-size: 17px; margin: 0 0 8px;">${emailGreeting}</p>
           <p style="font-size: 14px; line-height: 1.7; color: #555; margin: 0 0 32px;">
             ${emailBody}
           </p>
-          <h3 style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; border-bottom: 1px solid #1a1a1a; padding-bottom: 10px; margin: 0 0 16px;">Selection Summary</h3>
+          <h3 style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; border-bottom: 1px solid #1a1a1a; padding-bottom: 10px; margin: 0 0 16px;">${txtSelectionSummary}</h3>
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
             <tbody>
               ${snapshotItems.map(item => `
                 <tr style="border-bottom: 1px solid #efefef;">
                   <td style="padding: 14px 0;">
                     <strong style="font-size: 15px; font-weight: normal;">${item.productNameSnapshot}</strong>
-                    <span style="font-size: 11px; color: #888; display: block; margin-top: 3px;">${item.brand} | Qty: ${item.quantity}</span>
+                    <span style="font-size: 11px; color: #888; display: block; margin-top: 3px;">${item.brand} | ${txtQty}: ${item.quantity}</span>
                   </td>
                   <td style="padding: 14px 0; text-align: right; font-size: 15px;">${formatPrice(item.unitPriceSnapshot * item.quantity, currency, locale)}</td>
                 </tr>
@@ -160,16 +172,16 @@ export async function POST(request) {
             </tbody>
           </table>
           <div style="text-align: right; border-top: 2px solid #1a1a1a; padding-top: 16px; margin-bottom: 32px;">
-            <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #888; margin: 0 0 4px;">Total</p>
+            <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #888; margin: 0 0 4px;">${txtTotal}</p>
             <p style="font-size: 26px; font-weight: bold; margin: 0;">${formattedTotal}</p>
           </div>
-          <h3 style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; border-bottom: 1px solid #e5e5e5; padding-bottom: 10px; margin: 0 0 16px;">Delivery Details</h3>
+          <h3 style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; border-bottom: 1px solid #e5e5e5; padding-bottom: 10px; margin: 0 0 16px;">${txtDeliveryDetails}</h3>
           <table style="width: 100%; font-size: 13px; color: #444; margin-bottom: 32px;">
-            <tr><td style="padding: 5px 0; color: #888; width: 120px;">Address</td><td>${address}${city ? ', ' + city : ''}</td></tr>
-            <tr><td style="padding: 5px 0; color: #888;">Region / State</td><td>${state}</td></tr>
-            <tr><td style="padding: 5px 0; color: #888;">Postal Code</td><td>${pinCode}</td></tr>
-            <tr><td style="padding: 5px 0; color: #888;">Market / Country</td><td>${market}</td></tr>
-            ${phone ? `<tr><td style="padding: 5px 0; color: #888;">Phone</td><td>${phone}</td></tr>` : ''}
+            <tr><td style="padding: 5px 0; color: #888; width: 120px;">${txtAddress}</td><td>${address}${city ? ', ' + city : ''}</td></tr>
+            <tr><td style="padding: 5px 0; color: #888;">${txtRegionState}</td><td>${state}</td></tr>
+            <tr><td style="padding: 5px 0; color: #888;">${txtPostalCode}</td><td>${pinCode}</td></tr>
+            <tr><td style="padding: 5px 0; color: #888;">${txtMarketCountry}</td><td>${market}</td></tr>
+            ${phone ? `<tr><td style="padding: 5px 0; color: #888;">${txtPhone}</td><td>${phone}</td></tr>` : ''}
           </table>
         </div>
         <div style="background-color: #0a0a0a; color: #888; padding: 24px 40px; text-align: center;">
@@ -190,7 +202,7 @@ export async function POST(request) {
       await transporter.sendMail({
         from: `"MuraHomes" <${process.env.EMAIL_USER}>`,
         to: recipients,
-        subject: `Order Inquiry #${savedInquiry.id.slice(-8).toUpperCase()} | MuraHomes`,
+        subject: emailSubject,
         html: emailHtml,
       });
       emailSent = true;

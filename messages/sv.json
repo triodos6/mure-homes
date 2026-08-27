@@ -561,5 +561,38 @@
       "title": "Mycket nöjd, liten försening i leveransen",
       "body": "Terrasssetet är spektakulärt teak av högsta kvalitet och kuddarna tål Sevillas sol perfekt. Det var en 5-dagars försening i leveransen på grund av lagerproblem, men de meddelade mig i förväg och erbjöd mig rabatt på nästa beställning. Sammantaget mycket bra erfarenhet."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Orderförfrågan #{orderNum} | MuraHomes",
+      "headerTag": "Förfrågan / Order #{orderNum}",
+      "greeting": "Bästa {name},",
+      "body": "Vi bekräftar mottagandet av ditt designval. Tack för att du valt MuraHomes. Vårt team kontaktar dig inom kort med fullständiga leveransdetaljer.",
+      "selectionSummary": "Översikt av Val",
+      "qty": "Antal",
+      "total": "Totalt",
+      "deliveryDetails": "Leveransinformation",
+      "address": "Adress",
+      "regionState": "Län / Region",
+      "postalCode": "Postnummer",
+      "marketCountry": "Marknad / Land",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Din faktura för order #{orderNum} är klar | MuraHomes",
+      "headerTag": "Faktura Klar — Order #{orderNum}",
+      "greeting": "Bästa {name},",
+      "body": "Din faktura för order #{orderNum} är nu klar. Du hittar den bifogad till detta e-postmeddelande samt via knappen nedan.",
+      "importantDetailsTitle": "Viktig information om din beställning:",
+      "paymentMethodLabel": "Betalningsmetod:",
+      "paymentMethodDesc": "Betalning sker via banköverföring och alla nödvändiga uppgifter finns på den bifogade fakturan.",
+      "shippingLabel": "Leverans:",
+      "shippingDesc": "Leveransen påbörjas så snart betalningsbekräftelsen har mottagits. Vänligen skicka ett kvitto på överföringen så att vi kan skicka dina varor så snabbt som möjligt.",
+      "orderSummary": "Orderöversikt",
+      "qty": "Antal",
+      "totalAmount": "Totalsumma",
+      "downloadInvoice": "Ladda Ner Faktura",
+      "questionsNote": "Om du har några frågor är du välkommen att kontakta oss på info@mura-homes.com"
+    }
   }
 }

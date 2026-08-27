@@ -561,5 +561,38 @@
       "title": "Nagyon elégedett, kis késés a szállításban",
       "body": "A teraszgarnitúra látványos, prémium minőségű tíkfa, és a párnák is tökéletesen bírják a sevillai napsütést. Volt egy 5 napos késés a szállításban készlethiány miatt, de előre értesítettek, és kedvezményt ajánlottak a következő rendelésből. Összességében nagyon jó élmény."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Megrendelés Érdeklődés #{orderNum} | MuraHomes",
+      "headerTag": "Érdeklődés / Megrendelés #{orderNum}",
+      "greeting": "Kedves {name}!",
+      "body": "Megerősítjük, hogy megkaptuk az Ön bútorkiválasztását. Köszönjük a MuraHomes iránti bizalmát. Szakértő csapatunk hamarosan felveszi Önnel a kapcsolatot a szállítás részleteivel.",
+      "selectionSummary": "Kiválasztás Összegzése",
+      "qty": "Menny.",
+      "total": "Összesen",
+      "deliveryDetails": "Szállítási Adatok",
+      "address": "Cím",
+      "regionState": "Megye / Régió",
+      "postalCode": "Irányítószám",
+      "marketCountry": "Piac / Ország",
+      "phone": "Telefonszám"
+    },
+    "invoice": {
+      "subject": "Az Ön számlája a(z) #{orderNum} rendeléshez elkészült | MuraHomes",
+      "headerTag": "Számla Elkészült — #{orderNum} Rendelés",
+      "greeting": "Kedves {name}!",
+      "body": "A(z) #{orderNum} rendeléshez tartozó számla elkészült. A számlát e-mailünk mellékletében és az alábbi gombra kattintva is megtalálja.",
+      "importantDetailsTitle": "Fontos tudnivalók a megrendelésről:",
+      "paymentMethodLabel": "Fizetési mód:",
+      "paymentMethodDesc": "A fizetés banki átutalással történik, a szükséges adatok a csatolt számlán találhatók.",
+      "shippingLabel": "Szállítás:",
+      "shippingDesc": "A szállítás a fizetés megerősítését követően indul. Kérjük, küldje el az átutalási bizonylatot a gyorsabb feldolgozás érdekében.",
+      "orderSummary": "Rendelés Összegzése",
+      "qty": "Menny.",
+      "totalAmount": "Végösszeg",
+      "downloadInvoice": "Számla Letöltése",
+      "questionsNote": "Kérdés esetén forduljon hozzánk bizalommal az info@mura-homes.com címen."
+    }
   }
 }

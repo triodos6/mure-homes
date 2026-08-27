@@ -561,5 +561,38 @@
       "title": "Very happy, slight delay in delivery",
       "body": "The terrace set is spectacular, premium quality teak and the cushions perfectly withstand the sun of Seville. There was a 5-day delay in delivery due to stock issues, but they informed me in advance and offered me a discount on the next order. Overall very good experience."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Order Inquiry #{orderNum} | MuraHomes",
+      "headerTag": "Inquiry / Order #{orderNum}",
+      "greeting": "Dear {name},",
+      "body": "We confirm that we have received your design selection. Thank you for choosing MuraHomes. Our concierge team will contact you shortly with full delivery details.",
+      "selectionSummary": "Selection Summary",
+      "qty": "Qty",
+      "total": "Total",
+      "deliveryDetails": "Delivery Details",
+      "address": "Address",
+      "regionState": "Region / State",
+      "postalCode": "Postal Code",
+      "marketCountry": "Market / Country",
+      "phone": "Phone"
+    },
+    "invoice": {
+      "subject": "Your Invoice for Order #{orderNum} is ready | MuraHomes",
+      "headerTag": "Invoice Ready — Order #{orderNum}",
+      "greeting": "Dear {name},",
+      "body": "Your invoice for order #{orderNum} is now ready. You will find it attached to this email and accessible via the button below.",
+      "importantDetailsTitle": "Important details regarding your order:",
+      "paymentMethodLabel": "Payment method:",
+      "paymentMethodDesc": "Payment is made by bank transfer and all necessary details are included in the attached invoice.",
+      "shippingLabel": "Shipping:",
+      "shippingDesc": "Shipment will begin once payment confirmation is received. Please send a copy of the transfer receipt so we can proceed with dispatch as soon as possible.",
+      "orderSummary": "Order Summary",
+      "qty": "Qty",
+      "totalAmount": "Total Amount",
+      "downloadInvoice": "Download Invoice",
+      "questionsNote": "If you have any questions, please contact us at info@mura-homes.com"
+    }
   }
 }

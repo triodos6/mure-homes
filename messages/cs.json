@@ -563,5 +563,38 @@
       "title": "Velká spokojenost, malé zpoždění dodání",
       "body": "Terasová souprava je velkolepá, teak nejvyšší kvality a polštáře dokonale odolávají sevillskému slunci. Došlo k 5dennímu zpoždění dodání kvůli problémům se skladem, ale předem mě upozornili a nabídli slevu na další objednávku. Celkově velmi dobrá zkušenost."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Poptávka Objednávky #{orderNum} | MuraHomes",
+      "headerTag": "Poptávka / Objednávka #{orderNum}",
+      "greeting": "Vážený/á {name},",
+      "body": "Potvrzujeme přijetí vašeho výběru designového nábytku. Děkujeme, že jste si vybrali MuraHomes. Náš tým vás bude brzy kontaktovat s podrobnostmi o doručení.",
+      "selectionSummary": "Souhrn Výběru",
+      "qty": "Množství",
+      "total": "Celkem",
+      "deliveryDetails": "Dodací Údaje",
+      "address": "Adresa",
+      "regionState": "Kraj / Region",
+      "postalCode": "PSČ",
+      "marketCountry": "Trh / Země",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Vaše faktura k objednávce #{orderNum} je připravena | MuraHomes",
+      "headerTag": "Faktura Připravena — Objednávka #{orderNum}",
+      "greeting": "Vážený/á {name},",
+      "body": "Vaše faktura k objednávce #{orderNum} je již vystavena. Naleznete ji v příloze tohoto e-mailu a také pod tlačítkem níže.",
+      "importantDetailsTitle": "Důležité informace k vaší objednávce:",
+      "paymentMethodLabel": "Způsob platby:",
+      "paymentMethodDesc": "Platba probíhá bankovním převodem a veškeré platební údaje jsou uvedeny na přiložené faktuře.",
+      "shippingLabel": "Doprava:",
+      "shippingDesc": "Expedice bude zahájena po obdržení potvrzení o platbě. Zašlete nám prosím potvrzení o převodu pro co nejrychlejší odeslání.",
+      "orderSummary": "Souhrn Objednávky",
+      "qty": "Množství",
+      "totalAmount": "Celková Částka",
+      "downloadInvoice": "Stáhnout Fakturu",
+      "questionsNote": "V případě dotazů nás neváhejte kontaktovat na info@mura-homes.com"
+    }
   }
 }

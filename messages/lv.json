@@ -561,5 +561,38 @@
       "title": "Ļoti laimīgs, neliela piegādes kavēšanās",
       "body": "Terases komplekts ir iespaidīgs, augstākās kvalitātes tīkkoks, un spilveni lieliski iztur Seviļas sauli. Piegāde aizkavējās 5 dienu dēļ krājumu problēmu dēļ, taču viņi mani iepriekš informēja un piedāvāja atlaidi nākamajam pasūtījumam. Kopumā ļoti laba pieredze."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Pasūtījuma Pieprasījums #{orderNum} | MuraHomes",
+      "headerTag": "Pieprasījums / Pasūtījums #{orderNum}",
+      "greeting": "Cien. {name},",
+      "body": "Mēs apstiprinām jūsu dizaina mēbeļu izvēles saņemšanu. Paldies, ka izvēlējāties MuraHomes. Mūsu komanda drīzumā sazināsies ar jums par piegādes detaļām.",
+      "selectionSummary": "Izvēles Kopsavilkums",
+      "qty": "Daudzums",
+      "total": "Kopā",
+      "deliveryDetails": "Piegādes Informācija",
+      "address": "Adrese",
+      "regionState": "Novads / Reģions",
+      "postalCode": "Pasta Indekss",
+      "marketCountry": "Tirgus / Valsts",
+      "phone": "Tālrunis"
+    },
+    "invoice": {
+      "subject": "Jūsu pasūtījuma #{orderNum} rēķins ir sagatavots | MuraHomes",
+      "headerTag": "Rēķins Sagatavots — Pasūtījums #{orderNum}",
+      "greeting": "Cien. {name},",
+      "body": "Jūsu pasūtījuma #{orderNum} rēķins ir sagatavots. Tas ir pievienots šim e-pastam, kā arī pieejams, nospiežot pogu zemāk.",
+      "importantDetailsTitle": "Svarīga informācija par jūsu pasūtījumu:",
+      "paymentMethodLabel": "Apmaksas veids:",
+      "paymentMethodDesc": "Maksājums veicams ar bankas pārskaitījumu. Visi nepieciešamie rekvizīti ir norādīti pievienotajā rēķinā.",
+      "shippingLabel": "Piegāde:",
+      "shippingDesc": "Piegāde tiks uzsākta pēc maksājuma apstiprinājuma saņemšanas. Lūdzu, nosūtiet maksājuma uzdevuma kopiju ātrākai apstrādei.",
+      "orderSummary": "Pasūtījuma Kopsavilkums",
+      "qty": "Daudzums",
+      "totalAmount": "Kopējā Summa",
+      "downloadInvoice": "Lejupielādēt Rēķinu",
+      "questionsNote": "Jautājumu gadījumā, lūdzu, sazinieties ar mums: info@mura-homes.com"
+    }
   }
 }

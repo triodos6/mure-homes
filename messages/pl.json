@@ -561,5 +561,38 @@
       "title": "Bardzo szczęśliwy, małe opóźnienie w dostawie",
       "body": "Zestaw tarasowy wykonany jest z efektownego, najwyższej jakości drewna tekowego, a poduszki doskonale wytrzymują sewilskie słońce. Wystąpiło 5-dniowe opóźnienie w dostawie z powodu problemów z zapasami, ale powiadomili mnie z wyprzedzeniem i zaoferowali zniżkę na kolejne zamówienie. Ogólnie bardzo dobre doświadczenie."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Zapytanie o Zamówienie #{orderNum} | MuraHomes",
+      "headerTag": "Zapytanie / Zamówienie #{orderNum}",
+      "greeting": "Szanowny/a {name},",
+      "body": "Potwierdzamy otrzymanie wyboru mebli designerskich. Dziękujemy za wybór MuraHomes. Nasz zespół skontaktuje się z Państwem wkrótce ze szczegółami dostawy.",
+      "selectionSummary": "Podsumowanie Wyboru",
+      "qty": "Ilość",
+      "total": "Łącznie",
+      "deliveryDetails": "Szczegóły Dostawy",
+      "address": "Adres",
+      "regionState": "Województwo / Region",
+      "postalCode": "Kod Pocztowy",
+      "marketCountry": "Rynek / Kraj",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Twoja faktura do zamówienia #{orderNum} jest gotowa | MuraHomes",
+      "headerTag": "Faktura Gotowa — Zamówienie #{orderNum}",
+      "greeting": "Szanowny/a {name},",
+      "body": "Faktura za zamówienie #{orderNum} jest gotowa. Znajdziesz ją w załączniku do tej wiadomości oraz klikając poniższy przycisk.",
+      "importantDetailsTitle": "Ważne informacje dotyczące zamówienia:",
+      "paymentMethodLabel": "Metoda płatności:",
+      "paymentMethodDesc": "Płatność dokonywana jest przelewem bankowym. Wszelkie niezbędne dane znajdują się na załączonej fakturze.",
+      "shippingLabel": "Wysyłka:",
+      "shippingDesc": "Wysyłka rozpocznie się po otrzymaniu potwierdzenia płatności. Prosimy o przesłanie potwierdzenia przelewu, abyśmy mogli jak najszybciej zrealizować dostawę.",
+      "orderSummary": "Podsumowanie Zamówienia",
+      "qty": "Ilość",
+      "totalAmount": "Kwota Całkowita",
+      "downloadInvoice": "Pobierz Fakturę",
+      "questionsNote": "W razie pytań zapraszamy do kontaktu pod adresem info@mura-homes.com"
+    }
   }
 }

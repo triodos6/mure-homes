@@ -563,5 +563,38 @@
       "title": "Zeer tevreden, kleine vertraging in de levering",
       "body": "De terrasset is van spectaculair, topkwaliteit teakhout en de kussens zijn perfect bestand tegen de Sevilla-zon. Er was een vertraging van 5 dagen in de levering vanwege voorraadproblemen, maar ze brachten me hiervan vooraf op de hoogte en boden me korting op de volgende bestelling. Over het algemeen zeer goede ervaring."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Bestelaanvraag #{orderNum} | MuraHomes",
+      "headerTag": "Aanvraag / Bestelling #{orderNum}",
+      "greeting": "Beste {name},",
+      "body": "Wij bevestigen de ontvangst van uw designselectie. Hartelijk dank voor uw vertrouwen in MuraHomes. Onze conciërgeservice neemt spoedig contact met u op met alle leveringsdetails.",
+      "selectionSummary": "Overzicht van uw Selectie",
+      "qty": "Aantal",
+      "total": "Totaal",
+      "deliveryDetails": "Bezorggegevens",
+      "address": "Adres",
+      "regionState": "Provincie / Regio",
+      "postalCode": "Postcode",
+      "marketCountry": "Markt / Land",
+      "phone": "Telefoonnummer"
+    },
+    "invoice": {
+      "subject": "Uw factuur voor bestelling #{orderNum} is gereed | MuraHomes",
+      "headerTag": "Factuur Gereed — Bestelling #{orderNum}",
+      "greeting": "Beste {name},",
+      "body": "Uw factuur voor bestelling #{orderNum} is nu gereed. U vindt deze als bijlage bij deze e-mail en via de onderstaande knop.",
+      "importantDetailsTitle": "Belangrijke informatie over uw bestelling:",
+      "paymentMethodLabel": "Betaalmethode:",
+      "paymentMethodDesc": "Betaling geschiedt per bankoverschrijving. Alle benodigde gegevens vindt u op de bijgevoegde factuur.",
+      "shippingLabel": "Verzending:",
+      "shippingDesc": "De verzending start zodra de betalingsbevestiging is ontvangen. Stuur ons een bewijs van overschrijving zodat wij uw bestelling direct kunnen verwerken.",
+      "orderSummary": "Besteloverzicht",
+      "qty": "Aantal",
+      "totalAmount": "Totaalbedrag",
+      "downloadInvoice": "Factuur Downloaden",
+      "questionsNote": "Heeft u vragen? Neem gerust contact op via info@mura-homes.com"
+    }
   }
 }

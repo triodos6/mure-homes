@@ -561,5 +561,38 @@
       "title": "Molto felice, piccolo ritardo nella consegna",
       "body": "Il set della terrazza è spettacolare, teak di prima qualità e i cuscini resistono perfettamente al sole di Siviglia. C'è stato un ritardo di 5 giorni nella consegna a causa di problemi di stock, ma mi hanno avvisato in anticipo e mi hanno offerto uno sconto sul prossimo ordine. Nel complesso un'esperienza molto positiva."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Richiesta d'Ordine #{orderNum} | MuraHomes",
+      "headerTag": "Richiesta / Ordine #{orderNum}",
+      "greeting": "Gentile {name},",
+      "body": "Confermiamo di aver ricevuto la tua selezione di design. Grazie per aver scelto MuraHomes. Il nostro team di assistenza ti contatterà a breve con tutti i dettagli di consegna.",
+      "selectionSummary": "Riepilogo della Selezione",
+      "qty": "Qtà",
+      "total": "Totale",
+      "deliveryDetails": "Dettagli di Consegna",
+      "address": "Indirizzo",
+      "regionState": "Provincia / Regione",
+      "postalCode": "CAP",
+      "marketCountry": "Mercato / Paese",
+      "phone": "Telefono"
+    },
+    "invoice": {
+      "subject": "La tua fattura per l'ordine #{orderNum} è pronta | MuraHomes",
+      "headerTag": "Fattura Pronta — Ordine #{orderNum}",
+      "greeting": "Gentile {name},",
+      "body": "La fattura per il tuo ordine #{orderNum} è pronta. La trovi in allegato a questa email e disponibile tramite il pulsante sottostante.",
+      "importantDetailsTitle": "Dettagli importanti sul tuo ordine:",
+      "paymentMethodLabel": "Metodo di pagamento:",
+      "paymentMethodDesc": "Il pagamento si effettua tramite bonifico bancario e tutte le coordinate necessarie sono riportate nella fattura allegata.",
+      "shippingLabel": "Spedizione:",
+      "shippingDesc": "La spedizione inizierà una volta ricevuta la conferma del pagamento. Ti preghiamo di inviarci una copia della ricevuta del bonifico per procedere il prima possibile.",
+      "orderSummary": "Riepilogo dell'Ordine",
+      "qty": "Qtà",
+      "totalAmount": "Importo Totale",
+      "downloadInvoice": "Scarica Fattura",
+      "questionsNote": "Per qualsiasi domanda, non esitare a contattarci a info@mura-homes.com"
+    }
   }
 }

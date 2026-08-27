@@ -560,5 +560,38 @@
       "title": "Veldig fornøyd, liten forsinkelse i leveringen",
       "body": "Terrassesettet er spektakulært teak av topp kvalitet og putene tåler Sevillas sol perfekt. Det var en 5-dagers forsinkelse i leveringen på grunn av lagerproblemer, men de varslet meg på forhånd og tilbød meg rabatt på neste bestilling. Alt i alt veldig god opplevelse."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Bestillingsforespørsel #{orderNum} | MuraHomes",
+      "headerTag": "Forespørsel / Ordre #{orderNum}",
+      "greeting": "Kjære {name},",
+      "body": "Vi bekrefter at vi har mottatt ditt designvalg. Takk for at du valgte MuraHomes. Vårt team vil kontakte deg om kort tid med leveringsdetaljer.",
+      "selectionSummary": "Oversikt over Valg",
+      "qty": "Antall",
+      "total": "Totalt",
+      "deliveryDetails": "Leveringsdetaljer",
+      "address": "Adresse",
+      "regionState": "Fylke / Region",
+      "postalCode": "Postnummer",
+      "marketCountry": "Marked / Land",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Din faktura for ordre #{orderNum} er klar | MuraHomes",
+      "headerTag": "Faktura Klar — Ordre #{orderNum}",
+      "greeting": "Kjære {name},",
+      "body": "Din faktura for ordre #{orderNum} er nå klar. Du finner den vedlagt i denne e-posten og tilgjengelig via knappen nedenfor.",
+      "importantDetailsTitle": "Viktige detaljer om din bestilling:",
+      "paymentMethodLabel": "Betalingsmåte:",
+      "paymentMethodDesc": "Betaling gjøres via bankoverføring og all nødvendig informasjon finnes på den vedlagte fakturaen.",
+      "shippingLabel": "Forsendelse:",
+      "shippingDesc": "Forsendelsen starter så snart betalingsbekreftelse er mottatt. Send oss gjerne en kopi av overføringsbekreftelsen slik at vi kan sende bestillingen din raskest mulig.",
+      "orderSummary": "Ordreoversikt",
+      "qty": "Antall",
+      "totalAmount": "Totalsum",
+      "downloadInvoice": "Last Ned Faktura",
+      "questionsNote": "Har du spørsmål, ta gjerne kontakt på info@mura-homes.com"
+    }
   }
 }

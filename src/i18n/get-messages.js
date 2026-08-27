@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from './config';
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from './config.js';
 
 /**
  * Server-side dictionary loader.
@@ -9,9 +9,22 @@ import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from './config';
 export async function getMessages(locale = DEFAULT_LOCALE) {
   const safeLocale = SUPPORTED_LOCALES.includes(locale) ? locale : DEFAULT_LOCALE;
   try {
-    return (await import(`../../messages/${safeLocale}.json`)).default;
+    const mod = await import(`../../messages/${safeLocale}.json`, { with: { type: 'json' } });
+    return mod.default || mod;
   } catch (error) {
-    return (await import(`../../messages/${DEFAULT_LOCALE}.json`)).default;
+    try {
+      const mod = await import(`../../messages/${safeLocale}.json`);
+      return mod.default || mod;
+    } catch (e) {
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        const file = path.join(process.cwd(), 'messages', `${safeLocale}.json`);
+        return JSON.parse(fs.readFileSync(file, 'utf8'));
+      } catch (err) {
+        return {};
+      }
+    }
   }
 }
 

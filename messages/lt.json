@@ -561,5 +561,38 @@
       "title": "Labai patenkintas, nedidelis pristatymo vėlavimas",
       "body": "Terasos komplektas yra įspūdingas, aukščiausios kokybės tikmedžio, o pagalvėlės puikiai atlaiko Sevilijos saulę. Pristatymas vėlavo 5 dienas dėl sandėlyje esančių problemų, tačiau man iš anksto pranešė ir pasiūlė nuolaidą kitam užsakymui. Apskritai labai gera patirtis."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Užsakymo Užklausa #{orderNum} | MuraHomes",
+      "headerTag": "Užklausa / Užsakymas #{orderNum}",
+      "greeting": "Gerb. {name},",
+      "body": "Patvirtiname, kad gavome jūsų dizaino baldų pasirinkimą. Dėkojame, kad pasirinkote MuraHomes. Mūsų komanda netrukus susisieks su jumis dėl išsamių pristatymo detalių.",
+      "selectionSummary": "Pasirinkimo Santrauka",
+      "qty": "Kiekis",
+      "total": "Iš viso",
+      "deliveryDetails": "Pristatymo Duomenys",
+      "address": "Adresas",
+      "regionState": "Apskritis / Regionas",
+      "postalCode": "Pašto Kodas",
+      "marketCountry": "Rinka / Šalis",
+      "phone": "Telefonas"
+    },
+    "invoice": {
+      "subject": "Jūsų užsakymo #{orderNum} sąskaita faktūra paruošta | MuraHomes",
+      "headerTag": "Sąskaita Paruošta — Užsakymas #{orderNum}",
+      "greeting": "Gerb. {name},",
+      "body": "Jūsų užsakymo #{orderNum} sąskaita faktūra jau paruošta. Ją rasite prisegtą prie šio laiško bei pasiekiamą paspaudus žemiau esantį mygtuką.",
+      "importantDetailsTitle": "Svarbi informacija apie jūsų užsakymą:",
+      "paymentMethodLabel": "Mokėjimo būdas:",
+      "paymentMethodDesc": "Mokėjimas atliekamas bankiniu pavedimu. Visi reikalingi banko rekvizitai pateikti prisegtoje sąskaitoje faktūroje.",
+      "shippingLabel": "Pristatymas:",
+      "shippingDesc": "Užsakymo siuntimas pradedamas gavus apmokėjimo patvirtinimą. Prašome atsiųsti pavedimo kopiją, kad galėtume kuo greičiau išsiųsti jūsų baldus.",
+      "orderSummary": "Užsakymo Santrauka",
+      "qty": "Kiekis",
+      "totalAmount": "Bendra Suma",
+      "downloadInvoice": "Atsisiųsti Sąskaitą Faktūrą",
+      "questionsNote": "Jei turite klausimų, susisiekite su mumis el. paštu info@mura-homes.com"
+    }
   }
 }

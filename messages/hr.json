@@ -561,5 +561,38 @@
       "title": "Vrlo zadovoljan, malo kašnjenje u isporuci",
       "body": "Garnitura za terasu je spektakularna, vrhunska tikovina i jastuci savršeno podnose sunce u Sevilli. Bilo je 5 dana kašnjenja u isporuci zbog zaliha, ali obavijestili su me unaprijed i ponudili popust na sljedeću narudžbu. Općenito vrlo dobro iskustvo."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Upit za Narudžbu #{orderNum} | MuraHomes",
+      "headerTag": "Upit / Narudžba #{orderNum}",
+      "greeting": "Poštovani/a {name},",
+      "body": "Potvrđujemo primitak vašeg odabira dizajnerskog namještaja. Hvala vam što ste odabrali MuraHomes. Naš tim će vas uskoro kontaktirati s detaljima isporuke.",
+      "selectionSummary": "Sažetak Odabira",
+      "qty": "Količina",
+      "total": "Ukupno",
+      "deliveryDetails": "Detalji Isporuke",
+      "address": "Adresa",
+      "regionState": "Županija / Regija",
+      "postalCode": "Poštanski Broj",
+      "marketCountry": "Tržište / Država",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Vaš račun za narudžbu #{orderNum} je spreman | MuraHomes",
+      "headerTag": "Račun Spreman — Narudžba #{orderNum}",
+      "greeting": "Poštovani/a {name},",
+      "body": "Vaš račun za narudžbu #{orderNum} je spreman. Naći ćete ga u privitku ove e-poruke te putem gumba u nastavku.",
+      "importantDetailsTitle": "Važne informacije o vašoj narudžbi:",
+      "paymentMethodLabel": "Način plaćanja:",
+      "paymentMethodDesc": "Plaćanje se vrši bankovnom doznakom, a svi potrebni podaci nalaze se na priloženom računu.",
+      "shippingLabel": "Dostava:",
+      "shippingDesc": "Dostava započinje nakon primitka potvrde o uplati. Molimo pošaljite nam potvrdu o uplati kako bismo što prije poslali vašu narudžbu.",
+      "orderSummary": "Sažetak Narudžbe",
+      "qty": "Količina",
+      "totalAmount": "Ukupan Iznos",
+      "downloadInvoice": "Preuzmi Račun",
+      "questionsNote": "Ukoliko imate pitanja, slobodno nas kontaktirajte na info@mura-homes.com"
+    }
   }
 }

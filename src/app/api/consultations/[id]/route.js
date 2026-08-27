@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import prisma from '@/lib/prisma';
 import { requireAdmin } from '@/lib/adminAuth';
+import { getMessages, getMessage } from '@/i18n/get-messages';
+import { formatPrice } from '@/lib/currency/currency-service';
 
 // GET single consultation
 export async function GET(request, { params }) {
@@ -75,65 +77,82 @@ export async function POST(request, { params }) {
         socketTimeout: 15000,
       });
 
-      const formatPrice = (p) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(p);
+      const locale = consultation.locale || 'es';
+      const currency = consultation.currency || 'EUR';
+      const messages = await getMessages(locale);
       const orderNum = id.slice(-8).toUpperCase();
+
+      const emailSubject = getMessage(messages, 'emails.invoice.subject', { orderNum }) || `Tu Factura del Pedido #${orderNum} está lista | MuraHomes`;
+      const emailHeaderTag = getMessage(messages, 'emails.invoice.headerTag', { orderNum }) || `Factura Lista — Pedido #${orderNum}`;
+      const emailGreeting = getMessage(messages, 'emails.invoice.greeting', { name: consultation.customerName || 'Cliente' }) || `Estimado/a ${consultation.customerName},`;
+      const emailBody = getMessage(messages, 'emails.invoice.body', { orderNum }) || `Tu factura para el pedido #${orderNum} ya está lista. La encontrarás adjunta a este correo electrónico y también accesible mediante el botón de abajo.`;
+      const txtImportantDetailsTitle = getMessage(messages, 'emails.invoice.importantDetailsTitle') || 'Detalles importantes sobre tu pedido:';
+      const txtPaymentMethodLabel = getMessage(messages, 'emails.invoice.paymentMethodLabel') || 'Método de pago:';
+      const txtPaymentMethodDesc = getMessage(messages, 'emails.invoice.paymentMethodDesc') || 'El pago se realiza mediante transferencia bancaria y todos los datos necesarios para completarlo se encuentran en la factura adjunta.';
+      const txtShippingLabel = getMessage(messages, 'emails.invoice.shippingLabel') || 'Envío:';
+      const txtShippingDesc = getMessage(messages, 'emails.invoice.shippingDesc') || 'El envío comenzará una vez recibamos la confirmación del pago. Por favor, envíanos una copia del comprobante de transferencia para que podamos proceder con el envío lo antes posible.';
+      const txtOrderSummary = getMessage(messages, 'emails.invoice.orderSummary') || 'Resumen del Pedido';
+      const txtQty = getMessage(messages, 'emails.invoice.qty') || 'Cant';
+      const txtTotalAmount = getMessage(messages, 'emails.invoice.totalAmount') || 'Monto Total';
+      const txtDownloadInvoice = getMessage(messages, 'emails.invoice.downloadInvoice') || 'Descargar Factura';
+      const txtQuestionsNote = getMessage(messages, 'emails.invoice.questionsNote') || 'Si tienes alguna duda, ponte en contacto con nosotros en info@mura-homes.com';
 
       const emailHtml = `
         <div style="font-family: 'Times New Roman', Times, serif; color: #1a1a1a; max-width: 620px; margin: 0 auto; background-color: #fcfbf9; border: 1px solid #e5e5e5;">
           
           <div style="background-color: #0a0a0a; padding: 36px 40px; text-align: center;">
             <h1 style="color: #fff; font-size: 22px; font-weight: normal; letter-spacing: 6px; text-transform: uppercase; margin: 0;">MuraHomes</h1>
-            <p style="color: #888; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin: 8px 0 0;">Factura Lista — Pedido #${orderNum}</p>
+            <p style="color: #888; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin: 8px 0 0;">${emailHeaderTag}</p>
           </div>
 
           <div style="padding: 40px;">
-            <p style="font-size: 17px; margin: 0 0 16px;">Estimado/a ${consultation.customerName},</p>
+            <p style="font-size: 17px; margin: 0 0 16px;">${emailGreeting}</p>
             
             <p style="font-size: 14px; line-height: 1.7; color: #333; margin: 0 0 20px;">
-              Tu factura para el pedido <strong>#${orderNum}</strong> ya está lista. La encontrarás adjunta a este correo electrónico y también accesible mediante el botón de abajo.
+              ${emailBody}
             </p>
 
             <div style="background-color: #f4f2ed; border-left: 3px solid #0a0a0a; padding: 18px 22px; margin-bottom: 28px;">
-              <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px; color: #0a0a0a;">Detalles importantes sobre tu pedido:</h4>
+              <h4 style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px; color: #0a0a0a;">${txtImportantDetailsTitle}</h4>
               <p style="font-size: 13px; line-height: 1.6; color: #444; margin: 0 0 12px;">
-                <strong>Método de pago:</strong> El pago se realiza mediante transferencia bancaria y todos los datos necesarios para completarlo se encuentran en la factura adjunta.
+                <strong>${txtPaymentMethodLabel}</strong> ${txtPaymentMethodDesc}
               </p>
               <p style="font-size: 13px; line-height: 1.6; color: #444; margin: 0;">
-                <strong>Envío:</strong> El envío comenzará una vez recibamos la confirmación del pago. Por favor, envíanos una copia del comprobante de transferencia para que podamos proceder con el envío lo antes posible.
+                <strong>${txtShippingLabel}</strong> ${txtShippingDesc}
               </p>
             </div>
 
             <!-- Resumen del Pedido -->
-            <h3 style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; border-bottom: 1px solid #1a1a1a; padding-bottom: 10px; margin: 0 0 16px;">Resumen del Pedido</h3>
+            <h3 style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; border-bottom: 1px solid #1a1a1a; padding-bottom: 10px; margin: 0 0 16px;">${txtOrderSummary}</h3>
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
               <tbody>
                 ${Array.isArray(consultation.items) ? consultation.items.map(item => `
                   <tr style="border-bottom: 1px solid #efefef;">
                     <td style="padding: 12px 0;">
-                      <strong style="font-size: 14px; font-weight: normal;">${item.name}</strong>
-                      <span style="font-size: 11px; color: #888; display: block;">Cant: ${item.quantity}</span>
+                      <strong style="font-size: 14px; font-weight: normal;">${item.productNameSnapshot || item.name}</strong>
+                      <span style="font-size: 11px; color: #888; display: block;">${txtQty}: ${item.quantity}</span>
                     </td>
-                    <td style="padding: 12px 0; text-align: right; font-size: 14px;">${formatPrice(item.price * item.quantity)}</td>
+                    <td style="padding: 12px 0; text-align: right; font-size: 14px;">${formatPrice((item.unitPriceSnapshot || item.price) * item.quantity, currency, locale)}</td>
                   </tr>
                 `).join('') : ''}
               </tbody>
             </table>
             
             <div style="text-align: right; border-top: 2px solid #1a1a1a; padding-top: 14px; margin-bottom: 36px;">
-              <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #888; margin: 0 0 4px;">Monto Total</p>
-              <p style="font-size: 26px; font-weight: bold; margin: 0;">${formatPrice(consultation.totalPrice)}</p>
+              <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #888; margin: 0 0 4px;">${txtTotalAmount}</p>
+              <p style="font-size: 26px; font-weight: bold; margin: 0;">${formatPrice(consultation.totalPrice, currency, locale)}</p>
             </div>
 
             <!-- Botón de Descarga -->
             <div style="text-align: center; margin-bottom: 32px;">
               <a href="${invoiceUrl}" 
                 style="display: inline-block; background-color: #0a0a0a; color: #fff; padding: 16px 40px; text-decoration: none; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: bold;">
-                Descargar Factura
+                ${txtDownloadInvoice}
               </a>
             </div>
 
             <p style="font-size: 12px; color: #888; font-style: italic; text-align: center;">
-              Si tienes alguna duda, ponte en contacto con nosotros en info@mura-homes.com
+              ${txtQuestionsNote}
             </p>
           </div>
 
@@ -186,7 +205,7 @@ export async function POST(request, { params }) {
         await transporter.sendMail({
           from: `"MuraHomes" <${emailUser}>`,
           to: consultation.customerEmail,
-          subject: `Tu Factura del Pedido #${orderNum} está lista | MuraHomes`,
+          subject: emailSubject,
           html: emailHtml,
           attachments,
         });

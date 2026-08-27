@@ -561,5 +561,38 @@
       "title": "Sehr zufrieden, kleine Verzögerung bei der Lieferung",
       "body": "Das Terrassenset besteht aus spektakulärem Teakholz von höchster Qualität und die Kissen halten der Sonne Sevillas perfekt stand. Aufgrund von Lagerbeständen kam es zu einer 5-tägigen Lieferverzögerung, aber sie haben mich im Voraus benachrichtigt und mir einen Rabatt auf die nächste Bestellung angeboten. Insgesamt sehr gute Erfahrung."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Bestellanfrage #{orderNum} | MuraHomes",
+      "headerTag": "Anfrage / Bestellung #{orderNum}",
+      "greeting": "Sehr geehrte(r) {name},",
+      "body": "Wir bestätigen den Eingang Ihrer Design-Auswahl. Vielen Dank für Ihr Vertrauen in MuraHomes. Unser Concierge-Team wird sich in Kürze mit allen Lieferdetails bei Ihnen melden.",
+      "selectionSummary": "Übersicht Ihrer Auswahl",
+      "qty": "Menge",
+      "total": "Gesamt",
+      "deliveryDetails": "Lieferdetails",
+      "address": "Adresse",
+      "regionState": "Bundesland / Region",
+      "postalCode": "Postleitzahl",
+      "marketCountry": "Markt / Land",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Ihre Rechnung für Bestellung #{orderNum} ist bereit | MuraHomes",
+      "headerTag": "Rechnung Bereit — Bestellung #{orderNum}",
+      "greeting": "Sehr geehrte(r) {name},",
+      "body": "Ihre Rechnung für die Bestellung #{orderNum} ist jetzt fertiggestellt. Sie finden sie im Anhang dieser E-Mail sowie über die Schaltfläche unten.",
+      "importantDetailsTitle": "Wichtige Hinweise zu Ihrer Bestellung:",
+      "paymentMethodLabel": "Zahlungsmethode:",
+      "paymentMethodDesc": "Die Zahlung erfolgt per Banküberweisung. Alle erforderlichen Bankdaten finden Sie auf der beigefügten Rechnung.",
+      "shippingLabel": "Versand:",
+      "shippingDesc": "Der Versand erfolgt nach Eingang der Zahlungsbestätigung. Bitte senden Sie uns eine Kopie des Überweisungsbelegs, damit wir Ihre Lieferung schnellstmöglich bearbeiten können.",
+      "orderSummary": "Bestellübersicht",
+      "qty": "Menge",
+      "totalAmount": "Gesamtbetrag",
+      "downloadInvoice": "Rechnung Herunterladen",
+      "questionsNote": "Bei Fragen stehen wir Ihnen gerne unter info@mura-homes.com zur Verfügung."
+    }
   }
 }

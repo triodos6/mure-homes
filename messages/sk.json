@@ -561,5 +561,38 @@
       "title": "Veľká spokojnosť, malé meškanie dodania",
       "body": "Terasová súprava je veľkolepá, teak najvyššej kvality a vankúše dokonale odolávajú sevillskému slnku. Dodanie sa oneskorilo o 5 dní kvôli problémom so skladom, ale vopred ma upozornili a ponúkli mi zľavu na ďalšiu objednávku. Celkovo veľmi dobrá skúsenosť."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Dopyt Objednávky #{orderNum} | MuraHomes",
+      "headerTag": "Dopyt / Objednávka #{orderNum}",
+      "greeting": "Vážený/á {name},",
+      "body": "Potvrdzujeme prijatie vášho výberu dizajnového nábytku. Ďakujeme, že ste si vybrali MuraHomes. Náš tím vás bude čoskoro kontaktovať s podrobnosťami o doručení.",
+      "selectionSummary": "Súhrn Výberu",
+      "qty": "Množstvo",
+      "total": "Celkom",
+      "deliveryDetails": "Dodacie Údaje",
+      "address": "Adresa",
+      "regionState": "Kraj / Región",
+      "postalCode": "PSČ",
+      "marketCountry": "Trh / Krajina",
+      "phone": "Telefón"
+    },
+    "invoice": {
+      "subject": "Vaša faktúra k objednávke #{orderNum} je pripravená | MuraHomes",
+      "headerTag": "Faktúra Pripravená — Objednávka #{orderNum}",
+      "greeting": "Vážený/á {name},",
+      "body": "Vaša faktúra k objednávke #{orderNum} je už vystavená. Nájdete ju v prílohe tohto e-mailu a tiež po kliknutí na tlačidlo nižšie.",
+      "importantDetailsTitle": "Dôležité informácie k vašej objednávke:",
+      "paymentMethodLabel": "Spôsob platby:",
+      "paymentMethodDesc": "Platba prebieha bankovým prevodom a všetky potrebné údaje nájdete na priloženej faktúre.",
+      "shippingLabel": "Doprava:",
+      "shippingDesc": "Expedícia začne po prijatí potvrdenia o platbe. Zašlite nám prosím potvrdenie o prevode, aby sme mohli objednávku odoslať čo najskôr.",
+      "orderSummary": "Súhrn Objednávky",
+      "qty": "Množstvo",
+      "totalAmount": "Celková Suma",
+      "downloadInvoice": "Stiahnuť Faktúru",
+      "questionsNote": "V prípade otázok nás neváhajte kontaktovať na info@mura-homes.com"
+    }
   }
 }

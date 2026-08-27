@@ -561,5 +561,38 @@
       "title": "Foarte mulțumit, o mică întârziere la livrare",
       "body": "Setul de terasă este spectaculos, tec de primă calitate și pernele rezistă perfect la soarele din Sevilla. A existat o întârziere de 5 zile la livrare din motive de stoc, dar m-au anunțat din timp și mi-au oferit o reducere la următoarea comandă. În general, o experiență foarte bună."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Cerere de Comandă #{orderNum} | MuraHomes",
+      "headerTag": "Cerere / Comandă #{orderNum}",
+      "greeting": "Stimate/Stimată {name},",
+      "body": "Vă confirmăm primirea selecției dumneavoastră de mobilier de lux. Vă mulțumim că ați ales MuraHomes. Echipa noastră vă va contacta în scurt timp cu detaliile complete de livrare.",
+      "selectionSummary": "Rezumatul Selecției",
+      "qty": "Cant",
+      "total": "Total",
+      "deliveryDetails": "Detalii de Livrare",
+      "address": "Adresă",
+      "regionState": "Județ / Regiune",
+      "postalCode": "Cod Poștal",
+      "marketCountry": "Piață / Țară",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Factura pentru comanda #{orderNum} este gata | MuraHomes",
+      "headerTag": "Factură Gata — Comanda #{orderNum}",
+      "greeting": "Stimate/Stimată {name},",
+      "body": "Factura pentru comanda #{orderNum} este gata. O găsiți atașată la acest e-mail și o puteți accesa prin butonul de mai jos.",
+      "importantDetailsTitle": "Detalii importante despre comanda dumneavoastră:",
+      "paymentMethodLabel": "Modalitate de plată:",
+      "paymentMethodDesc": "Plata se efectuează prin transfer bancar, iar toate datele necesare sunt incluse în factura atașată.",
+      "shippingLabel": "Expediere:",
+      "shippingDesc": "Expedierea va începe după primirea confirmării plății. Vă rugăm să ne trimiteți o copie a dovezii de plată pentru a grăbi livrarea.",
+      "orderSummary": "Rezumatul Comenzii",
+      "qty": "Cant",
+      "totalAmount": "Sumă Totală",
+      "downloadInvoice": "Descărcare Factură",
+      "questionsNote": "Dacă aveți întrebări, vă rugăm să ne contactați la info@mura-homes.com"
+    }
   }
 }

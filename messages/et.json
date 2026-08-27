@@ -561,5 +561,38 @@
       "title": "Väga rahul, väike tarneviivitus",
       "body": "Terrassikomplekt on suurejooneline, tippkvaliteediga tiikpuust ja padjad taluvad suurepäraselt Sevilla päikest. Laoprobleemide tõttu viibis kohaletoimetamine 5 päeva, kuid nad teavitasid mind ette ja pakkusid järgmise tellimuse puhul allahindlust. Üldiselt väga hea kogemus."
     }
+  },
+  "emails": {
+    "orderConfirmation": {
+      "subject": "Tellimuse Päring #{orderNum} | MuraHomes",
+      "headerTag": "Päring / Tellimus #{orderNum}",
+      "greeting": "Lugupeetud {name},",
+      "body": "Kinnitame teie disainmööbli valiku kättesaamist. Täname, et valisite MuraHomesi. Meie meeskond võtab teiega peagi ühendust tarnedetailide osas.",
+      "selectionSummary": "Valiku Kokkuvõte",
+      "qty": "Kogus",
+      "total": "Kokku",
+      "deliveryDetails": "Tarneandmed",
+      "address": "Aadress",
+      "regionState": "Maakond / Piirkond",
+      "postalCode": "Postiindeks",
+      "marketCountry": "Turg / Riik",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Teie tellimuse #{orderNum} arve on valmis | MuraHomes",
+      "headerTag": "Arve Valmis — Tellimus #{orderNum}",
+      "greeting": "Lugupeetud {name},",
+      "body": "Teie tellimuse #{orderNum} arve on nüüd valmis. Leiate selle lisatud käesolevale kirjale ja alloleva nupu kaudu.",
+      "importantDetailsTitle": "Oluline teave teie tellimuse kohta:",
+      "paymentMethodLabel": "Makseviis:",
+      "paymentMethodDesc": "Makse sooritatakse pangaülekandega ja kõik vajalikud andmed on toodud lisatud arvel.",
+      "shippingLabel": "Tarne:",
+      "shippingDesc": "Tarne algab pärast makse laekumise kinnitamist. Palun saatke meile maksekorralduse koopia kiirema töötlemise tagamiseks.",
+      "orderSummary": "Tellimuse Kokkuvõte",
+      "qty": "Kogus",
+      "totalAmount": "Kogusumma",
+      "downloadInvoice": "Laadi Arve Alla",
+      "questionsNote": "Küsimuste korral võtke meiega ühendust aadressil info@mura-homes.com"
+    }
   }
 }

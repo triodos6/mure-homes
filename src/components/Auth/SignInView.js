@@ -32,8 +32,7 @@ export default function SignInView() {
       }
       setUser(data);
       toast.success(t('auth.welcomeBack') ? `${t('auth.welcomeBack')}, ${data.firstName}!` : `¡Bienvenido de nuevo, ${data.firstName}!`);
-      router.push(getLocalizedHref ? getLocalizedHref('/') : '/');
-      router.refresh();
+      window.location.href = getLocalizedHref ? getLocalizedHref('/') : '/';
     } catch {
       toast.error(t('common.error') || 'Algo salió mal');
     } finally {

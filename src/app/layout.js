@@ -109,6 +109,25 @@ export default async function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
+        <script
+          id="suppress-extension-hydration-errors"
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (process.env.NODE_ENV !== 'production') {
+                const originalConsoleError = console.error;
+                console.error = function (...args) {
+                  if (typeof args[0] === 'string' && (args[0].includes('bis_skin_checked') || args[0].includes('A tree hydrated but some attributes'))) {
+                    // Check if it's the specific Bitdefender/Extension hydration error and silence it
+                    if (args.some(a => typeof a === 'string' && a.includes('bis_skin_checked'))) {
+                      return;
+                    }
+                  }
+                  originalConsoleError.apply(console, args);
+                };
+              }
+            `
+          }}
+        />
       </head>
       <body
         suppressHydrationWarning

@@ -31,8 +31,7 @@ export function AuthProvider({ children }) {
   const signOut = async () => {
     await fetch('/api/auth/signout', { method: 'POST' });
     setUser(null);
-    router.push('/');
-    router.refresh();
+    window.location.href = '/';
   };
 
   return (

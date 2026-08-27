@@ -5,7 +5,7 @@ import { signToken, setAuthCookie } from '@/lib/auth';
 
 export async function POST(req) {
   try {
-    const { firstName, lastName, email, password, phone } = await req.json();
+    const { firstName, lastName, email, password, phone, locale, currency } = await req.json();
 
     if (!firstName || !lastName || !email || !password || !phone) {
       return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
@@ -30,6 +30,8 @@ export async function POST(req) {
         lastName,
         phone,
         role: 'USER',
+        preferredLocale: locale || 'es',
+        preferredCurrency: currency || 'EUR',
       },
     });
 

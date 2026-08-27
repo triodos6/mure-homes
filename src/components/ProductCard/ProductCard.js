@@ -70,7 +70,7 @@ export default function ProductCard({ product }) {
       </Link>
 
       {/* Content section */}
-      <div className="flex flex-col flex-grow bg-white p-3 sm:p-4">
+      <div suppressHydrationWarning className="flex flex-col flex-grow bg-white p-3 sm:p-4">
         <Link
           href={categoryUrl}
           className="text-[9px] sm:text-[10px] font-bold tracking-widest uppercase text-muted-foreground hover:text-amber-600 transition-colors mb-0.5 sm:mb-1 line-clamp-1 block"

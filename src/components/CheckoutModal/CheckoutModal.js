@@ -8,12 +8,13 @@ import { event } from '@/lib/pixel';
 import { useAuth } from '@/context/AuthContext';
 import { useMarket } from '@/context/MarketContext';
 import { useI18n } from '@/context/I18nContext';
+import { EUROPEAN_COUNTRIES } from '@/lib/markets/config';
 
 export default function CheckoutModal({ open, onClose, cart, cartTotal, onSuccess }) {
   const router = useRouter();
   const { user } = useAuth();
-  const { formatPrice, currency, resolvePrice } = useMarket();
-  const { t } = useI18n();
+  const { formatPrice, currency, resolvePrice, marketCode } = useMarket();
+  const { t, locale, getLocalizedHref } = useI18n();
 
   const dynamicCartTotal = cart.reduce((sum, item) => {
     const unitPrice = resolvePrice(item).price || item.price || 0;
@@ -28,6 +29,7 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
     city: '',
     state: '',
     pinCode: '',
+    country: '',
     password: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -50,6 +52,7 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
         city: saved.city || '',
         state: saved.state || '',
         pinCode: saved.pinCode || '',
+        country: saved.country || marketCode || 'ES',
       });
       event('InitiateCheckout', { value: dynamicCartTotal, currency: currency || 'EUR', num_items: cart.length });
     }
@@ -83,7 +86,7 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
       const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cart, ...form }),
+        body: JSON.stringify({ cart, locale, marketCode, currency, ...form }),
       });
 
       const data = await response.json();
@@ -115,7 +118,7 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
   const handleViewOrders = () => {
     setOrderRef(null);
     onClose();
-    router.push('/account/orders');
+    router.push(getLocalizedHref('/account/orders'));
   };
 
   if (!open) return null;
@@ -341,6 +344,23 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
                             placeholder="28001"
                           />
                         </div>
+                      </div>
+                      <div>
+                        <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-1.5">
+                          {t('checkout.country') || 'País'} <span className="text-red-500">*</span>
+                        </label>
+                        <select
+                          name="country"
+                          value={form.country}
+                          onChange={handleChange}
+                          required
+                          className="w-full h-11 px-3 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all bg-white appearance-none"
+                        >
+                          <option value="">Seleccionar...</option>
+                          {EUROPEAN_COUNTRIES.map(c => (
+                            <option key={c.code} value={c.code}>{c.name}</option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                   </div>

@@ -99,7 +99,7 @@ export default function LanguageSwitcher({ className = '', align = 'right' }) {
 
     setIsOpen(false);
     setSearch('');
-    router.push(finalUrl);
+    window.location.href = finalUrl;
   };
 
   const currentLabel = LOCALE_LABELS[activeLocale] || LOCALE_LABELS[DEFAULT_LOCALE];

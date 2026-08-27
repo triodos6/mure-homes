@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { useI18n } from '@/context/I18nContext';
+import { useMarket } from '@/context/MarketContext';
 import { Eye, EyeOff, Loader2, Phone, User, Mail, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -12,6 +13,7 @@ export default function SignUpView() {
   const router = useRouter();
   const { setUser } = useAuth();
   const { t, locale, getLocalizedHref } = useI18n();
+  const { currency, marketCode } = useMarket();
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '', password: '', confirmPassword: '' });
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,6 +43,7 @@ export default function SignUpView() {
           phone: form.phone,
           password: form.password,
           locale: locale || 'es',
+          currency: currency || 'EUR',
         }),
       });
       const data = await res.json();
@@ -50,8 +53,7 @@ export default function SignUpView() {
       }
       setUser(data);
       toast.success(t('auth.welcomeBack') ? `${t('auth.welcomeBack')}, ${data.firstName}!` : `¡Bienvenido, ${data.firstName}!`);
-      router.push(getLocalizedHref ? getLocalizedHref('/') : '/');
-      router.refresh();
+      window.location.href = getLocalizedHref ? getLocalizedHref('/') : '/';
     } catch {
       toast.error(t('common.error') || 'Algo salió mal');
     } finally {

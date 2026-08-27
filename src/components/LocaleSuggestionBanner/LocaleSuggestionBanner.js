@@ -113,7 +113,7 @@ export default function LocaleSuggestionBanner({ detectedCountry }) {
     // Construct localized destination path
     const cleanPath = getCleanPath(pathname);
     const targetUrl = cleanPath === '/' ? `/${suggestedLocale}` : `/${suggestedLocale}${cleanPath}`;
-    router.push(targetUrl);
+    window.location.href = targetUrl;
   };
 
   if (dismissed || !suggestedLocale || !SUGGESTION_TEXTS[suggestedLocale]) {

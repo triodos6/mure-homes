@@ -168,7 +168,8 @@
     "state": "Apskritis",
     "postalCode": "Pašto kodas",
     "processing": "Apdorojama...",
-    "confirmOrder": "Patvirtinti užsakymą"
+    "confirmOrder": "Patvirtinti užsakymą",
+    "country": "Šalis"
   },
   "account": {
     "title": "Mano Paskyra",

@@ -168,7 +168,8 @@
     "state": "Bundesland/Provinz",
     "postalCode": "Postleitzahl",
     "processing": "Wird bearbeitet...",
-    "confirmOrder": "Bestellung bestätigen"
+    "confirmOrder": "Bestellung bestätigen",
+    "country": "Land"
   },
   "account": {
     "title": "Mein Kundenkonto",

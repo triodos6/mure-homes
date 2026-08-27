@@ -168,7 +168,8 @@
     "state": "State/Province",
     "postalCode": "Postal Code",
     "processing": "Processing...",
-    "confirmOrder": "Confirm Order"
+    "confirmOrder": "Confirm Order",
+    "country": "Country"
   },
   "account": {
     "title": "My Account",

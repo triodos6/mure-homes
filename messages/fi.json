@@ -82,7 +82,9 @@
     "securePaymentsSub": "100% Suojattu",
     "support247": "24/7 Asiakaspalvelu",
     "support247Sub": "Henkilökohtainen tuki",
-    "emptyProducts": "Tuotteet tulevat näkyviin tähän, kun ne on lisätty hallintapaneelista."
+    "emptyProducts": "Tuotteet tulevat näkyviin tähän, kun ne on lisätty hallintapaneelista.",
+    "heroTitle": "Eksklusiivisia Huonekaluja Ainutlaatuisiin Koteihin",
+    "heroDescription": "Löydä kuratoituja mallistoja Euroopan arvostetuimmilta huonekaluvalmistajilta. Ajatonta muotoilua, jaloja materiaaleja ja moitteetonta käsityötaitoa."
   },
   "products": {
     "catalogTitle": "Ylellisten Huonekalujen Valikoima",
@@ -142,14 +144,14 @@
     "taxShippingNote": "Lopulliset toimituskulut vahvistetaan tilauksen yhteydessä."
   },
   "checkout": {
-    "completeOrder": "Complete Your Order",
-    "contactAndDelivery": "Contact & Delivery Details",
-    "orderSummary": "Order Summary",
-    "orderConfirmed": "Order Confirmed!",
-    "confirmationText": "We have received your order. A confirmation email with the details has been sent to you.",
-    "fillRequiredFields": "Please fill in all required fields.",
-    "enterPassword": "Please create or enter your password to continue.",
-    "submitError": "Error submitting order",
+    "completeOrder": "Viimeistele Tilauksesi",
+    "contactAndDelivery": "Yhteystiedot ja Toimitus",
+    "orderSummary": "Tilauksen Yhteenveto",
+    "orderConfirmed": "Tilaus Vahvistettu!",
+    "confirmationText": "Olemme vastaanottaneet tilauksesi. Vahvistussähköposti tietoineen on lähetetty sinulle.",
+    "fillRequiredFields": "Täytä kaikki pakolliset kentät.",
+    "enterPassword": "Luo tai syötä salasanasi jatkaaksesi.",
+    "submitError": "Virhe tilauksen lähettämisessä",
     "viewMyOrders": "View My Orders",
     "total": "Total",
     "contactInfo": "Contact Information",
@@ -166,7 +168,8 @@
     "state": "State/Province",
     "postalCode": "Postal Code",
     "processing": "Processing...",
-    "confirmOrder": "Confirm Order"
+    "confirmOrder": "Confirm Order",
+    "country": "Maa"
   },
   "account": {
     "title": "Oma Tili",
@@ -331,22 +334,22 @@
     "rights": "Kaikki oikeudet pidätetään."
   },
   "seo": {
-    "homeTitle": "MuraHomes | Buy Furniture Online & Designer Home Decor",
-    "homeDescription": "Shop furniture online at MuraHomes: sofas, armchairs, dining tables, chairs, bedrooms, wardrobes, and lighting. Discover designer furniture for every space.",
-    "aboutTitle": "About MuraHomes – Affordable Furniture & International Design",
-    "aboutDescription": "Discover the story of MuraHomes and our passion for luxury design. Explore handcrafted furniture and international pieces curated to transform your home.",
+    "homeTitle": "MuraHomes | Osta Design-huonekaluja Verkosta ja Ylellistä Sisustusta",
+    "homeDescription": "Osta huonekaluja verkosta MuraHomesilta: sohvat, nojatuolit, ruokapöydät, tuolit, makuuhuoneet, vaatekaapit ja valaisimet. Tutustu ylellisiin design-huonekaluihin.",
+    "aboutTitle": "Tietoa MuraHomesista – Ylelliset Huonekalut ja Kansainvälinen Muotoilu",
+    "aboutDescription": "Tutustu MuraHomesin tarinaan ja intohimoomme ylellistä muotoilua kohtaan. Käsityönä valmistettuja huonekaluja ja kansainvälisiä mallistoja kotiisi.",
     "brandsTitle": "Tuotemerkit | MuraHomes",
-    "brandsDescription": "Tutustu kumppanibrändeihimme, jotka on valittu niiden laadun, käsityötaidon ja ajattoman suunnittelun perusteella.",
-    "onlineOrderTitle": "Buy Luxury Furniture Online | Safe & Easy Shipping",
-    "onlineOrderDescription": "Order luxury furniture online at MuraHomes. Safe and easy shopping with home delivery. Place your order now and transform your home with elegance!",
-    "productsTitle": "Our Products | MuraHomes",
-    "productsDescription": "Explore our collections of exceptional luxury furniture.",
-    "reviewsTitle": "Customer Reviews | MuraHomes",
-    "reviewsDescription": "Read what our customers say about their experience with MuraHomes. Verified reviews.",
+    "brandsDescription": "Tutustu kumppanituotemerkkeihimme, jotka on valittu laadun, käsityötaidon ja ajattoman muotoilun perusteella.",
+    "onlineOrderTitle": "Osta Ylellisiä Huonekaluja Verkosta | Turvallinen Toimitus",
+    "onlineOrderDescription": "Tilaa ylellisiä huonekaluja verkosta MuraHomesilta. Turvallinen ostaminen ja kotiinkuljetus. Uudista kotisi tyylikkäästi!",
+    "productsTitle": "Tuotteemme | MuraHomes",
+    "productsDescription": "Tutustu poikkeuksellisen ylellisten huonekalujen mallistoihimme.",
+    "reviewsTitle": "Asiakasarvostelut | MuraHomes",
+    "reviewsDescription": "Lue, mitä asiakkaamme sanovat kokemuksistaan MuraHomesin kanssa. Vahvistettuja arvosteluja.",
     "showroomTitle": "Showroom | MuraHomes",
-    "showroomDescription": "Vieraile MuraHomesin esittelytilassa ja tutustu design-huonekaluihimme.",
+    "showroomDescription": "Vieraile MuraHomesin showroomissa ja tutustu design-huonekaluihimme.",
     "resenasTitle": "Arvostelut | MuraHomes",
-    "resenasDescription": "Katso, mitä asiakkaamme sanovat designhuonekaluistamme ja heidän kokemuksistaan MuraHomesista."
+    "resenasDescription": "Katso, mitä asiakkaamme sanovat design-huonekaluistamme ja kokemuksistaan MuraHomesin kanssa."
   },
   "onlineOrder": {
     "secureTag": "Turvallinen Verkko-ostaminen",

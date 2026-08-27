@@ -168,7 +168,8 @@
     "state": "État/Province",
     "postalCode": "Code Postal",
     "processing": "Traitement...",
-    "confirmOrder": "Confirmer la commande"
+    "confirmOrder": "Confirmer la commande",
+    "country": "Pays"
   },
   "account": {
     "title": "Mon Espace Client",

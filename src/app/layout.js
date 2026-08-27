@@ -206,6 +206,7 @@ export default async function RootLayout({ children }) {
             </MarketProvider>
           </I18nProvider>
         </AuthProvider>
+        <Analytics />
       </body>
     </html>
   );

@@ -116,15 +116,22 @@ export async function proxy(request: NextRequest) {
   const geo = getVercelGeoHeaders(request);
   console.log('[GEO] => ', geo);
 
-  // Automatic Geo-Locale Redirection on Root '/'
-  // When user visits root without existing preference and their Vercel IP country is Netherlands (NL -> /nl), Germany (DE -> /de), etc.
-  if (pathname === '/' && !request.cookies.get('murahomes_locale')) {
-    const detectedLocale = detectLocaleFromRequest(request);
-    if (detectedLocale !== 'es') {
-      const redirectUrl = new URL(`/${detectedLocale}`, request.url);
-      const response = NextResponse.redirect(redirectUrl);
-      response.cookies.set('murahomes_locale', detectedLocale, { path: '/', maxAge: 31536000, sameSite: 'lax' });
-      return response;
+  // Automatic Locale Redirection on Root '/'
+  if (pathname === '/') {
+    const cookieLocale = request.cookies.get('murahomes_locale')?.value;
+    if (cookieLocale && cookieLocale !== 'es' && SUPPORTED_LOCALES.includes(cookieLocale)) {
+      const redirectUrl = new URL(`/${cookieLocale}`, request.url);
+      return NextResponse.redirect(redirectUrl);
+    }
+
+    if (!cookieLocale) {
+      const detectedLocale = detectLocaleFromRequest(request);
+      if (detectedLocale !== 'es') {
+        const redirectUrl = new URL(`/${detectedLocale}`, request.url);
+        const response = NextResponse.redirect(redirectUrl);
+        response.cookies.set('murahomes_locale', detectedLocale, { path: '/', maxAge: 31536000, sameSite: 'lax' });
+        return response;
+      }
     }
   }
 

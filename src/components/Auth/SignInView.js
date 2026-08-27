@@ -23,7 +23,7 @@ export default function SignInView() {
       const res = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, locale }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -32,7 +32,14 @@ export default function SignInView() {
       }
       setUser(data);
       toast.success(t('auth.welcomeBack') ? `${t('auth.welcomeBack')}, ${data.firstName}!` : `¡Bienvenido de nuevo, ${data.firstName}!`);
-      window.location.href = getLocalizedHref ? getLocalizedHref('/') : '/';
+      
+      const targetLocale = data.preferredLocale || locale || 'es';
+      try {
+        window.document.cookie = `murahomes_locale=${targetLocale}; path=/; max-age=31536000; SameSite=Lax`;
+      } catch { }
+
+      const targetPath = targetLocale === 'es' ? '/' : `/${targetLocale}`;
+      window.location.href = targetPath;
     } catch {
       toast.error(t('common.error') || 'Algo salió mal');
     } finally {

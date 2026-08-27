@@ -53,7 +53,14 @@ export default function SignUpView() {
       }
       setUser(data);
       toast.success(t('auth.welcomeBack') ? `${t('auth.welcomeBack')}, ${data.firstName}!` : `¡Bienvenido, ${data.firstName}!`);
-      window.location.href = getLocalizedHref ? getLocalizedHref('/') : '/';
+      
+      const targetLocale = locale || 'es';
+      try {
+        window.document.cookie = `murahomes_locale=${targetLocale}; path=/; max-age=31536000; SameSite=Lax`;
+      } catch { }
+
+      const targetPath = targetLocale === 'es' ? '/' : `/${targetLocale}`;
+      window.location.href = targetPath;
     } catch {
       toast.error(t('common.error') || 'Algo salió mal');
     } finally {

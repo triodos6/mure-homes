@@ -5,7 +5,7 @@ import { signToken, setAuthCookie } from '@/lib/auth';
 
 export async function POST(req) {
   try {
-    const { email, password } = await req.json();
+    const { email, password, locale: clientLocale } = await req.json();
 
     if (!email || !password) {
       return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
@@ -13,7 +13,17 @@ export async function POST(req) {
 
     const user = await prisma.user.findUnique({
       where: { email: email.toLowerCase() },
-      select: { id: true, email: true, password: true, firstName: true, lastName: true, phone: true, role: true },
+      select: { 
+        id: true, 
+        email: true, 
+        password: true, 
+        firstName: true, 
+        lastName: true, 
+        phone: true, 
+        role: true,
+        preferredLocale: true,
+        preferredCurrency: true,
+      },
     });
 
     if (!user || !user.password) {
@@ -31,6 +41,8 @@ export async function POST(req) {
       role: user.role,
     });
 
+    const targetLocale = user.preferredLocale || clientLocale || 'es';
+
     const res = NextResponse.json({
       id: user.id,
       email: user.email,
@@ -38,6 +50,14 @@ export async function POST(req) {
       lastName: user.lastName ?? '',
       phone: user.phone ?? null,
       role: user.role,
+      preferredLocale: user.preferredLocale ?? 'es',
+      preferredCurrency: user.preferredCurrency ?? 'EUR',
+    });
+
+    res.cookies.set('murahomes_locale', targetLocale, {
+      path: '/',
+      maxAge: 31536000,
+      sameSite: 'lax',
     });
 
     return setAuthCookie(res, token);

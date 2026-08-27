@@ -29,9 +29,25 @@ export function AuthProvider({ children }) {
   useEffect(() => { fetchUser(); }, [fetchUser]);
 
   const signOut = async () => {
-    await fetch('/api/auth/signout', { method: 'POST' });
+    try {
+      await fetch('/api/auth/signout', { method: 'POST' });
+    } catch { }
     setUser(null);
-    window.location.href = '/';
+    
+    // Determine active locale from current URL or cookie
+    let activeLocale = 'es';
+    if (typeof window !== 'undefined') {
+      const segments = window.location.pathname.split('/').filter(Boolean);
+      if (segments.length > 0 && segments[0] !== 'admin' && segments[0] !== 'account' && segments[0].length === 2) {
+        activeLocale = segments[0];
+      } else {
+        const match = document.cookie.match(/(^|;\s*)murahomes_locale=([^;]+)/);
+        if (match && match[2]) activeLocale = match[2];
+      }
+      
+      const destination = activeLocale === 'es' ? '/' : `/${activeLocale}`;
+      window.location.href = destination;
+    }
   };
 
   return (

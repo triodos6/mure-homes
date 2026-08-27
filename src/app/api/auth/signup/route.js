@@ -48,7 +48,15 @@ export async function POST(req) {
       lastName: user.lastName,
       phone: user.phone,
       role: user.role,
+      preferredLocale: user.preferredLocale ?? 'es',
+      preferredCurrency: user.preferredCurrency ?? 'EUR',
     }, { status: 201 });
+
+    res.cookies.set('murahomes_locale', user.preferredLocale || 'es', {
+      path: '/',
+      maxAge: 31536000,
+      sameSite: 'lax',
+    });
 
     return setAuthCookie(res, token);
   } catch (error) {

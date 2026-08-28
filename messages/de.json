@@ -144,12 +144,12 @@
     "taxShippingNote": "Steuern und Versandkosten werden im Rahmen der persönlichen Beratung bestätigt."
   },
   "checkout": {
-    "completeOrder": "Bestellung abschließen",
+    "completeOrder": "Schließen Sie Ihre Bestellung ab",
     "contactAndDelivery": "Kontakt- & Lieferdaten",
     "orderSummary": "Bestellübersicht",
     "orderConfirmed": "Bestellung bestätigt!",
     "confirmationText": "Wir haben Ihre Bestellung erhalten. Eine Bestätigungs-E-Mail mit den Details wurde an Sie gesendet.",
-    "fillRequiredFields": "Bitte füllen Sie alle erforderlichen Felder aus.",
+    "fillRequiredFields": "Bitte füllen Sie alle Pflichtfelder aus.",
     "enterPassword": "Bitte erstellen oder geben Sie Ihr Passwort ein, um fortzufahren.",
     "submitError": "Fehler beim Absenden der Bestellung",
     "viewMyOrders": "Meine Bestellungen ansehen",
@@ -165,9 +165,9 @@
     "address": "Adresse",
     "addressPlaceholder": "Hauptstraße 123, Wohnung 4B",
     "city": "Stadt",
-    "state": "Bundesland/Provinz",
+    "state": "Bundesland",
     "postalCode": "Postleitzahl",
-    "processing": "Wird bearbeitet...",
+    "processing": "Verarbeitung...",
     "confirmOrder": "Bestellung bestätigen",
     "country": "Land"
   },
@@ -563,36 +563,12 @@
     }
   },
   "emails": {
-    "orderConfirmation": {
-      "subject": "Bestellanfrage #{orderNum} | MuraHomes",
-      "headerTag": "Anfrage / Bestellung #{orderNum}",
-      "greeting": "Sehr geehrte(r) {name},",
-      "body": "Wir bestätigen den Eingang Ihrer Design-Auswahl. Vielen Dank für Ihr Vertrauen in MuraHomes. Unser Concierge-Team wird sich in Kürze mit allen Lieferdetails bei Ihnen melden.",
-      "selectionSummary": "Übersicht Ihrer Auswahl",
-      "qty": "Menge",
-      "total": "Gesamt",
-      "deliveryDetails": "Lieferdetails",
-      "address": "Adresse",
-      "regionState": "Bundesland / Region",
-      "postalCode": "Postleitzahl",
-      "marketCountry": "Markt / Land",
-      "phone": "Telefon"
-    },
-    "invoice": {
-      "subject": "Ihre Rechnung für Bestellung #{orderNum} ist bereit | MuraHomes",
-      "headerTag": "Rechnung Bereit — Bestellung #{orderNum}",
-      "greeting": "Sehr geehrte(r) {name},",
-      "body": "Ihre Rechnung für die Bestellung #{orderNum} ist jetzt fertiggestellt. Sie finden sie im Anhang dieser E-Mail sowie über die Schaltfläche unten.",
-      "importantDetailsTitle": "Wichtige Hinweise zu Ihrer Bestellung:",
-      "paymentMethodLabel": "Zahlungsmethode:",
-      "paymentMethodDesc": "Die Zahlung erfolgt per Banküberweisung. Alle erforderlichen Bankdaten finden Sie auf der beigefügten Rechnung.",
-      "shippingLabel": "Versand:",
-      "shippingDesc": "Der Versand erfolgt nach Eingang der Zahlungsbestätigung. Bitte senden Sie uns eine Kopie des Überweisungsbelegs, damit wir Ihre Lieferung schnellstmöglich bearbeiten können.",
-      "orderSummary": "Bestellübersicht",
-      "qty": "Menge",
-      "totalAmount": "Gesamtbetrag",
-      "downloadInvoice": "Rechnung Herunterladen",
-      "questionsNote": "Bei Fragen stehen wir Ihnen gerne unter info@mura-homes.com zur Verfügung."
-    }
+    "orderSubject": "Ihre Bestellung #{{id}} - MuraHomes",
+    "orderGreeting": "Hallo {{name}},",
+    "orderReceived": "Wir haben Ihre Bestellung erhalten und bearbeiten sie.",
+    "orderDetails": "Bestelldetails",
+    "invoiceSubject": "Offizielle Rechnung - Bestellung #{{id}} - MuraHomes",
+    "invoiceAttached": "Ihre offizielle Rechnung ist dieser E-Mail beigefügt.",
+    "questions": "Wenn Sie Fragen haben, kontaktieren Sie uns bitte."
   }
 }

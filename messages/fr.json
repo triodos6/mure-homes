@@ -144,18 +144,18 @@
     "taxShippingNote": "Taxes et frais de livraison confirmés lors de la consultation."
   },
   "checkout": {
-    "completeOrder": "Terminer votre commande",
-    "contactAndDelivery": "Coordonnées et Livraison",
+    "completeOrder": "Finalisez votre commande",
+    "contactAndDelivery": "Coordonnées et adresse de livraison",
     "orderSummary": "Résumé de la commande",
-    "orderConfirmed": "Commande Confirmée !",
-    "confirmationText": "Nous avons reçu votre commande. Un email de confirmation avec les détails vous a été envoyé.",
+    "orderConfirmed": "Commande confirmée !",
+    "confirmationText": "Nous avons bien reçu votre commande. Un e-mail de confirmation avec les détails vous a été envoyé.",
     "fillRequiredFields": "Veuillez remplir tous les champs obligatoires.",
     "enterPassword": "Veuillez créer ou saisir votre mot de passe pour continuer.",
     "submitError": "Erreur lors de la soumission de la commande",
     "viewMyOrders": "Voir mes commandes",
     "total": "Total",
     "contactInfo": "Coordonnées",
-    "fullName": "Nom Complet",
+    "fullName": "Nom complet",
     "fullNamePlaceholder": "Votre nom complet",
     "phoneNumber": "Numéro de téléphone",
     "password": "Mot de passe",
@@ -163,11 +163,11 @@
     "passwordHelp": "Si vous avez déjà un compte, entrez votre mot de passe pour vous connecter. Si vous êtes nouveau, nous créerons votre compte automatiquement.",
     "deliveryAddress": "Adresse de livraison",
     "address": "Adresse",
-    "addressPlaceholder": "123 Rue Principale, Apt 4B",
+    "addressPlaceholder": "123 Rue Principale, Appt 4B",
     "city": "Ville",
     "state": "État/Province",
-    "postalCode": "Code Postal",
-    "processing": "Traitement...",
+    "postalCode": "Code postal",
+    "processing": "Traitement en cours...",
     "confirmOrder": "Confirmer la commande",
     "country": "Pays"
   },
@@ -563,36 +563,12 @@
     }
   },
   "emails": {
-    "orderConfirmation": {
-      "subject": "Demande / Commande #{orderNum} | MuraHomes",
-      "headerTag": "Demande / Commande #{orderNum}",
-      "greeting": "Cher/Chère {name},",
-      "body": "Nous confirmons la bonne réception de votre sélection de design. Merci d'avoir choisi MuraHomes. Notre conciergerie vous contactera sous peu pour finaliser les détails de livraison.",
-      "selectionSummary": "Récapitulatif de la Sélection",
-      "qty": "Qté",
-      "total": "Total",
-      "deliveryDetails": "Détails de Livraison",
-      "address": "Adresse",
-      "regionState": "Région / Département",
-      "postalCode": "Code Postal",
-      "marketCountry": "Marché / Pays",
-      "phone": "Téléphone"
-    },
-    "invoice": {
-      "subject": "Votre facture pour la commande #{orderNum} est prête | MuraHomes",
-      "headerTag": "Facture Prête — Commande #{orderNum}",
-      "greeting": "Cher/Chère {name},",
-      "body": "Votre facture pour la commande #{orderNum} est désormais prête. Vous la trouverez en pièce jointe à cet e-mail et accessible via le bouton ci-dessous.",
-      "importantDetailsTitle": "Détails importants concernant votre commande :",
-      "paymentMethodLabel": "Mode de paiement :",
-      "paymentMethodDesc": "Le règlement s'effectue par virement bancaire et toutes les coordonnées nécessaires figurent sur la facture ci-jointe.",
-      "shippingLabel": "Expédition :",
-      "shippingDesc": "L'expédition débutera dès réception de la confirmation de paiement. Veuillez nous transmettre une copie du justificatif de virement afin de traiter l'envoi au plus vite.",
-      "orderSummary": "Récapitulatif de la Commande",
-      "qty": "Qté",
-      "totalAmount": "Montant Total",
-      "downloadInvoice": "Télécharger la Facture",
-      "questionsNote": "Si vous avez des questions, n'hésitez pas à nous contacter à info@mura-homes.com"
-    }
+    "orderSubject": "Votre commande #{{id}} - MuraHomes",
+    "orderGreeting": "Bonjour {{name}},",
+    "orderReceived": "Nous avons bien reçu votre commande et sommes en train de la traiter.",
+    "orderDetails": "Détails de la commande",
+    "invoiceSubject": "Facture officielle - Commande #{{id}} - MuraHomes",
+    "invoiceAttached": "Votre facture officielle est en pièce jointe à cet e-mail.",
+    "questions": "Si vous avez des questions, n'hésitez pas à nous contacter."
   }
 }

@@ -68,14 +68,15 @@ function getVercelGeoHeaders(request: NextRequest) {
   const devRegionOverride = request.nextUrl.searchParams.get('region');
   const devCityOverride = request.nextUrl.searchParams.get('city');
 
-  const country = (
+  const rawCountry = (
     devGeoOverride ||
     request.headers.get('x-vercel-ip-country') ||
     request.headers.get('cf-ipcountry') ||
     request.headers.get('x-country') ||
-    'ES'
+    ''
   ).toUpperCase();
 
+  const country = rawCountry || '';
   const region = devRegionOverride || request.headers.get('x-vercel-ip-country-region') || '';
   const city = devCityOverride || decodeURIComponent(request.headers.get('x-vercel-ip-city') || '');
   const latitude = request.headers.get('x-vercel-ip-latitude') || '';

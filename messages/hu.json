@@ -1,5 +1,7 @@
 {
   "common": {
+    "error": "Hiba",
+    "client": "Ügyfél",
     "viewDetails": "Részletek Megtekintése",
     "addToCart": "Kosárba",
     "inStock": "Raktáron",
@@ -16,6 +18,8 @@
     "followUs": "Kövessen minket"
   },
   "navigation": {
+    "resenas": "Vélemények",
+    "language": "Nyelv",
     "home": "Főoldal",
     "products": "Termékek",
     "brands": "Márkáink",
@@ -144,6 +148,8 @@
     "taxShippingNote": "A pontos szállítási költségeket a rendelés megerősítésekor egyeztetjük."
   },
   "checkout": {
+    "passwordRequiredError": "A jelszónak legalább 6 karakterből kell állnia",
+    "subtitle": "Fejezze be exkluzív bútor- és belsőépítészeti válogatását.",
     "completeOrder": "Fejezze be a rendelését",
     "contactAndDelivery": "Kapcsolat és szállítási adatok",
     "orderSummary": "Rendelés összesítése",
@@ -172,6 +178,10 @@
     "country": "Ország"
   },
   "account": {
+    "errorUpdatingAvatar": "Hiba a profilkép frissítésekor",
+    "errorUpdatingProfile": "Hiba a profil frissítésekor",
+    "errorChangingPassword": "Hiba a jelszó megváltoztatásakor",
+    "viewOrders": "Rendeléseim Megtekintése",
     "title": "Fiókom",
     "profile": "Profil",
     "orders": "Rendelések",
@@ -237,6 +247,7 @@
     "recently": "nemrég"
   },
   "auth": {
+    "welcomeBack": "Üdvözöljük újra",
     "signInTitle": "Bejelentkezés",
     "signInSubtitle": "Hozzáférés a MuraHomes ügyfélportálhoz",
     "signUpTitle": "Fiók Létrehozása",
@@ -314,13 +325,13 @@
     "productMessage": "Üdvözlöm, érdekel a(z) {productName} ({productUrl}) termék. Kaphatnék további információkat?"
   },
   "newsletter": {
-    "badge": "Értesüljön elsőként",
+    "badge": "Exkluzív Hírlevél",
+    "subscribe": "Feliratkozás",
+    "toastTitle": "Feliratkozás megerősítve!",
+    "toastDesc": "Köszönjük, hogy feliratkozott exkluzív hírlevelünkre.",
     "title": "Csatlakozzon a MuraHomes Körhöz",
     "subtitle": "Exkluzív előzetesek az új kollekciókról és privát meghívók rendezvényekre.",
     "placeholder": "Az Ön e-mail címe...",
-    "subscribe": "Feliratkozás",
-    "toastTitle": "Sikeres feliratkozás!",
-    "toastDesc": "Köszönjük, hogy csatlakozott a MuraHomes közösségéhez.",
     "button": "Feliratkozás",
     "success": "Sikeres feliratkozás!"
   },
@@ -336,6 +347,8 @@
     "rights": "Minden jog fenntartva."
   },
   "seo": {
+    "notFoundTitle": "Az oldal nem található | MuraHomes",
+    "notFoundDescription": "A keresett oldal nem létezik vagy át lett helyezve.",
     "homeTitle": "MuraHomes | Buy Furniture Online & Designer Home Decor",
     "homeDescription": "Shop furniture online at MuraHomes: sofas, armchairs, dining tables, chairs, bedrooms, wardrobes, and lighting. Discover designer furniture for every space.",
     "aboutTitle": "About MuraHomes – Affordable Furniture & International Design",

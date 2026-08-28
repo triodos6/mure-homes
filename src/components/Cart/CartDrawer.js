@@ -8,6 +8,7 @@ import { useI18n } from "@/context/I18nContext";
 import { useMarket } from "@/context/MarketContext";
 import { ShoppingBag, X, ArrowRight, Minus, Plus, Lock, Shield } from "lucide-react";
 import CheckoutModal from '@/components/CheckoutModal/CheckoutModal';
+import { getLocalizedCartItemName } from '@/lib/translations/client-translation';
 
 export default function CartDrawer({ open, setOpen }) {
   const { cart, removeFromCart, updateQuantity, cartTotal, cartCount, clearCart } = useCart();
@@ -54,12 +55,12 @@ export default function CartDrawer({ open, setOpen }) {
                 return (
                   <div key={item.id} className="group relative flex gap-4 animate-in fade-in slide-in-from-right-4 duration-300">
                     <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border border-border bg-secondary/30 relative">
-                      <Image src={item.images?.[0] || '/images/img1.jpg'} alt={item.name || 'Producto'} width={96} height={96} className="h-full w-full object-cover" unoptimized />
+                      <Image src={item.images?.[0] || '/images/img1.jpg'} alt={getLocalizedCartItemName(item, locale) || 'Producto'} width={96} height={96} className="h-full w-full object-cover" unoptimized />
                     </div>
                     <div className="flex flex-grow flex-col justify-between py-0.5">
                       <div>
                         <div className="flex justify-between items-start">
-                          <h4 className="font-serif text-base font-medium text-foreground leading-tight">{item.name}</h4>
+                          <h4 className="font-serif text-base font-medium text-foreground leading-tight">{getLocalizedCartItemName(item, locale)}</h4>
                           <button onClick={() => removeFromCart(item.id)} className="text-muted-foreground hover:text-destructive p-1 transition-colors" aria-label={t('cart.remove')}>
                             <X size={16} />
                           </button>

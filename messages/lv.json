@@ -1,5 +1,7 @@
 {
   "common": {
+    "error": "Kļūda",
+    "client": "Klients",
     "viewDetails": "Skatīt Detaļas",
     "addToCart": "Pievienot Grozam",
     "inStock": "Pieejams",
@@ -16,6 +18,8 @@
     "followUs": "Sekojiet mums"
   },
   "navigation": {
+    "resenas": "Atsauksmes",
+    "language": "Valoda",
     "home": "Sākums",
     "products": "Produkti",
     "brands": "Mūsu Zīmoli",
@@ -144,6 +148,8 @@
     "taxShippingNote": "Piegādes izmaksas tiks precizētas pasūtījuma apstrādes laikā."
   },
   "checkout": {
+    "passwordRequiredError": "Parolei jābūt vismaz 6 rakstzīmes garai",
+    "subtitle": "Pabeidziet savu ekskluzīvo mēbeļu un interjera dizaina izvēli.",
     "completeOrder": "Pabeidziet savu pasūtījumu",
     "contactAndDelivery": "Kontaktinformācija un piegādes dati",
     "orderSummary": "Pasūtījuma kopsavilkums",
@@ -172,6 +178,10 @@
     "country": "Valsts"
   },
   "account": {
+    "errorUpdatingAvatar": "Kļūda atjauninot profila fotoattēlu",
+    "errorUpdatingProfile": "Kļūda atjauninot profilu",
+    "errorChangingPassword": "Kļūda mainot paroli",
+    "viewOrders": "Skatīt Manus Pasūtījumus",
     "title": "Mans Konts",
     "profile": "Profils",
     "orders": "Pasūtījumi",
@@ -237,6 +247,7 @@
     "recently": "nesen"
   },
   "auth": {
+    "welcomeBack": "Laipni lūdzam atpakaļ",
     "signInTitle": "Ienākt",
     "signInSubtitle": "Piekļuve jūsu MuraHomes klienta profilam",
     "signUpTitle": "Izveidot Kontu",
@@ -314,13 +325,13 @@
     "productMessage": "Labdien! Mani interesē produkts {productName} ({productUrl}). Vai varat sniegt plašāku informāciju?"
   },
   "newsletter": {
-    "badge": "Esi informēts",
+    "badge": "Ekskluzīvs Jaunumu Vēstnesis",
+    "subscribe": "Abonēt",
+    "toastTitle": "Abonēšana apstiprināta!",
+    "toastDesc": "Paldies, ka abonējāt mūsu ekskluzīvo jaunumu vēstnesi.",
     "title": "Pievienojies MuraHomes",
     "subtitle": "Saņemiet jauno kolekciju priekšskatījumus un ekskluzīvus ielūgumus.",
     "placeholder": "Jūsu e-pasts...",
-    "subscribe": "Abonēt",
-    "toastTitle": "Veiksmīgi abonēts!",
-    "toastDesc": "Paldies, ka pievienojāties MuraHomes.",
     "button": "Abonēt",
     "success": "Veiksmīgi abonēts!"
   },
@@ -336,6 +347,8 @@
     "rights": "Visas tiesības aizsargātas."
   },
   "seo": {
+    "notFoundTitle": "Lapa nav atrasta | MuraHomes",
+    "notFoundDescription": "Lapa, kuru meklējat, nepastāv vai ir pārvietota.",
     "homeTitle": "MuraHomes | Buy Furniture Online & Designer Home Decor",
     "homeDescription": "Shop furniture online at MuraHomes: sofas, armchairs, dining tables, chairs, bedrooms, wardrobes, and lighting. Discover designer furniture for every space.",
     "aboutTitle": "About MuraHomes – Affordable Furniture & International Design",

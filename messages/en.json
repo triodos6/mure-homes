@@ -1,5 +1,7 @@
 {
   "common": {
+    "error": "Error",
+    "client": "Client",
     "viewDetails": "View Details",
     "addToCart": "Add to Cart",
     "inStock": "In Stock",
@@ -16,6 +18,8 @@
     "followUs": "Follow Us"
   },
   "navigation": {
+    "resenas": "Reviews",
+    "language": "Language",
     "home": "Home",
     "products": "Products",
     "brands": "Our Brands",
@@ -144,6 +148,8 @@
     "taxShippingNote": "Taxes and delivery finalized during consultation. All prices reflect the current curated collection."
   },
   "checkout": {
+    "passwordRequiredError": "Password must be at least 6 characters",
+    "subtitle": "Complete your exclusive furniture and interior design selection.",
     "completeOrder": "Complete Your Order",
     "contactAndDelivery": "Contact & Delivery Details",
     "orderSummary": "Order Summary",
@@ -172,6 +178,10 @@
     "country": "Country"
   },
   "account": {
+    "errorUpdatingAvatar": "Error updating profile photo",
+    "errorUpdatingProfile": "Error updating profile",
+    "errorChangingPassword": "Error changing password",
+    "viewOrders": "View My Orders",
     "title": "My Account",
     "profile": "Profile",
     "orders": "Orders & Inquiries",
@@ -237,6 +247,7 @@
     "recently": "recently"
   },
   "auth": {
+    "welcomeBack": "Welcome back",
     "signInTitle": "Sign In",
     "signInSubtitle": "Access your personal MuraHomes client portal",
     "signUpTitle": "Create Account",
@@ -314,6 +325,10 @@
     "productMessage": "Hello, I am interested in the product {productName} ({productUrl}). Could you provide more details?"
   },
   "newsletter": {
+    "badge": "Exclusive Newsletter",
+    "subscribe": "Subscribe",
+    "toastTitle": "Subscription confirmed!",
+    "toastDesc": "Thank you for subscribing to our exclusive newsletter.",
     "title": "Join the MuraHomes Circle",
     "subtitle": "Receive private previews of new collections, interior editorials, and salon invitations.",
     "placeholder": "Enter your email address...",
@@ -332,6 +347,8 @@
     "rights": "All rights reserved."
   },
   "seo": {
+    "notFoundTitle": "Page Not Found | MuraHomes",
+    "notFoundDescription": "The page you are looking for does not exist or has been moved.",
     "homeTitle": "MuraHomes | Buy Furniture Online & Designer Home Decor",
     "homeDescription": "Shop furniture online at MuraHomes: sofas, armchairs, dining tables, chairs, bedrooms, wardrobes, and lighting. Discover designer furniture for every space.",
     "aboutTitle": "About MuraHomes – Affordable Furniture & International Design",

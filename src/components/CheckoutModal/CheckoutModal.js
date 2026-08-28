@@ -9,6 +9,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useMarket } from '@/context/MarketContext';
 import { useI18n } from '@/context/I18nContext';
 import { EUROPEAN_COUNTRIES } from '@/lib/markets/config';
+import { getLocalizedCartItemName } from '@/lib/translations/client-translation';
 
 export default function CheckoutModal({ open, onClose, cart, cartTotal, onSuccess }) {
   const router = useRouter();
@@ -187,7 +188,7 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
                     const unitPrice = resolvePrice(item).price || item.price || 0;
                     return (
                       <div key={item.id} className="flex justify-between text-sm">
-                        <span className="text-foreground font-medium">{item.name} <span className="text-muted-foreground font-normal">×{item.quantity}</span></span>
+                        <span className="text-foreground font-medium">{getLocalizedCartItemName(item, locale)} <span className="text-muted-foreground font-normal">×{item.quantity}</span></span>
                         <span className="font-medium">{formatPrice(unitPrice * item.quantity)}</span>
                       </div>
                     )

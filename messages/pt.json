@@ -1,5 +1,7 @@
 {
   "common": {
+    "error": "Erro",
+    "client": "Cliente",
     "viewDetails": "Ver Detalhes",
     "addToCart": "Adicionar ao Carrinho",
     "inStock": "Em Stock",
@@ -16,6 +18,8 @@
     "followUs": "Siga-nos"
   },
   "navigation": {
+    "resenas": "Avaliações",
+    "language": "Idioma",
     "home": "Início",
     "products": "Produtos",
     "brands": "Nossas Marcas",
@@ -144,6 +148,8 @@
     "taxShippingNote": "Impostos e entrega calculados na finalização. Preços em conformidade com a coleção atual."
   },
   "checkout": {
+    "passwordRequiredError": "A palavra-passe deve ter pelo menos 6 caracteres",
+    "subtitle": "Conclua a sua seleção exclusiva de mobiliário e design de interiores.",
     "completeOrder": "Conclua a sua encomenda",
     "contactAndDelivery": "Detalhes de contacto e entrega",
     "orderSummary": "Resumo da encomenda",
@@ -172,6 +178,10 @@
     "country": "País"
   },
   "account": {
+    "errorUpdatingAvatar": "Erro ao atualizar a foto de perfil",
+    "errorUpdatingProfile": "Erro ao atualizar o perfil",
+    "errorChangingPassword": "Erro ao alterar a palavra-passe",
+    "viewOrders": "Ver As Minhas Encomendas",
     "title": "Minha Conta",
     "profile": "Perfil",
     "orders": "Encomendas e Pedidos",
@@ -237,6 +247,7 @@
     "recently": "recentemente"
   },
   "auth": {
+    "welcomeBack": "Bem-vindo de volta",
     "signInTitle": "Iniciar Sessão",
     "signInSubtitle": "Aceda ao seu portal pessoal de cliente MuraHomes",
     "signUpTitle": "Criar Conta",
@@ -314,13 +325,13 @@
     "productMessage": "Olá, tenho interesse no produto {productName} ({productUrl}). Poderiam fornecer mais detalhes?"
   },
   "newsletter": {
-    "badge": "Mantenha-se informado",
+    "badge": "Newsletter Exclusiva",
+    "subscribe": "Subscrever",
+    "toastTitle": "Subscrição confirmada!",
+    "toastDesc": "Obrigado por subscrever a nossa newsletter exclusiva.",
     "title": "Junte-se ao Círculo MuraHomes",
     "subtitle": "Receba novidades exclusivas de coleções, editoriais de design e convites privados.",
     "placeholder": "Introduza o seu email...",
-    "subscribe": "Subscrever",
-    "toastTitle": "Subscrito!",
-    "toastDesc": "Obrigado por se juntar à comunidade MuraHomes.",
     "button": "Subscrever",
     "success": "Subscrito com sucesso!"
   },
@@ -336,6 +347,8 @@
     "rights": "Todos os direitos reservados."
   },
   "seo": {
+    "notFoundTitle": "Página Não Encontrada | MuraHomes",
+    "notFoundDescription": "A página que procura não existe ou foi movida.",
     "homeTitle": "MuraHomes | Comprar Móveis Online e Decoração de Design",
     "homeDescription": "Compre móveis online na MuraHomes: sofás, poltronas, mesas de jantar, cadeiras, quartos, roupeiros e iluminação. Descubra mobiliário de luxo para cada espaço.",
     "aboutTitle": "Sobre a MuraHomes – Mobiliário Exclusivo e Design Internacional",

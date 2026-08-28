@@ -1,5 +1,7 @@
 {
   "common": {
+    "error": "Fout",
+    "client": "Klant",
     "viewDetails": "Details Bekijken",
     "addToCart": "In Winkelwagen",
     "inStock": "Op Voorraad",
@@ -16,6 +18,8 @@
     "followUs": "Volg ons"
   },
   "navigation": {
+    "resenas": "Beoordelingen",
+    "language": "Taal",
     "home": "Home",
     "products": "Producten",
     "brands": "Onze Merken",
@@ -144,6 +148,8 @@
     "taxShippingNote": "Prijzen en levering worden definitief afgestemd bij de bestelling."
   },
   "checkout": {
+    "passwordRequiredError": "Het wachtwoord moet minimaal 6 tekens lang zijn",
+    "subtitle": "Voltooi uw exclusieve selectie van designmeubels en interieur.",
     "completeOrder": "Rond uw bestelling af",
     "contactAndDelivery": "Contact- en leveringsgegevens",
     "orderSummary": "Besteloverzicht",
@@ -172,6 +178,10 @@
     "country": "Land"
   },
   "account": {
+    "errorUpdatingAvatar": "Fout bij het bijwerken van de profielfoto",
+    "errorUpdatingProfile": "Fout bij het bijwerken van het profiel",
+    "errorChangingPassword": "Fout bij het wijzigen van het wachtwoord",
+    "viewOrders": "Mijn Bestellingen Bekijken",
     "title": "Mijn Account",
     "profile": "Profiel",
     "orders": "Bestellingen & Aanvragen",
@@ -237,6 +247,7 @@
     "recently": "recent"
   },
   "auth": {
+    "welcomeBack": "Welkom terug",
     "signInTitle": "Inloggen",
     "signInSubtitle": "Toegang tot uw persoonlijke MuraHomes portaal",
     "signUpTitle": "Account Aanmaken",
@@ -314,13 +325,13 @@
     "productMessage": "Hallo, ik heb interesse in het product {productName} ({productUrl}). Kunt u meer informatie geven?"
   },
   "newsletter": {
-    "badge": "Blijf op de hoogte",
+    "badge": "Exclusieve Nieuwsbrief",
+    "subscribe": "Aanmelden",
+    "toastTitle": "Aanmelding bevestigd!",
+    "toastDesc": "Bedankt voor uw aanmelding op onze exclusieve nieuwsbrief.",
     "title": "Word Lid van de MuraHomes Community",
     "subtitle": "Ontvang exclusieve previews van nieuwe collecties en uitnodigingen voor ontwerpevenementen.",
     "placeholder": "Uw e-mailadres...",
-    "subscribe": "Inschrijven",
-    "toastTitle": "Ingeschreven!",
-    "toastDesc": "Bedankt voor uw aanmelding bij MuraHomes.",
     "button": "Abonneren",
     "success": "Succesvol geabonneerd!"
   },
@@ -336,6 +347,8 @@
     "rights": "Alle rechten voorbehouden."
   },
   "seo": {
+    "notFoundTitle": "Pagina Niet Gevonden | MuraHomes",
+    "notFoundDescription": "De pagina die u zoekt bestaat niet of is verplaatst.",
     "homeTitle": "MuraHomes | Koop Designmeubels Online & Exclusieve Woondecoratie",
     "homeDescription": "Koop meubels online bij MuraHomes: banken, fauteuils, eettafels, stoelen, slaapkamers, kasten en verlichting. Ontdek luxe designmeubelen voor elke ruimte.",
     "aboutTitle": "Over MuraHomes – Exclusieve Meubels & Internationaal Design",

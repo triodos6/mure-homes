@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { MARKETS } from '@/lib/markets/config';
+import { MARKETS, getMarket } from '@/lib/markets/config';
 import { useMarket } from '@/context/MarketContext';
 import { MapPin, ChevronDown, Check } from 'lucide-react';
 
@@ -21,8 +21,24 @@ export default function MarketSelector({ className = '', align = 'right' }) {
   }, []);
 
   const handleSelectMarket = (code) => {
+    const validMarket = getMarket(code);
     setMarketCode(code);
     setIsOpen(false);
+    
+    // Redirect to the market's default locale
+    const targetLocale = validMarket.defaultLocale;
+    const pathname = window.location.pathname;
+    const segments = pathname.split('/').filter(Boolean);
+    const supportedLocales = ['es', 'fr', 'de', 'it', 'lt', 'en', 'nl', 'pl', 'sv', 'da', 'no', 'fi', 'cs', 'sk', 'hu', 'ro', 'bg', 'el', 'hr', 'lv', 'et', 'pt'];
+    
+    let cleanPath = pathname;
+    if (segments.length > 0 && supportedLocales.includes(segments[0]) && segments[0] !== 'es') {
+      const withoutLocale = segments.slice(1).join('/');
+      cleanPath = withoutLocale ? `/${withoutLocale}` : '/';
+    }
+    
+    const targetUrl = cleanPath === '/' ? (targetLocale === 'es' ? '/' : `/${targetLocale}`) : (targetLocale === 'es' ? cleanPath : `/${targetLocale}${cleanPath}`);
+    window.location.href = targetUrl;
   };
 
   return (

@@ -1,5 +1,7 @@
 {
   "common": {
+    "error": "Error",
+    "client": "Cliente",
     "viewDetails": "Ver Detalles",
     "addToCart": "Añadir al Carrito",
     "inStock": "En Stock",
@@ -16,6 +18,8 @@
     "followUs": "Síguenos"
   },
   "navigation": {
+    "resenas": "Reseñas",
+    "language": "Idioma",
     "home": "Inicio",
     "products": "Productos",
     "brands": "Nuestras Marcas",
@@ -144,6 +148,8 @@
     "taxShippingNote": "Impuestos y envío calculados en consulta. Todos los precios son orientativos de la colección actual."
   },
   "checkout": {
+    "passwordRequiredError": "La contraseña debe tener al menos 6 caracteres",
+    "subtitle": "Finaliza tu selección exclusiva de mobiliario y diseño de interiores.",
     "completeOrder": "Completar Tu Pedido",
     "contactAndDelivery": "Datos de Entrega y Contacto",
     "orderSummary": "Resumen del Pedido",
@@ -172,6 +178,10 @@
     "country": "País"
   },
   "account": {
+    "errorUpdatingAvatar": "Error al actualizar la foto de perfil",
+    "errorUpdatingProfile": "Error al actualizar el perfil",
+    "errorChangingPassword": "Error al cambiar la contraseña",
+    "viewOrders": "Ver Mis Pedidos",
     "title": "Mi Cuenta",
     "profile": "Perfil",
     "orders": "Mis Pedidos y Consultas",
@@ -237,6 +247,7 @@
     "recently": "recientemente"
   },
   "auth": {
+    "welcomeBack": "Bienvenido de nuevo",
     "signInTitle": "Iniciar Sesión",
     "signInSubtitle": "Accede a tu cuenta personal de MuraHomes",
     "signUpTitle": "Crear Cuenta",
@@ -314,6 +325,10 @@
     "productMessage": "Hola, estoy interesado en el producto {productName} ({productUrl}). ¿Podrían darme más información?"
   },
   "newsletter": {
+    "badge": "Boletín Exclusivo",
+    "subscribe": "Suscribirse",
+    "toastTitle": "¡Suscripción confirmada!",
+    "toastDesc": "Gracias por suscribirte a nuestro boletín exclusivo.",
     "title": "Únete al Círculo MuraHomes",
     "subtitle": "Recibe acceso exclusivo a nuevas colecciones, editoriales de diseño y eventos privados.",
     "placeholder": "Tu correo electrónico...",
@@ -332,6 +347,8 @@
     "rights": "Todos los derechos reservados."
   },
   "seo": {
+    "notFoundTitle": "Página no encontrada | MuraHomes",
+    "notFoundDescription": "La página que buscas no existe o ha sido movida.",
     "homeTitle": "MuraHomes | Compra Muebles Online y Decoración de Diseño",
     "homeDescription": "Compra muebles online en MuraHomes: sofás, sillones, mesas, sillas, dormitorios, armarios e iluminación. Descubre muebles de diseño y decoración para cada espacio.",
     "aboutTitle": "Nosotros MuraHomes – Muebles Asequibles y Diseño Internacional",

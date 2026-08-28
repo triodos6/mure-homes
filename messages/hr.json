@@ -1,5 +1,7 @@
 {
   "common": {
+    "error": "Greška",
+    "client": "Klijent",
     "viewDetails": "Prikaži Detalje",
     "addToCart": "Dodaj u Košaricu",
     "inStock": "Dostupno",
@@ -16,6 +18,8 @@
     "followUs": "Pratite nas"
   },
   "navigation": {
+    "resenas": "Recenzije",
+    "language": "Jezik",
     "home": "Početna",
     "products": "Proizvodi",
     "brands": "Naši Brendovi",
@@ -144,6 +148,8 @@
     "taxShippingNote": "Konačni troškovi dostave potvrdit će se prilikom obrade narudžbe."
   },
   "checkout": {
+    "passwordRequiredError": "Lozinka mora imati najmanje 6 znakova",
+    "subtitle": "Dovršite svoj ekskluzivni odabir namještaja i dizajna interijera.",
     "completeOrder": "Dovršite svoju narudžbu",
     "contactAndDelivery": "Podaci o kontaktu i dostavi",
     "orderSummary": "Sažetak narudžbe",
@@ -172,6 +178,10 @@
     "country": "Država"
   },
   "account": {
+    "errorUpdatingAvatar": "Greška pri ažuriranju profilne slike",
+    "errorUpdatingProfile": "Greška pri ažuriranju profila",
+    "errorChangingPassword": "Greška pri promjeni lozinke",
+    "viewOrders": "Pregledaj Moje Narudžbe",
     "title": "Moj Račun",
     "profile": "Profil",
     "orders": "Narudžbe",
@@ -237,6 +247,7 @@
     "recently": "nedavno"
   },
   "auth": {
+    "welcomeBack": "Dobrodošli natrag",
     "signInTitle": "Prijava",
     "signInSubtitle": "Pristupite svom MuraHomes korisničkom računu",
     "signUpTitle": "Registracija",
@@ -314,13 +325,13 @@
     "productMessage": "Pozdrav, zanima me proizvod {productName} ({productUrl}). Možete li mi dati više informacija?"
   },
   "newsletter": {
-    "badge": "Budite informirani",
+    "badge": "Ekskluzivni Bilten",
+    "subscribe": "Pretplatite se",
+    "toastTitle": "Pretplata potvrđena!",
+    "toastDesc": "Hvala vam na pretplati na naš ekskluzivni bilten.",
     "title": "Pridružite se MuraHomes Klubu",
     "subtitle": "Primajte ekskluzivne najave novih kolekcija i pozivnice za događanja.",
     "placeholder": "Vaša e-mail adresa...",
-    "subscribe": "Pretplati se",
-    "toastTitle": "Uspješna prijava!",
-    "toastDesc": "Hvala vam što ste se pridružili MuraHomes zajednici.",
     "button": "Pretplati se",
     "success": "Uspješno pretplaćeno!"
   },
@@ -336,6 +347,8 @@
     "rights": "Sva prava pridržana."
   },
   "seo": {
+    "notFoundTitle": "Stranica nije pronađena | MuraHomes",
+    "notFoundDescription": "Stranica koju tražite ne postoji ili je premještena.",
     "homeTitle": "MuraHomes | Buy Furniture Online & Designer Home Decor",
     "homeDescription": "Shop furniture online at MuraHomes: sofas, armchairs, dining tables, chairs, bedrooms, wardrobes, and lighting. Discover designer furniture for every space.",
     "aboutTitle": "About MuraHomes – Affordable Furniture & International Design",

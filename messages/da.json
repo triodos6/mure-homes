@@ -1,5 +1,7 @@
 {
   "common": {
+    "error": "Fejl",
+    "client": "Kunde",
     "viewDetails": "Se Detaljer",
     "addToCart": "Læg i Kurv",
     "inStock": "På Lager",
@@ -16,6 +18,8 @@
     "followUs": "Følg os"
   },
   "navigation": {
+    "resenas": "Anmeldelser",
+    "language": "Sprog",
     "home": "Hjem",
     "products": "Produkter",
     "brands": "Vores Mærker",
@@ -144,6 +148,8 @@
     "taxShippingNote": "Moms og levering bekræftes endeligt ved bestilling."
   },
   "checkout": {
+    "passwordRequiredError": "Adgangskoden skal være på mindst 6 tegn",
+    "subtitle": "Færdiggør dit eksklusive valg af designmøbler og indretning.",
     "completeOrder": "Gennemfør din ordre",
     "contactAndDelivery": "Kontakt- & leveringsoplysninger",
     "orderSummary": "Ordreoversigt",
@@ -172,6 +178,10 @@
     "country": "Land"
   },
   "account": {
+    "errorUpdatingAvatar": "Fejl ved opdatering af profilbillede",
+    "errorUpdatingProfile": "Fejl ved opdatering af profil",
+    "errorChangingPassword": "Fejl ved ændring af adgangskode",
+    "viewOrders": "Se Mine Ordrer",
     "title": "Min Konto",
     "profile": "Profil",
     "orders": "Ordrer",
@@ -237,6 +247,7 @@
     "recently": "nyligt"
   },
   "auth": {
+    "welcomeBack": "Velkommen tilbage",
     "signInTitle": "Log ind",
     "signInSubtitle": "Adgang til din MuraHomes-klientportal",
     "signUpTitle": "Opret Konto",
@@ -314,13 +325,13 @@
     "productMessage": "Hej, jeg er interesseret i {productName} ({productUrl}). Kan I give flere oplysninger?"
   },
   "newsletter": {
-    "badge": "Hold dig opdateret",
+    "badge": "Eksklusivt Nyhedsbrev",
+    "subscribe": "Tilmeld",
+    "toastTitle": "Tilmelding bekræftet!",
+    "toastDesc": "Tak for din tilmelding til vores eksklusive nyhedsbrev.",
     "title": "Tilmeld dig MuraHomes Cirklen",
     "subtitle": "Modtag eksklusive forhåndsvisninger af nye kollektioner og invitationer.",
     "placeholder": "Indtast din e-mail...",
-    "subscribe": "Tilmeld",
-    "toastTitle": "Tilmeldt!",
-    "toastDesc": "Tak for din tilmelding til MuraHomes.",
     "button": "Tilmeld",
     "success": "Du er nu tilmeldt!"
   },
@@ -336,6 +347,8 @@
     "rights": "Alle rettigheder forbeholdes."
   },
   "seo": {
+    "notFoundTitle": "Siden blev ikke fundet | MuraHomes",
+    "notFoundDescription": "Siden du leder efter findes ikke eller er blevet flyttet.",
     "homeTitle": "MuraHomes | Køb Designermøbler Online og Eksklusiv Boligindretning",
     "homeDescription": "Køb møbler online hos MuraHomes: sofaer, lænestole, borde, stole, soveværelser, garderobeskabe og belysning. Oplev designermøbler til alle rum.",
     "aboutTitle": "Om MuraHomes – Eksklusive Møbler og Internationalt Design",

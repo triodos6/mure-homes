@@ -1,5 +1,7 @@
 {
   "common": {
+    "error": "Eroare",
+    "client": "Client",
     "viewDetails": "Vezi Detalii",
     "addToCart": "Adaugă în Coș",
     "inStock": "În Stoc",
@@ -16,6 +18,8 @@
     "followUs": "Urmărește-ne"
   },
   "navigation": {
+    "resenas": "Recenzii",
+    "language": "Limbă",
     "home": "Acasă",
     "products": "Produse",
     "brands": "Brandurile Noastre",
@@ -144,6 +148,8 @@
     "taxShippingNote": "Costurile finale de livrare vor fi confirmate la procesarea comenzii."
   },
   "checkout": {
+    "passwordRequiredError": "Parola trebuie să aibă cel puțin 6 caractere",
+    "subtitle": "Finalizează selecția ta exclusivă de mobilier și design interior.",
     "completeOrder": "Finalizează Comanda",
     "contactAndDelivery": "Detalii de Contact și Livrare",
     "orderSummary": "Sumar Comandă",
@@ -172,6 +178,10 @@
     "country": "Țară"
   },
   "account": {
+    "errorUpdatingAvatar": "Eroare la actualizarea fotografiei de profil",
+    "errorUpdatingProfile": "Eroare la actualizarea profilului",
+    "errorChangingPassword": "Eroare la schimbarea parolei",
+    "viewOrders": "Vezi Comenzile Mele",
     "title": "Contul Meu",
     "profile": "Profil",
     "orders": "Comenzi",
@@ -237,6 +247,7 @@
     "recently": "recent"
   },
   "auth": {
+    "welcomeBack": "Bine ați revenit",
     "signInTitle": "Autentificare",
     "signInSubtitle": "Accesați portalul dumneavoastră MuraHomes",
     "signUpTitle": "Creare Cont",
@@ -314,13 +325,13 @@
     "productMessage": "Bună ziua, mă interesează produsul {productName} ({productUrl}). Îmi puteți oferi detalii?"
   },
   "newsletter": {
-    "badge": "Rămâi informat",
+    "badge": "Buletin Informativ Exclusiv",
+    "subscribe": "Abonează-te",
+    "toastTitle": "Abonare confirmată!",
+    "toastDesc": "Vă mulțumim pentru abonarea la buletinul nostru informativ.",
     "title": "Alătură-te Comunității MuraHomes",
     "subtitle": "Primește în avanpremieră noile colecții și invitații la evenimente private de design.",
     "placeholder": "Adresa ta de email...",
-    "subscribe": "Abonează-te",
-    "toastTitle": "Abonat cu succes!",
-    "toastDesc": "Vă mulțumim că v-ați alăturat comunității MuraHomes.",
     "button": "Abonare",
     "success": "Te-ai abonat cu succes!"
   },
@@ -336,6 +347,8 @@
     "rights": "Toate drepturile rezervate."
   },
   "seo": {
+    "notFoundTitle": "Pagina nu a fost găsită | MuraHomes",
+    "notFoundDescription": "Pagina căutată nu există sau a fost mutată.",
     "homeTitle": "MuraHomes | Buy Furniture Online & Designer Home Decor",
     "homeDescription": "Shop furniture online at MuraHomes: sofas, armchairs, dining tables, chairs, bedrooms, wardrobes, and lighting. Discover designer furniture for every space.",
     "aboutTitle": "About MuraHomes – Affordable Furniture & International Design",

@@ -1,5 +1,7 @@
 {
   "common": {
+    "error": "Chyba",
+    "client": "Klient",
     "viewDetails": "Zobraziť Podrobnosti",
     "addToCart": "Pridať do Košíka",
     "inStock": "Na Sklade",
@@ -16,6 +18,8 @@
     "followUs": "Sledujte nás"
   },
   "navigation": {
+    "resenas": "Recenzie",
+    "language": "Jazyk",
     "home": "Domov",
     "products": "Produkty",
     "brands": "Naše Značky",
@@ -144,6 +148,8 @@
     "taxShippingNote": "Presné prepravné náklady budú potvrdené pri dokončení objednávky."
   },
   "checkout": {
+    "passwordRequiredError": "Heslo musí mať aspoň 6 znakov",
+    "subtitle": "Dokončite svoj exkluzívny výber nábytku a interiérového dizajnu.",
     "completeOrder": "Dokončite svoju objednávku",
     "contactAndDelivery": "Kontaktné údaje a adresa doručenia",
     "orderSummary": "Zhrnutie objednávky",
@@ -172,6 +178,10 @@
     "country": "Krajina"
   },
   "account": {
+    "errorUpdatingAvatar": "Chyba pri aktualizácii profilovej fotky",
+    "errorUpdatingProfile": "Chyba pri aktualizácii profilu",
+    "errorChangingPassword": "Chyba pri zmene hesla",
+    "viewOrders": "Zobraziť Moje Objednávky",
     "title": "Môj Účet",
     "profile": "Profil",
     "orders": "Objednávky",
@@ -237,6 +247,7 @@
     "recently": "nedávno"
   },
   "auth": {
+    "welcomeBack": "Vitajte späť",
     "signInTitle": "Prihlásenie",
     "signInSubtitle": "Prístup k vášmu zákazníckemu účtu MuraHomes",
     "signUpTitle": "Registrácia",
@@ -314,13 +325,13 @@
     "productMessage": "Dobrý deň, zaujal ma produkt {productName} ({productUrl}). Mohli by ste mi poskytnúť bližšie informácie?"
   },
   "newsletter": {
-    "badge": "Zostaňte v kontakte",
+    "badge": "Exkluzívny Newsletter",
+    "subscribe": "Odoberať",
+    "toastTitle": "Odber potvrdený!",
+    "toastDesc": "Ďakujeme za prihlásenie na odber nášho newslettera.",
     "title": "Pripojte sa k MuraHomes",
     "subtitle": "Získajte prednostný prístup k novým kolekciám a dizajnovým inšpiráciám.",
     "placeholder": "Váš e-mail...",
-    "subscribe": "Odoberať",
-    "toastTitle": "Prihlásené!",
-    "toastDesc": "Ďakujeme za prihlásenie k odberu noviniek MuraHomes.",
     "button": "Odoberať",
     "success": "Úspešne prihlásený na odber!"
   },
@@ -336,6 +347,8 @@
     "rights": "Všetky práva vyhradené."
   },
   "seo": {
+    "notFoundTitle": "Stránka nenájdená | MuraHomes",
+    "notFoundDescription": "Stránka, ktorú hľadáte, neexistuje alebo bola presunutá.",
     "homeTitle": "MuraHomes | Buy Furniture Online & Designer Home Decor",
     "homeDescription": "Shop furniture online at MuraHomes: sofas, armchairs, dining tables, chairs, bedrooms, wardrobes, and lighting. Discover designer furniture for every space.",
     "aboutTitle": "About MuraHomes – Affordable Furniture & International Design",

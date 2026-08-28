@@ -1,5 +1,7 @@
 {
   "common": {
+    "error": "Errore",
+    "client": "Cliente",
     "viewDetails": "Dettagli",
     "addToCart": "Aggiungi al Carrello",
     "inStock": "Disponibile",
@@ -16,6 +18,8 @@
     "followUs": "Seguici"
   },
   "navigation": {
+    "resenas": "Recensioni",
+    "language": "Lingua",
     "home": "Home",
     "products": "Prodotti",
     "brands": "I Nostri Brand",
@@ -144,6 +148,8 @@
     "taxShippingNote": "Imposte e spedizione finalizzate durante la consulenza di design."
   },
   "checkout": {
+    "passwordRequiredError": "La password deve contenere almeno 6 caratteri",
+    "subtitle": "Completa la tua selezione esclusiva di arredi e design.",
     "completeOrder": "Completa il tuo ordine",
     "contactAndDelivery": "Dettagli di contatto e consegna",
     "orderSummary": "Riepilogo dell'ordine",
@@ -172,6 +178,10 @@
     "country": "Nazione"
   },
   "account": {
+    "errorUpdatingAvatar": "Errore durante l’aggiornamento dell’immagine del profilo",
+    "errorUpdatingProfile": "Errore durante l’aggiornamento del profilo",
+    "errorChangingPassword": "Errore durante la modifica della password",
+    "viewOrders": "Visualizza I Miei Ordini",
     "title": "Il Mio Profilo",
     "profile": "Profilo",
     "orders": "Ordini & Preventivi",
@@ -237,6 +247,7 @@
     "recently": "recentemente"
   },
   "auth": {
+    "welcomeBack": "Bentornato",
     "signInTitle": "Accedi",
     "signInSubtitle": "Accedi al tuo spazio riservato MuraHomes",
     "signUpTitle": "Crea un Account",
@@ -314,6 +325,10 @@
     "productMessage": "Ciao, sono interessato al prodotto {productName} ({productUrl}). Potreste darmi maggiori informazioni?"
   },
   "newsletter": {
+    "badge": "Newsletter Esclusiva",
+    "subscribe": "Iscriviti",
+    "toastTitle": "Iscrizione confermata!",
+    "toastDesc": "Grazie per esserti iscritto alla nostra newsletter esclusiva.",
     "title": "Entra nel Circolo MuraHomes",
     "subtitle": "Ricevi anteprime esclusive sulle nuove collezioni ed eventi privati.",
     "placeholder": "Il tuo indirizzo email...",
@@ -332,6 +347,8 @@
     "rights": "Tutti i diritti riservati."
   },
   "seo": {
+    "notFoundTitle": "Pagina non trovata | MuraHomes",
+    "notFoundDescription": "La pagina che stai cercando non esiste o è stata spostata.",
     "homeTitle": "MuraHomes | Acquista Mobili Online e Arredamento di Design",
     "homeDescription": "Acquista mobili online su MuraHomes: divani, poltrone, tavoli, sedie, camere da letto, armadi e illuminazione. Scopri l'arredamento di design per ogni spazio.",
     "aboutTitle": "Chi Siamo – MuraHomes | Mobili Esclusivi e Design Internazionale",

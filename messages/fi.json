@@ -1,5 +1,7 @@
 {
   "common": {
+    "error": "Virhe",
+    "client": "Asiakas",
     "viewDetails": "Näytä Tiedot",
     "addToCart": "Lisää Ostoskoriin",
     "inStock": "Varastossa",
@@ -16,6 +18,8 @@
     "followUs": "Seuraa meitä"
   },
   "navigation": {
+    "resenas": "Arvostelut",
+    "language": "Kieli",
     "home": "Etusivu",
     "products": "Tuotteet",
     "brands": "Brändimme",
@@ -144,6 +148,8 @@
     "taxShippingNote": "Lopulliset toimituskulut vahvistetaan tilauksen yhteydessä."
   },
   "checkout": {
+    "passwordRequiredError": "Salasanan on oltava vähintään 6 merkkiä",
+    "subtitle": "Viimeistele ylellinen huonekalu- ja sisustusvalikoimasi.",
     "completeOrder": "Viimeistele tilauksesi",
     "contactAndDelivery": "Yhteys- ja toimitustiedot",
     "orderSummary": "Tilauksen yhteenveto",
@@ -172,6 +178,10 @@
     "country": "Maa"
   },
   "account": {
+    "errorUpdatingAvatar": "Virhe profiilikuvan päivityksessä",
+    "errorUpdatingProfile": "Virhe profiilin päivityksessä",
+    "errorChangingPassword": "Virhe salasanan vaihtamisessa",
+    "viewOrders": "Näytä Tilaukseni",
     "title": "Oma Tili",
     "profile": "Profiili",
     "orders": "Tilaukset",
@@ -237,6 +247,7 @@
     "recently": "äskettäin"
   },
   "auth": {
+    "welcomeBack": "Tervetuloa takaisin",
     "signInTitle": "Kirjaudu Sisään",
     "signInSubtitle": "Käytä henkilökohtaista MuraHomes-asiakasportaaliasi",
     "signUpTitle": "Luo Tili",
@@ -314,13 +325,13 @@
     "productMessage": "Hei, olen kiinnostunut tuotteesta {productName} ({productUrl}). Voisitteko antaa lisätietoja?"
   },
   "newsletter": {
-    "badge": "Pysy ajan tasalla",
+    "badge": "Eksklusiivinen Uutiskirje",
+    "subscribe": "Tilaa",
+    "toastTitle": "Tilaus vahvistettu!",
+    "toastDesc": "Kiitos uutiskirjeemme tilaamisesta.",
     "title": "Liity MuraHomes-piiriin",
     "subtitle": "Vastaanota eksklusiivisia ennakkokatsauksia uutuuskokoelmista ja kutsuja tapahtumiin.",
     "placeholder": "Kirjoita sähköpostiosoitteesi...",
-    "subscribe": "Tilaa",
-    "toastTitle": "Tilattu!",
-    "toastDesc": "Kiitos MuraHomes-yhteisöön liittymisestä.",
     "button": "Tilaa",
     "success": "Tilaus onnistui!"
   },
@@ -336,6 +347,8 @@
     "rights": "Kaikki oikeudet pidätetään."
   },
   "seo": {
+    "notFoundTitle": "Sivua ei löytynyt | MuraHomes",
+    "notFoundDescription": "Etsimääsi sivua ei ole olemassa tai se on siirretty.",
     "homeTitle": "MuraHomes | Osta Design-huonekaluja Verkosta ja Ylellistä Sisustusta",
     "homeDescription": "Osta huonekaluja verkosta MuraHomesilta: sohvat, nojatuolit, ruokapöydät, tuolit, makuuhuoneet, vaatekaapit ja valaisimet. Tutustu ylellisiin design-huonekaluihin.",
     "aboutTitle": "Tietoa MuraHomesista – Ylelliset Huonekalut ja Kansainvälinen Muotoilu",

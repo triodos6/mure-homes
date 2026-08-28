@@ -1,5 +1,7 @@
 {
   "common": {
+    "error": "Klaida",
+    "client": "Klientas",
     "viewDetails": "Peržiūrėti",
     "addToCart": "Į krepšelį",
     "inStock": "Turime sandėlyje",
@@ -16,6 +18,8 @@
     "followUs": "Sekite mus"
   },
   "navigation": {
+    "resenas": "Atsiliepimai",
+    "language": "Kalba",
     "home": "Pradžia",
     "products": "Produktai",
     "brands": "Mūsų Prekių Ženklai",
@@ -144,6 +148,8 @@
     "taxShippingNote": "Mokesčiai ir pristatymas galutinai suderinami konsultacijos metu."
   },
   "checkout": {
+    "passwordRequiredError": "Slaptažodis turi būti bent 6 simbolių",
+    "subtitle": "Užbaikite savo išskirtinį baldų ir interjero dizaino pasirinkimą.",
     "completeOrder": "Užbaikite savo užsakymą",
     "contactAndDelivery": "Kontaktinė ir pristatymo informacija",
     "orderSummary": "Užsakymo suvestinė",
@@ -172,6 +178,10 @@
     "country": "Šalis"
   },
   "account": {
+    "errorUpdatingAvatar": "Klaida atnaujinant profilio nuotrauką",
+    "errorUpdatingProfile": "Klaida atnaujinant profilį",
+    "errorChangingPassword": "Klaida keičiant slaptažodį",
+    "viewOrders": "Peržiūrėti Mano Užsakymus",
     "title": "Mano Paskyra",
     "profile": "Profilis",
     "orders": "Užsakymai ir Užklausos",
@@ -237,6 +247,7 @@
     "recently": "neseniai"
   },
   "auth": {
+    "welcomeBack": "Sveiki sugrįžę",
     "signInTitle": "Prisijungti",
     "signInSubtitle": "Prisijunkite prie asmeninės MuraHomes paskyros",
     "signUpTitle": "Sukurti Paskyrą",
@@ -314,6 +325,10 @@
     "productMessage": "Sveiki, mane domina produktas {productName} ({productUrl}). Ar galėtumėte suteikti daugiau informacijos?"
   },
   "newsletter": {
+    "badge": "Išskirtinis Naujienlaiškis",
+    "subscribe": "Prenumeruoti",
+    "toastTitle": "Prenumerata patvirtinta!",
+    "toastDesc": "Dėkojame, kad užsiprenumeravote mūsų naujienlaiškį.",
     "title": "Prisijunkite prie MuraHomes Klubo",
     "subtitle": "Gaukite išskirtines naujų kolekcijų apžvalgas ir kvietimus į renginius.",
     "placeholder": "Jūsų el. pašto adresas...",
@@ -332,6 +347,8 @@
     "rights": "Visos teisės saugomos."
   },
   "seo": {
+    "notFoundTitle": "Puslapis nerastas | MuraHomes",
+    "notFoundDescription": "Puslapis, kurio ieškote, neegzistuoja arba buvo perkeltas.",
     "homeTitle": "MuraHomes | Pirkite Baldus Internetu ir Dizainerių Namų Dekoras",
     "homeDescription": "Pirkite baldus internetu MuraHomes: sofos, foteliai, stalai, kėdės, miegamieji, spintos ir apšvietimas. Atraskite dizainerių baldus kiekvienai erdvei.",
     "aboutTitle": "Apie MuraHomes – Prieinami Baldai ir Tarptautinis Dizainas",

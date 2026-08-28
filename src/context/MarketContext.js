@@ -16,21 +16,35 @@ const MarketContext = createContext({
 
 export function MarketProvider({ children, initialMarketCode = DEFAULT_MARKET }) {
   const { locale } = useI18n();
+
+  // Canonical market corresponding to the active route locale
+  const routeMarket = useMemo(() => getMarketForLocale(locale), [locale]);
+  const defaultMarketForRoute = routeMarket?.countryCode || initialMarketCode || DEFAULT_MARKET;
+
   const [marketCode, setMarketCodeState] = useState(() => {
-    return initialMarketCode || DEFAULT_MARKET;
+    return initialMarketCode || defaultMarketForRoute;
   });
 
   useEffect(() => {
     try {
-      // Allow user's explicit saved market preference if set manually via a country selector
       const saved = localStorage.getItem('murahomes_market');
+      // If the user explicitly saved a market that corresponds to the active locale, preserve it
       if (saved && MARKETS[saved]) {
-        setTimeout(() => {
-          setMarketCodeState(saved);
-        }, 0);
+        const savedMarket = MARKETS[saved];
+        if (savedMarket.defaultLocale === locale) {
+          if (marketCode !== saved) {
+            setMarketCodeState(saved);
+          }
+          return;
+        }
+      }
+      // Otherwise, the active route locale dictates the market cleanly without double re-render
+      if (defaultMarketForRoute && marketCode !== defaultMarketForRoute) {
+        setMarketCodeState(defaultMarketForRoute);
+        localStorage.setItem('murahomes_market', defaultMarketForRoute);
       }
     } catch { }
-  }, []);
+  }, [locale, defaultMarketForRoute, marketCode]);
 
   const setMarketCode = useCallback((newMarketCode) => {
     const validMarket = getMarket(newMarketCode);

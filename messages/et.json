@@ -1,5 +1,7 @@
 {
   "common": {
+    "error": "Viga",
+    "client": "Klient",
     "viewDetails": "Vaata Detaile",
     "addToCart": "Lisa Ostukorvi",
     "inStock": "Laos Olemas",
@@ -16,6 +18,8 @@
     "followUs": "Jälgi meid"
   },
   "navigation": {
+    "resenas": "Arvustused",
+    "language": "Keel",
     "home": "Avaleht",
     "products": "Tooted",
     "brands": "Meie Brändid",
@@ -144,6 +148,8 @@
     "taxShippingNote": "Lõplikud tarnekulud kinnitatakse tellimuse vormistamisel."
   },
   "checkout": {
+    "passwordRequiredError": "Parool peab olema vähemalt 6 tähemärki pikk",
+    "subtitle": "Lõpetage oma eksklusiivne mööbli ja sisekujunduse valik.",
     "completeOrder": "Viige oma tellimus lõpule",
     "contactAndDelivery": "Kontakt- ja tarneandmed",
     "orderSummary": "Tellimuse kokkuvõte",
@@ -172,6 +178,10 @@
     "country": "Riik"
   },
   "account": {
+    "errorUpdatingAvatar": "Viga profiilipildi uuendamisel",
+    "errorUpdatingProfile": "Viga profiili uuendamisel",
+    "errorChangingPassword": "Viga parooli muutmisel",
+    "viewOrders": "Vaata Minu Tellimusi",
     "title": "Minu Konto",
     "profile": "Profiil",
     "orders": "Tellimused",
@@ -237,6 +247,7 @@
     "recently": "hiljuti"
   },
   "auth": {
+    "welcomeBack": "Tere tulemast tagasi",
     "signInTitle": "Logi Sisse",
     "signInSubtitle": "Ligipääs MuraHomesi kliendiportaalile",
     "signUpTitle": "Loo Konto",
@@ -314,13 +325,13 @@
     "productMessage": "Tere! Olen huvitatud tootest {productName} ({productUrl}). Kas saaksite anda lisateavet?"
   },
   "newsletter": {
-    "badge": "Ole kursis",
+    "badge": "Eksklusiivne Uudiskiri",
+    "subscribe": "Telli",
+    "toastTitle": "Tellimus kinnitatud!",
+    "toastDesc": "Täname, et tellisite meie eksklusiivse uudiskirja.",
     "title": "Liitu MuraHomesi Kogukonnaga",
     "subtitle": "Saage eksklusiivseid eelvaateid uutest kollektsioonidest ja kutseid üritustele.",
     "placeholder": "Sinu e-post...",
-    "subscribe": "Telli",
-    "toastTitle": "Tellimus kinnitatud!",
-    "toastDesc": "Täname MuraHomesiga liitumast.",
     "button": "Telli",
     "success": "Edukalt tellitud!"
   },
@@ -336,6 +347,8 @@
     "rights": "Kõik õigused kaitstud."
   },
   "seo": {
+    "notFoundTitle": "Lehte ei leitud | MuraHomes",
+    "notFoundDescription": "Otsitud lehte ei eksisteeri või see on teisaldatud.",
     "homeTitle": "MuraHomes | Buy Furniture Online & Designer Home Decor",
     "homeDescription": "Shop furniture online at MuraHomes: sofas, armchairs, dining tables, chairs, bedrooms, wardrobes, and lighting. Discover designer furniture for every space.",
     "aboutTitle": "About MuraHomes – Affordable Furniture & International Design",

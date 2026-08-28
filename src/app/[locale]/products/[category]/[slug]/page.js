@@ -127,13 +127,6 @@ export default async function LocalizedProductPage({ params }) {
   const categoryName = t(`categories.${category}`) || categoryData?.name || product.category;
   const canonicalUrl = `${SITE_URL}/${locale}/products/${category}/${slug}`;
 
-  // Currency formatter
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat(locale === 'en' ? 'en-GB' : `${locale}-${locale.toUpperCase()}`, {
-      style: 'currency',
-      currency: 'EUR',
-    }).format(price);
-  };
 
   // Product Schema JSON-LD
   const productJsonLd = generateProductSchema({ product, locale, categoryName });

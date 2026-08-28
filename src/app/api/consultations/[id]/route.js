@@ -204,8 +204,10 @@ export async function POST(request, { params }) {
       try {
         await transporter.sendMail({
           from: `"MuraHomes" <${emailUser}>`,
+          replyTo: emailUser,
           to: consultation.customerEmail,
           subject: emailSubject,
+          text: `MuraHomes - ${emailHeaderTag}\n\n${emailGreeting}\n${emailBody}\n\n${txtTotalAmount}: ${formatPrice(consultation.totalPrice, currency, locale)}\n\nDescargar Factura: ${invoiceUrl}`,
           html: emailHtml,
           attachments,
         });

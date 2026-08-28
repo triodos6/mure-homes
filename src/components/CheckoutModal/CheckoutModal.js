@@ -12,7 +12,7 @@ import { EUROPEAN_COUNTRIES } from '@/lib/markets/config';
 
 export default function CheckoutModal({ open, onClose, cart, cartTotal, onSuccess }) {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, refetch } = useAuth();
   const { formatPrice, currency, resolvePrice, marketCode } = useMarket();
   const { t, locale, getLocalizedHref } = useI18n();
 
@@ -104,6 +104,10 @@ export default function CheckoutModal({ open, onClose, cart, cartTotal, onSucces
       });
       if (data.accountCreated) {
         event('CompleteRegistration', { status: true });
+      }
+
+      if (!user && form.password) {
+        await refetch();
       }
 
       onSuccess?.();

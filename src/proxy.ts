@@ -116,18 +116,18 @@ export async function proxy(request: NextRequest) {
   const geo = getVercelGeoHeaders(request);
   console.log('[GEO] => ', geo);
 
-  // Automatic Locale Redirection on Root '/'
-  if (pathname === '/') {
+  // Automatic Locale Redirection
+  if (locale === 'es') {
     const cookieLocale = request.cookies.get('murahomes_locale')?.value;
     if (cookieLocale && cookieLocale !== 'es' && SUPPORTED_LOCALES.includes(cookieLocale)) {
-      const redirectUrl = new URL(`/${cookieLocale}`, request.url);
+      const redirectUrl = new URL(`/${cookieLocale}${pathname === '/' ? '' : pathname}`, request.url);
       return NextResponse.redirect(redirectUrl);
     }
 
     if (!cookieLocale) {
       const detectedLocale = detectLocaleFromRequest(request);
       if (detectedLocale !== 'es') {
-        const redirectUrl = new URL(`/${detectedLocale}`, request.url);
+        const redirectUrl = new URL(`/${detectedLocale}${pathname === '/' ? '' : pathname}`, request.url);
         const response = NextResponse.redirect(redirectUrl);
         response.cookies.set('murahomes_locale', detectedLocale, { path: '/', maxAge: 31536000, sameSite: 'lax' });
         return response;

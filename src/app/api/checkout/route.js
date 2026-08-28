@@ -2,8 +2,9 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import nodemailer from 'nodemailer';
 import prisma from '@/lib/prisma';
-import { formatPrice } from '@/lib/currency/currency-service';
+import { formatPrice, resolveProductPrice } from '@/lib/currency/currency-service';
 import { getMessages, getMessage } from '@/i18n/get-messages';
+import { signToken, setAuthCookie } from '@/lib/auth';
 
 export async function POST(request) {
   try {
@@ -23,7 +24,6 @@ export async function POST(request) {
       market = 'ES',
       marketCode,
       currency = 'EUR',
-      totalAmount,
     } = body;
 
     const finalMarket = country || marketCode || market || 'ES';
@@ -38,13 +38,16 @@ export async function POST(request) {
     // Create user account or verify existing
     const existingUser = await prisma.user.findUnique({ where: { email } });
     let accountCreated = false;
+    let userIdForToken = existingUser?.id;
+    let userRoleForToken = existingUser?.role || 'USER';
+
     if (!existingUser) {
       if (!password) {
         return NextResponse.json({ error: 'Se requiere una contraseña para crear tu cuenta' }, { status: 400 });
       }
       const hashedPassword = await bcrypt.hash(password, 10);
       const nameParts = (name || '').trim().split(' ');
-      await prisma.user.create({
+      const newUser = await prisma.user.create({
         data: {
           email,
           password: hashedPassword,
@@ -57,6 +60,7 @@ export async function POST(request) {
         },
       });
       accountCreated = true;
+      userIdForToken = newUser.id;
     } else if (password) {
       if (existingUser.password) {
         const valid = await bcrypt.compare(password, existingUser.password);
@@ -70,7 +74,7 @@ export async function POST(request) {
     const productIds = cart.map(item => item.id);
     const dbProducts = await prisma.product.findMany({
       where: { id: { in: productIds } },
-      select: { id: true, name: true, translations: true }
+      select: { id: true, name: true, price: true, marketPrices: true, translations: true }
     });
     const productMap = {};
     dbProducts.forEach(p => productMap[p.id] = p);
@@ -78,10 +82,13 @@ export async function POST(request) {
     const snapshotItems = cart.map((item) => {
       const dbProd = productMap[item.id];
       const translatedName = dbProd?.translations?.[locale]?.name || dbProd?.name || item.name;
+      
+      const resolved = resolveProductPrice(dbProd, finalMarket, currency);
+
       return {
         productId: item.id,
         productNameSnapshot: translatedName,
-        unitPriceSnapshot: item.price,
+        unitPriceSnapshot: resolved.price,
         quantity: item.quantity,
         brand: item.brand,
         category: item.category,
@@ -91,9 +98,7 @@ export async function POST(request) {
       };
     });
 
-    const computedTotal = Number(totalAmount) > 0 
-      ? Number(totalAmount) 
-      : cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const computedTotal = snapshotItems.reduce((sum, item) => sum + item.unitPriceSnapshot * item.quantity, 0);
 
     const savedInquiry = await prisma.consultation.create({
       data: {
@@ -201,8 +206,10 @@ export async function POST(request) {
       }
       await transporter.sendMail({
         from: `"MuraHomes" <${process.env.EMAIL_USER}>`,
+        replyTo: process.env.EMAIL_USER,
         to: recipients,
         subject: emailSubject,
+        text: `MuraHomes - ${emailHeaderTag}\n\n${emailGreeting}\n${emailBody}\n\n${txtTotal}: ${formattedTotal}`,
         html: emailHtml,
       });
       emailSent = true;
@@ -210,13 +217,27 @@ export async function POST(request) {
       console.error('Nodemailer Error sending checkout confirmation:', mailError.message || mailError);
     }
 
-    return NextResponse.json({
+    const responsePayload = {
       success: true,
       message: emailSent ? 'Order placed and confirmation sent.' : 'Order placed but email delivery failed.',
       inquiryId: savedInquiry.id,
       accountCreated,
       emailSent,
-    });
+    };
+
+    let response = NextResponse.json(responsePayload);
+
+    // If password was provided, the user either created an account or logged in as a guest
+    if (password && userIdForToken) {
+      const token = await signToken({
+        userId: userIdForToken,
+        email: email,
+        role: userRoleForToken,
+      });
+      response = await setAuthCookie(response, token);
+    }
+
+    return response;
   } catch (error) {
     console.error('Checkout Error:', error);
     return NextResponse.json({ error: 'System error during checkout' }, { status: 500 });

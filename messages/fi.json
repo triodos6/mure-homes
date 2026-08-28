@@ -320,7 +320,9 @@
     "placeholder": "Kirjoita sähköpostiosoitteesi...",
     "subscribe": "Tilaa",
     "toastTitle": "Tilattu!",
-    "toastDesc": "Kiitos MuraHomes-yhteisöön liittymisestä."
+    "toastDesc": "Kiitos MuraHomes-yhteisöön liittymisestä.",
+    "button": "Tilaa",
+    "success": "Tilaus onnistui!"
   },
   "footer": {
     "description": "Ainutlaatuisten välimerellisten designhuonekalujen ja ajattoman sisustusarkkitehtuurin kuraattorit.",
@@ -565,12 +567,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Tilauksesi #{{id}} - MuraHomes",
-    "orderGreeting": "Hei {{name}},",
-    "orderReceived": "Olemme vastaanottaneet tilauksesi ja käsittelemme sitä.",
-    "orderDetails": "Tilauksen tiedot",
-    "invoiceSubject": "Virallinen lasku - Tilaus #{{id}} - MuraHomes",
-    "invoiceAttached": "Virallinen laskusi on tämän sähköpostin liitteenä.",
-    "questions": "Jos sinulla on kysyttävää, ota meihin yhteyttä."
+    "orderConfirmation": {
+      "subject": "Tilaustiedustelu #{orderNum} | MuraHomes",
+      "headerTag": "Tiedustelu / Tilaus #{orderNum}",
+      "greeting": "Hyvä {name},",
+      "body": "Vahvistamme, että olemme saaneet suunnitteluvalintasi. Kiitos, että valitsit MuraHomesin. Tiimimme ottaa sinuun pian yhteyttä täydellisten toimitustietojen kera.",
+      "selectionSummary": "Valinnan yhteenveto",
+      "qty": "Määrä",
+      "total": "Yhteensä",
+      "deliveryDetails": "Toimitustiedot",
+      "address": "Osoite",
+      "regionState": "Alue / Maakunta",
+      "postalCode": "Postinumero",
+      "marketCountry": "Markkina / Maa",
+      "phone": "Puhelin"
+    },
+    "invoice": {
+      "subject": "Laskusi tilaukselle #{orderNum} on valmis | MuraHomes",
+      "headerTag": "Lasku valmis — Tilaus #{orderNum}",
+      "greeting": "Hyvä {name},",
+      "body": "Laskusi tilaukselle #{orderNum} on nyt valmis. Löydät sen liitteenä tästä sähköpostista ja saatavilla alla olevan painikkeen kautta.",
+      "importantDetailsTitle": "Tärkeitä tietoja tilauksestasi:",
+      "paymentMethodLabel": "Maksutapa:",
+      "paymentMethodDesc": "Maksu suoritetaan pankkisiirrolla ja kaikki tarvittavat tiedot sisältyvät liitteenä olevaan laskuun.",
+      "shippingLabel": "Toimitus:",
+      "shippingDesc": "Toimitus alkaa, kun maksuvahvistus on saatu. Lähetä kopio siirtokuitista, jotta voimme jatkaa lähetystä mahdollisimman pian.",
+      "orderSummary": "Tilauksen yhteenveto",
+      "qty": "Määrä",
+      "totalAmount": "Yhteissumma",
+      "downloadInvoice": "Lataa lasku",
+      "questionsNote": "Jos sinulla on kysyttävää, ota meihin yhteyttä osoitteeseen info@mura-homes.com"
+    }
   }
 }

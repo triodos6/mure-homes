@@ -82,7 +82,9 @@
     "securePaymentsSub": "100% Védelem",
     "support247": "24/7 Concierge Ügyfélszolgálat",
     "support247Sub": "Személyre szabott segítség",
-    "emptyProducts": "A termékek itt jelennek meg, miután hozzáadták őket az adminisztrációs felületről."
+    "emptyProducts": "A termékek itt jelennek meg, miután hozzáadták őket az adminisztrációs felületről.",
+    "heroTitle": "Művészet. Dizájn. Otthon.",
+    "heroDescription": "A MuraHomes elhozza a dizájn kiválóságát az Ön életterébe."
   },
   "products": {
     "catalogTitle": "Luxus Bútorkatalógus",
@@ -318,7 +320,9 @@
     "placeholder": "Az Ön e-mail címe...",
     "subscribe": "Feliratkozás",
     "toastTitle": "Sikeres feliratkozás!",
-    "toastDesc": "Köszönjük, hogy csatlakozott a MuraHomes közösségéhez."
+    "toastDesc": "Köszönjük, hogy csatlakozott a MuraHomes közösségéhez.",
+    "button": "Feliratkozás",
+    "success": "Sikeres feliratkozás!"
   },
   "footer": {
     "description": "Kivételes mediterrán bútorok és időtálló belsőépítészeti megoldások kuraátora.",
@@ -563,12 +567,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Az Ön rendelése #{{id}} - MuraHomes",
-    "orderGreeting": "Kedves {{name}},",
-    "orderReceived": "Megkaptuk a rendelését, és már feldolgozás alatt áll.",
-    "orderDetails": "Rendelés részletei",
-    "invoiceSubject": "Hivatalos számla - Rendelés #{{id}} - MuraHomes",
-    "invoiceAttached": "A hivatalos számlát csatoltuk ehhez az e-mailhez.",
-    "questions": "Ha bármilyen kérdése van, kérjük, lépjen velünk kapcsolatba."
+    "orderConfirmation": {
+      "subject": "Rendelési érdeklődés #{orderNum} | MuraHomes",
+      "headerTag": "Érdeklődés / Rendelés #{orderNum}",
+      "greeting": "Kedves {name},",
+      "body": "Megerősítjük, hogy megkaptuk a dizájn kiválasztását. Köszönjük, hogy a MuraHomes-t választotta. Csapatunk hamarosan felveszi Önnel a kapcsolatot a teljes szállítási részletekkel.",
+      "selectionSummary": "Kiválasztás Összegzése",
+      "qty": "Menny.",
+      "total": "Összesen",
+      "deliveryDetails": "Szállítási részletek",
+      "address": "Cím",
+      "regionState": "Régió / Megye",
+      "postalCode": "Irányítószám",
+      "marketCountry": "Piac / Ország",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "A #{orderNum} rendelésének számlája elkészült | MuraHomes",
+      "headerTag": "Számla Kész — Rendelés #{orderNum}",
+      "greeting": "Kedves {name},",
+      "body": "A #{orderNum} rendelésének számlája most már kész. Megtalálja ehhez az e-mailhez csatolva, és az alábbi gomb segítségével is elérhető.",
+      "importantDetailsTitle": "Fontos részletek a rendelésével kapcsolatban:",
+      "paymentMethodLabel": "Fizetési mód:",
+      "paymentMethodDesc": "A fizetés banki átutalással történik, és minden szükséges adat megtalálható a mellékelt számlán.",
+      "shippingLabel": "Szállítás:",
+      "shippingDesc": "A szállítás a fizetés megerősítésének beérkezése után kezdődik meg. Kérjük, küldjön egy másolatot az átutalási bizonylatról, hogy a lehető leghamarabb megkezdhessük a kiszállítást.",
+      "orderSummary": "Rendelés Összegzése",
+      "qty": "Menny.",
+      "totalAmount": "Teljes Összeg",
+      "downloadInvoice": "Számla letöltése",
+      "questionsNote": "Ha bármilyen kérdése van, kérjük, lépjen velünk kapcsolatba az info@mura-homes.com címen."
+    }
   }
 }

@@ -82,7 +82,9 @@
     "securePaymentsSub": "100% Zaštićeno",
     "support247": "Podrška 24/7",
     "support247Sub": "Posvećena usluga",
-    "emptyProducts": "Proizvodi će se pojaviti ovdje kada se dodaju iz administrativne ploče."
+    "emptyProducts": "Proizvodi će se pojaviti ovdje kada se dodaju iz administrativne ploče.",
+    "heroTitle": "Umjetnost. Dizajn. Dom.",
+    "heroDescription": "MuraHomes donosi izvrsnost dizajna u vaš životni prostor."
   },
   "products": {
     "catalogTitle": "Katalog Luksuznog Namještaja",
@@ -318,7 +320,9 @@
     "placeholder": "Vaša e-mail adresa...",
     "subscribe": "Pretplati se",
     "toastTitle": "Uspješna prijava!",
-    "toastDesc": "Hvala vam što ste se pridružili MuraHomes zajednici."
+    "toastDesc": "Hvala vam što ste se pridružili MuraHomes zajednici.",
+    "button": "Pretplati se",
+    "success": "Uspješno pretplaćeno!"
   },
   "footer": {
     "description": "Kuratori izuzetnog mediteranskog namještaja i bezvremenske arhitekture interijera.",
@@ -563,12 +567,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Vaša narudžba #{{id}} - MuraHomes",
-    "orderGreeting": "Poštovani/a {{name}},",
-    "orderReceived": "Primili smo vašu narudžbu i trenutno je obrađujemo.",
-    "orderDetails": "Detalji narudžbe",
-    "invoiceSubject": "Službeni račun - Narudžba #{{id}} - MuraHomes",
-    "invoiceAttached": "Vaš službeni račun nalazi se u privitku ovog e-maila.",
-    "questions": "Ako imate pitanja, slobodno nas kontaktirajte."
+    "orderConfirmation": {
+      "subject": "Upit za narudžbu #{orderNum} | MuraHomes",
+      "headerTag": "Upit / Narudžba #{orderNum}",
+      "greeting": "Poštovani/a {name},",
+      "body": "Potvrđujemo da smo primili vaš izbor dizajna. Hvala vam što ste odabrali MuraHomes. Naš tim će vas uskoro kontaktirati s potpunim detaljima isporuke.",
+      "selectionSummary": "Sažetak izbora",
+      "qty": "Kol.",
+      "total": "Ukupno",
+      "deliveryDetails": "Detalji isporuke",
+      "address": "Adresa",
+      "regionState": "Regija / Županija",
+      "postalCode": "Poštanski broj",
+      "marketCountry": "Tržište / Država",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Vaš račun za narudžbu #{orderNum} je spreman | MuraHomes",
+      "headerTag": "Račun je spreman — Narudžba #{orderNum}",
+      "greeting": "Poštovani/a {name},",
+      "body": "Vaš račun za narudžbu #{orderNum} je sada spreman. Naći ćete ga u privitku ove e-pošte i dostupan putem gumba ispod.",
+      "importantDetailsTitle": "Važni detalji u vezi vaše narudžbe:",
+      "paymentMethodLabel": "Način plaćanja:",
+      "paymentMethodDesc": "Plaćanje se vrši bankovnom doznakom i svi potrebni podaci nalaze se u priloženom računu.",
+      "shippingLabel": "Dostava:",
+      "shippingDesc": "Isporuka će započeti nakon primitka potvrde o plaćanju. Molimo pošaljite kopiju potvrde o prijenosu kako bismo što prije nastavili s otpremom.",
+      "orderSummary": "Sažetak narudžbe",
+      "qty": "Kol.",
+      "totalAmount": "Ukupni iznos",
+      "downloadInvoice": "Preuzmi račun",
+      "questionsNote": "Ako imate bilo kakvih pitanja, kontaktirajte nas na info@mura-homes.com"
+    }
   }
 }

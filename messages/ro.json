@@ -82,7 +82,9 @@
     "securePaymentsSub": "100% Sigur",
     "support247": "Suport Concierge 24/7",
     "support247Sub": "Consiliere dedicată",
-    "emptyProducts": "Produsele vor apărea aici după ce vor fi adăugate din panoul de administrare."
+    "emptyProducts": "Produsele vor apărea aici după ce vor fi adăugate din panoul de administrare.",
+    "heroTitle": "Artă. Design. Acasă.",
+    "heroDescription": "MuraHomes aduce excelența designului în spațiul tău de viață."
   },
   "products": {
     "catalogTitle": "Catalog Mobilier de Lux",
@@ -318,7 +320,9 @@
     "placeholder": "Adresa ta de email...",
     "subscribe": "Abonează-te",
     "toastTitle": "Abonat cu succes!",
-    "toastDesc": "Vă mulțumim că v-ați alăturat comunității MuraHomes."
+    "toastDesc": "Vă mulțumim că v-ați alăturat comunității MuraHomes.",
+    "button": "Abonare",
+    "success": "Te-ai abonat cu succes!"
   },
   "footer": {
     "description": "Curatori de mobilier mediteranean excepțional și arhitectură de interior atemporală.",

@@ -82,7 +82,9 @@
     "securePaymentsSub": "100% Skyddat",
     "support247": "24/7 Kundservice",
     "support247Sub": "Personlig rådgivning",
-    "emptyProducts": "Produkter visas här när de har lagts till via administrationspanelen."
+    "emptyProducts": "Produkter visas här när de har lagts till via administrationspanelen.",
+    "heroTitle": "Konst. Design. Hem.",
+    "heroDescription": "MuraHomes ger designexcellens till ditt vardagsrum."
   },
   "products": {
     "catalogTitle": "Katalog över Lyxmöbler",
@@ -318,7 +320,9 @@
     "placeholder": "Ange din e-postadress...",
     "subscribe": "Prenumerera",
     "toastTitle": "Prenumeration bekräftad!",
-    "toastDesc": "Tack för att du prenumererar på MuraHomes."
+    "toastDesc": "Tack för att du prenumererar på MuraHomes.",
+    "button": "Prenumerera",
+    "success": "Prenumerationen lyckades!"
   },
   "footer": {
     "description": "Kuratorer av exceptionella medelhavsmöbler och tidlös inredningsarkitektur.",
@@ -563,12 +567,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Din beställning #{{id}} - MuraHomes",
-    "orderGreeting": "Hej {{name}},",
-    "orderReceived": "Vi har mottagit din beställning och behandlar den.",
-    "orderDetails": "Beställningsdetaljer",
-    "invoiceSubject": "Officiell faktura - Beställning #{{id}} - MuraHomes",
-    "invoiceAttached": "Din officiella faktura finns bifogad i detta e-postmeddelande.",
-    "questions": "Tveka inte att kontakta oss om du har några frågor."
+    "orderConfirmation": {
+      "subject": "Förfrågan om beställning #{orderNum} | MuraHomes",
+      "headerTag": "Förfrågan / Beställning #{orderNum}",
+      "greeting": "Bästa {name},",
+      "body": "Vi bekräftar att vi har mottagit ditt designval. Tack för att du valde MuraHomes. Vårt team kommer snart att kontakta dig med fullständiga leveransuppgifter.",
+      "selectionSummary": "Urvalssammanfattning",
+      "qty": "Antal",
+      "total": "Totalt",
+      "deliveryDetails": "Leveransuppgifter",
+      "address": "Adress",
+      "regionState": "Region / Län",
+      "postalCode": "Postnummer",
+      "marketCountry": "Marknad / Land",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Din faktura för beställning #{orderNum} är klar | MuraHomes",
+      "headerTag": "Faktura Klar — Beställning #{orderNum}",
+      "greeting": "Bästa {name},",
+      "body": "Din faktura för beställning #{orderNum} är nu klar. Du hittar den bifogad till det här e-postmeddelandet och tillgänglig via knappen nedan.",
+      "importantDetailsTitle": "Viktiga detaljer gällande din beställning:",
+      "paymentMethodLabel": "Betalningsmetod:",
+      "paymentMethodDesc": "Betalning sker via banköverföring och alla nödvändiga detaljer finns på den bifogade fakturan.",
+      "shippingLabel": "Frakt:",
+      "shippingDesc": "Frakten påbörjas när betalningsbekräftelsen har mottagits. Vänligen skicka en kopia av överföringskvittot så att vi kan fortsätta med leveransen så snart som möjligt.",
+      "orderSummary": "Beställningssammanfattning",
+      "qty": "Antal",
+      "totalAmount": "Totalt Belopp",
+      "downloadInvoice": "Ladda ner Faktura",
+      "questionsNote": "Om du har några frågor, vänligen kontakta oss på info@mura-homes.com"
+    }
   }
 }

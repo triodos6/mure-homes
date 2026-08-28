@@ -320,7 +320,9 @@
     "placeholder": "Uw e-mailadres...",
     "subscribe": "Inschrijven",
     "toastTitle": "Ingeschreven!",
-    "toastDesc": "Bedankt voor uw aanmelding bij MuraHomes."
+    "toastDesc": "Bedankt voor uw aanmelding bij MuraHomes.",
+    "button": "Abonneren",
+    "success": "Succesvol geabonneerd!"
   },
   "footer": {
     "description": "Curator van uitzonderlijke mediterrane designmeubelen en tijdloze interieurarchitectuur voor woningen en projecten.",
@@ -565,12 +567,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Uw bestelling #{{id}} - MuraHomes",
-    "orderGreeting": "Hallo {{name}},",
-    "orderReceived": "We hebben uw bestelling ontvangen en zijn deze aan het verwerken.",
-    "orderDetails": "Bestelgegevens",
-    "invoiceSubject": "Officiële factuur - Bestelling #{{id}} - MuraHomes",
-    "invoiceAttached": "Uw officiële factuur is als bijlage bij deze e-mail gevoegd.",
-    "questions": "Neem bij vragen gerust contact met ons op."
+    "orderConfirmation": {
+      "subject": "Bestelaanvraag #{orderNum} | MuraHomes",
+      "headerTag": "Aanvraag / Bestelling #{orderNum}",
+      "greeting": "Beste {name},",
+      "body": "Wij bevestigen dat wij uw design selectie hebben ontvangen. Bedankt dat u voor MuraHomes heeft gekozen. Ons team neemt binnenkort contact met u op met de volledige leveringsdetails.",
+      "selectionSummary": "Selectie Overzicht",
+      "qty": "Aant.",
+      "total": "Totaal",
+      "deliveryDetails": "Leveringsdetails",
+      "address": "Adres",
+      "regionState": "Regio / Provincie",
+      "postalCode": "Postcode",
+      "marketCountry": "Markt / Land",
+      "phone": "Telefoon"
+    },
+    "invoice": {
+      "subject": "Uw factuur voor bestelling #{orderNum} is klaar | MuraHomes",
+      "headerTag": "Factuur Klaar — Bestelling #{orderNum}",
+      "greeting": "Beste {name},",
+      "body": "Uw factuur voor bestelling #{orderNum} is nu klaar. U vindt deze in de bijlage van deze e-mail en toegankelijk via de knop hieronder.",
+      "importantDetailsTitle": "Belangrijke details over uw bestelling:",
+      "paymentMethodLabel": "Betaalmethode:",
+      "paymentMethodDesc": "Betaling geschiedt per bankoverschrijving en alle benodigde gegevens staan in de bijgevoegde factuur.",
+      "shippingLabel": "Verzending:",
+      "shippingDesc": "De verzending begint zodra de betalingsbevestiging is ontvangen. Stuur ons een kopie van het overboekingsbewijs zodat we de verzending zo snel mogelijk kunnen voortzetten.",
+      "orderSummary": "Besteloverzicht",
+      "qty": "Aant.",
+      "totalAmount": "Totaalbedrag",
+      "downloadInvoice": "Factuur Downloaden",
+      "questionsNote": "Als u vragen heeft, neem dan contact met ons op via info@mura-homes.com"
+    }
   }
 }

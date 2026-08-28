@@ -82,7 +82,9 @@
     "securePaymentsSub": "100% Trygt",
     "support247": "24/7 Kundeservice",
     "support247Sub": "Personlig bistand",
-    "emptyProducts": "Produkter vises her så snart de er lagt til fra administrasjonspanelet."
+    "emptyProducts": "Produkter vises her så snart de er lagt til fra administrasjonspanelet.",
+    "heroTitle": "Kunst. Design. Hjem.",
+    "heroDescription": "MuraHomes bringer designfortreffelighet til ditt oppholdsrom."
   },
   "products": {
     "catalogTitle": "Katalog over Luksusmøbler",
@@ -318,7 +320,9 @@
     "placeholder": "Skriv inn din e-post...",
     "subscribe": "Abonner",
     "toastTitle": "Påmeldt!",
-    "toastDesc": "Takk for at du abonnerer på MuraHomes."
+    "toastDesc": "Takk for at du abonnerer på MuraHomes.",
+    "button": "Abonner",
+    "success": "Abonnementet var vellykket!"
   },
   "footer": {
     "description": "Kuratorer av eksepsjonelle middelhavsmøbler og tidløs interiørarkitektur.",
@@ -563,12 +567,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Din bestilling #{{id}} - MuraHomes",
-    "orderGreeting": "Hei {{name}},",
-    "orderReceived": "Vi har mottatt bestillingen din og behandler den.",
-    "orderDetails": "Ordredetaljer",
-    "invoiceSubject": "Offisiell faktura - Bestilling #{{id}} - MuraHomes",
-    "invoiceAttached": "Den offisielle fakturaen din er vedlagt denne e-posten.",
-    "questions": "Ta gjerne kontakt hvis du har spørsmål."
+    "orderConfirmation": {
+      "subject": "Bestillingsforespørsel #{orderNum} | MuraHomes",
+      "headerTag": "Forespørsel / Bestilling #{orderNum}",
+      "greeting": "Kjære {name},",
+      "body": "Vi bekrefter at vi har mottatt ditt designvalg. Takk for at du valgte MuraHomes. Vårt team vil kontakte deg snart med fullstendige leveringsdetaljer.",
+      "selectionSummary": "Utvalgssammendrag",
+      "qty": "Ant.",
+      "total": "Totalt",
+      "deliveryDetails": "Leveringsdetaljer",
+      "address": "Adresse",
+      "regionState": "Region / Fylke",
+      "postalCode": "Postnummer",
+      "marketCountry": "Marked / Land",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Fakturaen din for bestilling #{orderNum} er klar | MuraHomes",
+      "headerTag": "Faktura Klar — Bestilling #{orderNum}",
+      "greeting": "Kjære {name},",
+      "body": "Fakturaen din for bestilling #{orderNum} er nå klar. Du finner den vedlagt i denne e-posten og tilgjengelig via knappen nedenfor.",
+      "importantDetailsTitle": "Viktige detaljer om bestillingen din:",
+      "paymentMethodLabel": "Betalingsmetode:",
+      "paymentMethodDesc": "Betaling skjer via bankoverføring og alle nødvendige detaljer er inkludert i den vedlagte fakturaen.",
+      "shippingLabel": "Frakt:",
+      "shippingDesc": "Frakten vil begynne når betalingsbekreftelsen er mottatt. Send oss en kopi av overføringskvitteringen slik at vi kan fortsette med forsendelsen så snart som mulig.",
+      "orderSummary": "Ordresammendrag",
+      "qty": "Ant.",
+      "totalAmount": "Totalbeløp",
+      "downloadInvoice": "Last ned Faktura",
+      "questionsNote": "Hvis du har spørsmål, kontakt oss på info@mura-homes.com"
+    }
   }
 }

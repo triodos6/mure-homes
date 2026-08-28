@@ -320,7 +320,9 @@
     "placeholder": "Introduza o seu email...",
     "subscribe": "Subscrever",
     "toastTitle": "Subscrito!",
-    "toastDesc": "Obrigado por se juntar à comunidade MuraHomes."
+    "toastDesc": "Obrigado por se juntar à comunidade MuraHomes.",
+    "button": "Subscrever",
+    "success": "Subscrito com sucesso!"
   },
   "footer": {
     "description": "Curadoria de mobiliário mediterrânico excecional e arquitetura de interiores intemporal para residências e projetos de prestígio.",
@@ -565,12 +567,36 @@
     }
   },
   "emails": {
-    "orderSubject": "A sua encomenda #{{id}} - MuraHomes",
-    "orderGreeting": "Olá {{name}},",
-    "orderReceived": "Recebemos a sua encomenda e estamos a processá-la.",
-    "orderDetails": "Detalhes da encomenda",
-    "invoiceSubject": "Fatura oficial - Encomenda #{{id}} - MuraHomes",
-    "invoiceAttached": "A sua fatura oficial encontra-se em anexo a este e-mail.",
-    "questions": "Se tiver alguma dúvida, entre em contacto connosco."
+    "orderConfirmation": {
+      "subject": "Consulta de encomenda #{orderNum} | MuraHomes",
+      "headerTag": "Consulta / Encomenda #{orderNum}",
+      "greeting": "Caro(a) {name},",
+      "body": "Confirmamos a receção da sua seleção de design. Obrigado por escolher a MuraHomes. A nossa equipa entrará em contacto consigo brevemente com os detalhes completos de entrega.",
+      "selectionSummary": "Resumo da Seleção",
+      "qty": "Qtd",
+      "total": "Total",
+      "deliveryDetails": "Detalhes de Entrega",
+      "address": "Morada",
+      "regionState": "Região / Distrito",
+      "postalCode": "Código Postal",
+      "marketCountry": "Mercado / País",
+      "phone": "Telefone"
+    },
+    "invoice": {
+      "subject": "A sua fatura da encomenda #{orderNum} está pronta | MuraHomes",
+      "headerTag": "Fatura Pronta — Encomenda #{orderNum}",
+      "greeting": "Caro(a) {name},",
+      "body": "A sua fatura da encomenda #{orderNum} já está pronta. Encontrá-la-á em anexo a este e-mail e acessível através do botão abaixo.",
+      "importantDetailsTitle": "Detalhes importantes sobre a sua encomenda:",
+      "paymentMethodLabel": "Método de pagamento:",
+      "paymentMethodDesc": "O pagamento é efetuado por transferência bancária e todos os dados necessários constam na fatura em anexo.",
+      "shippingLabel": "Envio:",
+      "shippingDesc": "O envio terá início após a receção da confirmação de pagamento. Por favor, envie uma cópia do comprovativo de transferência para que possamos proceder ao envio o mais rapidamente possível.",
+      "orderSummary": "Resumo da Encomenda",
+      "qty": "Qtd",
+      "totalAmount": "Montante Total",
+      "downloadInvoice": "Descarregar Fatura",
+      "questionsNote": "Se tiver alguma dúvida, por favor contacte-nos através de info@mura-homes.com"
+    }
   }
 }

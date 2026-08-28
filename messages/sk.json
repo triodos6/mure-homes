@@ -82,7 +82,9 @@
     "securePaymentsSub": "100% Chránené",
     "support247": "Podpora 24/7",
     "support247Sub": "Vyhradená asistencia",
-    "emptyProducts": "Produkty sa tu zobrazia po pridaní z administrátorského panelu."
+    "emptyProducts": "Produkty sa tu zobrazia po pridaní z administrátorského panelu.",
+    "heroTitle": "Umenie. Dizajn. Domov.",
+    "heroDescription": "MuraHomes prináša dokonalosť dizajnu do vášho životného priestoru."
   },
   "products": {
     "catalogTitle": "Katalóg Luxusného Nábytku",
@@ -318,7 +320,9 @@
     "placeholder": "Váš e-mail...",
     "subscribe": "Odoberať",
     "toastTitle": "Prihlásené!",
-    "toastDesc": "Ďakujeme za prihlásenie k odberu noviniek MuraHomes."
+    "toastDesc": "Ďakujeme za prihlásenie k odberu noviniek MuraHomes.",
+    "button": "Odoberať",
+    "success": "Úspešne prihlásený na odber!"
   },
   "footer": {
     "description": "Kurátori výnimočného stredomorského nábytku a nadčasového interiérového dizajnu.",
@@ -563,12 +567,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Vaša objednávka #{{id}} - MuraHomes",
-    "orderGreeting": "Dobrý deň {{name}},",
-    "orderReceived": "Prijali sme vašu objednávku a spracovávame ju.",
-    "orderDetails": "Podrobnosti objednávky",
-    "invoiceSubject": "Oficiálna faktúra - Objednávka #{{id}} - MuraHomes",
-    "invoiceAttached": "Vaša oficiálna faktúra je priložená k tomuto e-mailu.",
-    "questions": "Ak máte akékoľvek otázky, kontaktujte nás prosím."
+    "orderConfirmation": {
+      "subject": "Dopyt na objednávku #{orderNum} | MuraHomes",
+      "headerTag": "Dopyt / Objednávka #{orderNum}",
+      "greeting": "Vážený/á {name},",
+      "body": "Potvrdzujeme prijatie vášho výberu dizajnu. Ďakujeme, že ste si vybrali MuraHomes. Náš tím vás bude čoskoro kontaktovať s kompletnými podrobnosťami o doručení.",
+      "selectionSummary": "Zhrnutie Výberu",
+      "qty": "Množstvo",
+      "total": "Celkom",
+      "deliveryDetails": "Podrobnosti o Doručení",
+      "address": "Adresa",
+      "regionState": "Kraj / Región",
+      "postalCode": "PSČ",
+      "marketCountry": "Trh / Krajina",
+      "phone": "Telefón"
+    },
+    "invoice": {
+      "subject": "Vaša faktúra k objednávke #{orderNum} je pripravená | MuraHomes",
+      "headerTag": "Faktúra Pripravená — Objednávka #{orderNum}",
+      "greeting": "Vážený/á {name},",
+      "body": "Vaša faktúra k objednávke #{orderNum} je teraz pripravená. Nájdete ju priloženú k tomuto e-mailu a dostupnú prostredníctvom tlačidla nižšie.",
+      "importantDetailsTitle": "Dôležité podrobnosti o vašej objednávke:",
+      "paymentMethodLabel": "Spôsob platby:",
+      "paymentMethodDesc": "Platba sa uskutočňuje bankovým prevodom a všetky potrebné údaje sú uvedené v priloženej faktúre.",
+      "shippingLabel": "Doprava:",
+      "shippingDesc": "Odoslanie začne po prijatí potvrdenia o platbe. Zašlite nám kópiu potvrdenia o prevode, aby sme mohli čo najskôr pristúpiť k odoslaniu.",
+      "orderSummary": "Zhrnutie Objednávky",
+      "qty": "Množstvo",
+      "totalAmount": "Celková Suma",
+      "downloadInvoice": "Stiahnuť Faktúru",
+      "questionsNote": "Ak máte akékoľvek otázky, kontaktujte nás na info@mura-homes.com"
+    }
   }
 }

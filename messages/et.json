@@ -82,7 +82,9 @@
     "securePaymentsSub": "100% Kaitstud",
     "support247": "24/7 Klienditugi",
     "support247Sub": "Pühendunud teenindus",
-    "emptyProducts": "Tooted ilmuvad siia pärast administraatoripaneelist lisamist."
+    "emptyProducts": "Tooted ilmuvad siia pärast administraatoripaneelist lisamist.",
+    "heroTitle": "Kunst. Disain. Kodu.",
+    "heroDescription": "MuraHomes toob teie eluruumi disaini tipptaseme."
   },
   "products": {
     "catalogTitle": "Luksusmööbli Kataloog",
@@ -318,7 +320,9 @@
     "placeholder": "Sinu e-post...",
     "subscribe": "Telli",
     "toastTitle": "Tellimus kinnitatud!",
-    "toastDesc": "Täname MuraHomesiga liitumast."
+    "toastDesc": "Täname MuraHomesiga liitumast.",
+    "button": "Telli",
+    "success": "Edukalt tellitud!"
   },
   "footer": {
     "description": "Erakordse Vahemere mööbli ja ajatu sisekujundusarhitektuuri kuraatorid.",
@@ -563,12 +567,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Teie tellimus #{{id}} - MuraHomes",
-    "orderGreeting": "Tere {{name}},",
-    "orderReceived": "Oleme teie tellimuse kätte saanud ja töötleme seda.",
-    "orderDetails": "Tellimuse üksikasjad",
-    "invoiceSubject": "Ametlik arve - Tellimus #{{id}} - MuraHomes",
-    "invoiceAttached": "Teie ametlik arve on manustatud sellele e-kirjale.",
-    "questions": "Küsimuste korral võtke meiega ühendust."
+    "orderConfirmation": {
+      "subject": "Tellimuse päring #{orderNum} | MuraHomes",
+      "headerTag": "Päring / Tellimus #{orderNum}",
+      "greeting": "Lugupeetud {name},",
+      "body": "Kinnitame, et oleme saanud teie disaini valiku. Täname, et valisite MuraHomesi. Meie meeskond võtab teiega peagi ühendust täielike tarne üksikasjadega.",
+      "selectionSummary": "Valiku kokkuvõte",
+      "qty": "Kogus",
+      "total": "Kokku",
+      "deliveryDetails": "Tarne üksikasjad",
+      "address": "Aadress",
+      "regionState": "Piirkond / Maakond",
+      "postalCode": "Postiindeks",
+      "marketCountry": "Turg / Riik",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Teie arve tellimusele #{orderNum} on valmis | MuraHomes",
+      "headerTag": "Arve on valmis — Tellimus #{orderNum}",
+      "greeting": "Lugupeetud {name},",
+      "body": "Teie arve tellimusele #{orderNum} on nüüd valmis. Leiate selle manustatuna sellele e-kirjale ja saadaval alloleva nupu kaudu.",
+      "importantDetailsTitle": "Olulised üksikasjad teie tellimuse kohta:",
+      "paymentMethodLabel": "Makseviis:",
+      "paymentMethodDesc": "Makse toimub pangaülekandega ja kõik vajalikud andmed on lisatud manustatud arvele.",
+      "shippingLabel": "Kohaletoimetamine:",
+      "shippingDesc": "Saadetis algab, kui makse kinnitus on saadud. Palun saatke ülekande kviitungi koopia, et saaksime lähetamisega võimalikult kiiresti edasi minna.",
+      "orderSummary": "Tellimuse kokkuvõte",
+      "qty": "Kogus",
+      "totalAmount": "Kogusumma",
+      "downloadInvoice": "Laadi arve alla",
+      "questionsNote": "Kui teil on küsimusi, võtke meiega ühendust aadressil info@mura-homes.com"
+    }
   }
 }

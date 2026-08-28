@@ -318,7 +318,7 @@
     "subtitle": "Recevez en avant-première nos nouvelles collections et invitations privées.",
     "placeholder": "Votre adresse e-mail...",
     "button": "S'abonner",
-    "success": "Merci de votre inscription à MuraHomes."
+    "success": "Inscription réussie!"
   },
   "footer": {
     "description": "Sélectionneurs de mobilier méditerranéen d'exception et architecture d'intérieur pour projets résidentiels et tertiaires.",
@@ -563,12 +563,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Votre commande #{{id}} - MuraHomes",
-    "orderGreeting": "Bonjour {{name}},",
-    "orderReceived": "Nous avons bien reçu votre commande et sommes en train de la traiter.",
-    "orderDetails": "Détails de la commande",
-    "invoiceSubject": "Facture officielle - Commande #{{id}} - MuraHomes",
-    "invoiceAttached": "Votre facture officielle est en pièce jointe à cet e-mail.",
-    "questions": "Si vous avez des questions, n'hésitez pas à nous contacter."
+    "orderConfirmation": {
+      "subject": "Demande de commande #{orderNum} | MuraHomes",
+      "headerTag": "Demande / Commande #{orderNum}",
+      "greeting": "Cher/Chère {name},",
+      "body": "Nous confirmons avoir reçu votre sélection de design. Merci d'avoir choisi MuraHomes. Notre équipe vous contactera sous peu avec tous les détails de livraison.",
+      "selectionSummary": "Résumé de la sélection",
+      "qty": "Qté",
+      "total": "Total",
+      "deliveryDetails": "Détails de livraison",
+      "address": "Adresse",
+      "regionState": "Région / État",
+      "postalCode": "Code postal",
+      "marketCountry": "Marché / Pays",
+      "phone": "Téléphone"
+    },
+    "invoice": {
+      "subject": "Votre facture pour la commande #{orderNum} est prête | MuraHomes",
+      "headerTag": "Facture prête — Commande #{orderNum}",
+      "greeting": "Cher/Chère {name},",
+      "body": "Votre facture pour la commande #{orderNum} est maintenant prête. Vous la trouverez en pièce jointe à cet e-mail et accessible via le bouton ci-dessous.",
+      "importantDetailsTitle": "Détails importants concernant votre commande:",
+      "paymentMethodLabel": "Mode de paiement:",
+      "paymentMethodDesc": "Le paiement s'effectue par virement bancaire et toutes les coordonnées nécessaires sont incluses dans la facture ci-jointe.",
+      "shippingLabel": "Expédition:",
+      "shippingDesc": "L'expédition commencera dès réception de la confirmation de paiement. Veuillez envoyer une copie du reçu de virement afin que nous puissions procéder à l'expédition le plus rapidement possible.",
+      "orderSummary": "Résumé de la commande",
+      "qty": "Qté",
+      "totalAmount": "Montant Total",
+      "downloadInvoice": "Télécharger la facture",
+      "questionsNote": "Si vous avez des questions, veuillez nous contacter à info@mura-homes.com"
+    }
   }
 }

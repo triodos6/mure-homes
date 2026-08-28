@@ -318,7 +318,7 @@
     "subtitle": "Ricevi anteprime esclusive sulle nuove collezioni ed eventi privati.",
     "placeholder": "Il tuo indirizzo email...",
     "button": "Iscriviti",
-    "success": "Grazie per esserti iscritto a MuraHomes."
+    "success": "Iscrizione avvenuta con successo!"
   },
   "footer": {
     "description": "Curatori di arredi mediterranei d'eccezione e architettura d'interni per progetti residenziali e contract.",
@@ -563,12 +563,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Il tuo ordine #{{id}} - MuraHomes",
-    "orderGreeting": "Ciao {{name}},",
-    "orderReceived": "Abbiamo ricevuto il tuo ordine e lo stiamo elaborando.",
-    "orderDetails": "Dettagli dell'ordine",
-    "invoiceSubject": "Fattura ufficiale - Ordine #{{id}} - MuraHomes",
-    "invoiceAttached": "La tua fattura ufficiale è allegata a questa email.",
-    "questions": "Se hai domande, contattaci."
+    "orderConfirmation": {
+      "subject": "Richiesta per l'ordine #{orderNum} | MuraHomes",
+      "headerTag": "Richiesta / Ordine #{orderNum}",
+      "greeting": "Gentile {name},",
+      "body": "Confermiamo di aver ricevuto la tua selezione di design. Grazie per aver scelto MuraHomes. Il nostro team ti contatterà a breve con i dettagli completi della consegna.",
+      "selectionSummary": "Riepilogo della selezione",
+      "qty": "Qtà",
+      "total": "Totale",
+      "deliveryDetails": "Dettagli di consegna",
+      "address": "Indirizzo",
+      "regionState": "Regione / Provincia",
+      "postalCode": "Codice Postale",
+      "marketCountry": "Mercato / Paese",
+      "phone": "Telefono"
+    },
+    "invoice": {
+      "subject": "La tua fattura per l'ordine #{orderNum} è pronta | MuraHomes",
+      "headerTag": "Fattura Pronta — Ordine #{orderNum}",
+      "greeting": "Gentile {name},",
+      "body": "La tua fattura per l'ordine #{orderNum} è ora pronta. La troverai in allegato a questa e-mail e accessibile tramite il pulsante sottostante.",
+      "importantDetailsTitle": "Dettagli importanti riguardanti il tuo ordine:",
+      "paymentMethodLabel": "Metodo di pagamento:",
+      "paymentMethodDesc": "Il pagamento si effettua tramite bonifico bancario e tutti i dettagli necessari sono inclusi nella fattura allegata.",
+      "shippingLabel": "Spedizione:",
+      "shippingDesc": "La spedizione inizierà una volta ricevuta la conferma del pagamento. Ti preghiamo di inviare una copia della ricevuta del bonifico in modo da poter procedere con la spedizione il prima possibile.",
+      "orderSummary": "Riepilogo Ordine",
+      "qty": "Qtà",
+      "totalAmount": "Importo Totale",
+      "downloadInvoice": "Scarica Fattura",
+      "questionsNote": "In caso di domande, contattaci all'indirizzo info@mura-homes.com"
+    }
   }
 }

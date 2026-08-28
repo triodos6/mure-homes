@@ -82,7 +82,9 @@
     "securePaymentsSub": "100% Ochrony",
     "support247": "Wsparcie 24/7",
     "support247Sub": "Dedykowana pomoc",
-    "emptyProducts": "Produkty pojawią się tutaj po dodaniu ich z panelu administracyjnego."
+    "emptyProducts": "Produkty pojawią się tutaj po dodaniu ich z panelu administracyjnego.",
+    "heroTitle": "Sztuka. Design. Dom.",
+    "heroDescription": "MuraHomes wprowadza doskonałość designu do Twojej przestrzeni życiowej."
   },
   "products": {
     "catalogTitle": "Katalog Luksusowych Mebli",
@@ -318,7 +320,9 @@
     "placeholder": "Twój adres e-mail...",
     "subscribe": "Zapisz się",
     "toastTitle": "Zapisano!",
-    "toastDesc": "Dziękujemy za dołączenie do społeczności MuraHomes."
+    "toastDesc": "Dziękujemy za dołączenie do społeczności MuraHomes.",
+    "button": "Subskrybuj",
+    "success": "Pomyślnie zasubskrybowano!"
   },
   "footer": {
     "description": "Kuratorzy wyjątkowych mebli śródziemnomorskich i ponadczasowej architektury wnętrz.",
@@ -563,12 +567,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Twoje zamówienie #{{id}} - MuraHomes",
-    "orderGreeting": "Witaj {{name}},",
-    "orderReceived": "Otrzymaliśmy Twoje zamówienie i jesteśmy w trakcie jego przetwarzania.",
-    "orderDetails": "Szczegóły zamówienia",
-    "invoiceSubject": "Oficjalna faktura - Zamówienie #{{id}} - MuraHomes",
-    "invoiceAttached": "Twoja oficjalna faktura znajduje się w załączniku do tej wiadomości.",
-    "questions": "Jeśli masz jakiekolwiek pytania, skontaktuj się z nami."
+    "orderConfirmation": {
+      "subject": "Zapytanie o zamówienie #{orderNum} | MuraHomes",
+      "headerTag": "Zapytanie / Zamówienie #{orderNum}",
+      "greeting": "Drogi/a {name},",
+      "body": "Potwierdzamy otrzymanie Twojego wyboru projektowego. Dziękujemy za wybór MuraHomes. Nasz zespół wkrótce skontaktuje się z Tobą z pełnymi szczegółami dostawy.",
+      "selectionSummary": "Podsumowanie Wyboru",
+      "qty": "Ilość",
+      "total": "Suma",
+      "deliveryDetails": "Szczegóły Dostawy",
+      "address": "Adres",
+      "regionState": "Region / Województwo",
+      "postalCode": "Kod Pocztowy",
+      "marketCountry": "Rynek / Kraj",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Twoja faktura do zamówienia #{orderNum} jest gotowa | MuraHomes",
+      "headerTag": "Faktura Gotowa — Zamówienie #{orderNum}",
+      "greeting": "Drogi/a {name},",
+      "body": "Twoja faktura do zamówienia #{orderNum} jest już gotowa. Znajdziesz ją w załączniku do tego e-maila i poprzez przycisk poniżej.",
+      "importantDetailsTitle": "Ważne szczegóły dotyczące Twojego zamówienia:",
+      "paymentMethodLabel": "Metoda płatności:",
+      "paymentMethodDesc": "Płatność odbywa się przelewem bankowym, a wszystkie niezbędne dane znajdują się na załączonej fakturze.",
+      "shippingLabel": "Wysyłka:",
+      "shippingDesc": "Wysyłka rozpocznie się po otrzymaniu potwierdzenia płatności. Prosimy o przesłanie kopii potwierdzenia przelewu, abyśmy mogli jak najszybciej przystąpić do wysyłki.",
+      "orderSummary": "Podsumowanie Zamówienia",
+      "qty": "Ilość",
+      "totalAmount": "Całkowita Kwota",
+      "downloadInvoice": "Pobierz Fakturę",
+      "questionsNote": "W razie jakichkolwiek pytań, prosimy o kontakt na adres info@mura-homes.com"
+    }
   }
 }

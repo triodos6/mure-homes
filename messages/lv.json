@@ -82,7 +82,9 @@
     "securePaymentsSub": "100% Aizsargāts",
     "support247": "24/7 Konsjerža Atbalsts",
     "support247Sub": "Individuālas konsultācijas",
-    "emptyProducts": "Produkti parādīsies šeit, tiklīdz tie tiks pievienoti no administratora paneļa."
+    "emptyProducts": "Produkti parādīsies šeit, tiklīdz tie tiks pievienoti no administratora paneļa.",
+    "heroTitle": "Māksla. Dizains. Mājas.",
+    "heroDescription": "MuraHomes ienes dizaina izcilību jūsu dzīves telpā."
   },
   "products": {
     "catalogTitle": "Luksusa Mēbeļu Katalogs",
@@ -318,7 +320,9 @@
     "placeholder": "Jūsu e-pasts...",
     "subscribe": "Abonēt",
     "toastTitle": "Veiksmīgi abonēts!",
-    "toastDesc": "Paldies, ka pievienojāties MuraHomes."
+    "toastDesc": "Paldies, ka pievienojāties MuraHomes.",
+    "button": "Abonēt",
+    "success": "Veiksmīgi abonēts!"
   },
   "footer": {
     "description": "Izcilu Vidusjūras mēbeļu un mūsdienīgas interjera arhitektūras kuratori.",
@@ -563,12 +567,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Jūsu pasūtījums #{{id}} - MuraHomes",
-    "orderGreeting": "Sveiki {{name}},",
-    "orderReceived": "Mēs esam saņēmuši jūsu pasūtījumu un to apstrādājam.",
-    "orderDetails": "Pasūtījuma informācija",
-    "invoiceSubject": "Oficiālais rēķins - Pasūtījums #{{id}} - MuraHomes",
-    "invoiceAttached": "Jūsu oficiālais rēķins ir pievienots šim e-pastam.",
-    "questions": "Ja jums ir kādi jautājumi, lūdzu, sazinieties ar mums."
+    "orderConfirmation": {
+      "subject": "Pasūtījuma pieprasījums #{orderNum} | MuraHomes",
+      "headerTag": "Pieprasījums / Pasūtījums #{orderNum}",
+      "greeting": "Cien. {name},",
+      "body": "Apstiprinām, ka esam saņēmuši jūsu dizaina izvēli. Paldies, ka izvēlējāties MuraHomes. Mūsu komanda drīzumā sazināsies ar jums ar pilnu piegādes informāciju.",
+      "selectionSummary": "Izvēles kopsavilkums",
+      "qty": "Daudz.",
+      "total": "Kopā",
+      "deliveryDetails": "Piegādes informācija",
+      "address": "Adrese",
+      "regionState": "Reģions / Novads",
+      "postalCode": "Pasta indekss",
+      "marketCountry": "Tirgus / Valsts",
+      "phone": "Tālrunis"
+    },
+    "invoice": {
+      "subject": "Jūsu rēķins pasūtījumam #{orderNum} ir gatavs | MuraHomes",
+      "headerTag": "Rēķins gatavs — Pasūtījums #{orderNum}",
+      "greeting": "Cien. {name},",
+      "body": "Jūsu rēķins pasūtījumam #{orderNum} tagad ir gatavs. Jūs to atradīsiet pievienotu šim e-pastam un pieejamu, izmantojot zemāk esošo pogu.",
+      "importantDetailsTitle": "Svarīga informācija par jūsu pasūtījumu:",
+      "paymentMethodLabel": "Apmaksas veids:",
+      "paymentMethodDesc": "Maksājums tiek veikts ar bankas pārskaitījumu, un visa nepieciešamā informācija ir norādīta pievienotajā rēķinā.",
+      "shippingLabel": "Piegāde:",
+      "shippingDesc": "Sūtīšana sāksies pēc maksājuma apstiprinājuma saņemšanas. Lūdzu, nosūtiet pārskaitījuma kvīts kopiju, lai mēs varētu pēc iespējas ātrāk turpināt nosūtīšanu.",
+      "orderSummary": "Pasūtījuma kopsavilkums",
+      "qty": "Daudz.",
+      "totalAmount": "Kopējā summa",
+      "downloadInvoice": "Lejupielādēt rēķinu",
+      "questionsNote": "Ja jums ir kādi jautājumi, lūdzu, sazinieties ar mums info@mura-homes.com"
+    }
   }
 }

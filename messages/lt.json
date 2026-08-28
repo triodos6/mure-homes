@@ -318,7 +318,7 @@
     "subtitle": "Gaukite išskirtines naujų kolekcijų apžvalgas ir kvietimus į renginius.",
     "placeholder": "Jūsų el. pašto adresas...",
     "button": "Prenumeruoti",
-    "success": "Ačiū, kad užsiprenumeravote MuraHomes naujienlaiškį."
+    "success": "Sėkmingai prenumeravote!"
   },
   "footer": {
     "description": "Išskirtinės Viduržemio jūros baldų kultūros ir nesenstančios interjero architektūros kuratoriai.",
@@ -563,12 +563,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Jūsų užsakymas #{{id}} - MuraHomes",
-    "orderGreeting": "Sveiki, {{name}},",
-    "orderReceived": "Gavome jūsų užsakymą ir pradedame jį vykdyti.",
-    "orderDetails": "Užsakymo informacija",
-    "invoiceSubject": "Oficiali sąskaita faktūra - Užsakymas #{{id}} - MuraHomes",
-    "invoiceAttached": "Jūsų oficiali sąskaita faktūra pridėta prie šio el. laiško.",
-    "questions": "Jei turite klausimų, susisiekite su mumis."
+    "orderConfirmation": {
+      "subject": "Užsakymo užklausa #{orderNum} | MuraHomes",
+      "headerTag": "Užklausa / Užsakymas #{orderNum}",
+      "greeting": "Gerb. {name},",
+      "body": "Patvirtiname, kad gavome jūsų dizaino pasirinkimą. Dėkojame, kad pasirinkote MuraHomes. Mūsų komanda netrukus susisieks su jumis dėl visų pristatymo detalių.",
+      "selectionSummary": "Pasirinkimo suvestinė",
+      "qty": "Kiekis",
+      "total": "Iš viso",
+      "deliveryDetails": "Pristatymo detalės",
+      "address": "Adresas",
+      "regionState": "Regionas / Apskritis",
+      "postalCode": "Pašto kodas",
+      "marketCountry": "Rinka / Šalis",
+      "phone": "Telefonas"
+    },
+    "invoice": {
+      "subject": "Jūsų sąskaita faktūra užsakymui #{orderNum} paruošta | MuraHomes",
+      "headerTag": "Sąskaita faktūra paruošta — Užsakymas #{orderNum}",
+      "greeting": "Gerb. {name},",
+      "body": "Jūsų sąskaita faktūra užsakymui #{orderNum} jau paruošta. Ją rasite prisegtą prie šio el. laiško ir prieinamą per žemiau esantį mygtuką.",
+      "importantDetailsTitle": "Svarbios detalės apie jūsų užsakymą:",
+      "paymentMethodLabel": "Mokėjimo būdas:",
+      "paymentMethodDesc": "Mokėjimas atliekamas banko pavedimu, o visi būtini duomenys pateikti pridėtoje sąskaitoje faktūroje.",
+      "shippingLabel": "Pristatymas:",
+      "shippingDesc": "Pristatymas prasidės gavus mokėjimo patvirtinimą. Prašome atsiųsti pavedimo kvito kopiją, kad galėtume kuo greičiau išsiųsti užsakymą.",
+      "orderSummary": "Užsakymo suvestinė",
+      "qty": "Kiekis",
+      "totalAmount": "Bendra suma",
+      "downloadInvoice": "Atsisiųsti sąskaitą",
+      "questionsNote": "Jei turite klausimų, susisiekite su mumis info@mura-homes.com"
+    }
   }
 }

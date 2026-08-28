@@ -320,7 +320,9 @@
     "placeholder": "Indtast din e-mail...",
     "subscribe": "Tilmeld",
     "toastTitle": "Tilmeldt!",
-    "toastDesc": "Tak for din tilmelding til MuraHomes."
+    "toastDesc": "Tak for din tilmelding til MuraHomes.",
+    "button": "Tilmeld",
+    "success": "Du er nu tilmeldt!"
   },
   "footer": {
     "description": "Kuratorer af enestående middelhavsmøbler og tidløs indretningsarkitektur.",
@@ -565,12 +567,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Din ordre #{{id}} - MuraHomes",
-    "orderGreeting": "Hej {{name}},",
-    "orderReceived": "Vi har modtaget din ordre og behandler den.",
-    "orderDetails": "Ordredetaljer",
-    "invoiceSubject": "Officiel faktura - Ordre #{{id}} - MuraHomes",
-    "invoiceAttached": "Din officielle faktura er vedhæftet denne e-mail.",
-    "questions": "Hvis du har spørgsmål, er du velkommen til at kontakte os."
+    "orderConfirmation": {
+      "subject": "Forespørgsel vedr. ordre #{orderNum} | MuraHomes",
+      "headerTag": "Forespørgsel / Ordre #{orderNum}",
+      "greeting": "Kære {name},",
+      "body": "Vi bekræfter, at vi har modtaget dit designvalg. Tak fordi du valgte MuraHomes. Vores team vil kontakte dig snarest med fulde leveringsdetaljer.",
+      "selectionSummary": "Valg Opsummering",
+      "qty": "Antal",
+      "total": "Total",
+      "deliveryDetails": "Leveringsdetaljer",
+      "address": "Adresse",
+      "regionState": "Region / Stat",
+      "postalCode": "Postnummer",
+      "marketCountry": "Marked / Land",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Din faktura for ordre #{orderNum} er klar | MuraHomes",
+      "headerTag": "Faktura klar — Ordre #{orderNum}",
+      "greeting": "Kære {name},",
+      "body": "Din faktura for ordre #{orderNum} er nu klar. Du finder den vedhæftet denne e-mail og tilgængelig via knappen nedenfor.",
+      "importantDetailsTitle": "Vigtige detaljer vedrørende din ordre:",
+      "paymentMethodLabel": "Betalingsmetode:",
+      "paymentMethodDesc": "Betaling sker via bankoverførsel, og alle nødvendige detaljer er inkluderet i den vedhæftede faktura.",
+      "shippingLabel": "Forsendelse:",
+      "shippingDesc": "Forsendelsen vil begynde, når betalingsbekræftelsen er modtaget. Send venligst en kopi af overførselskvitteringen, så vi kan fortsætte med forsendelsen hurtigst muligt.",
+      "orderSummary": "Ordresammendrag",
+      "qty": "Antal",
+      "totalAmount": "Total Beløb",
+      "downloadInvoice": "Download Faktura",
+      "questionsNote": "Hvis du har spørgsmål, bedes du kontakte os på info@mura-homes.com"
+    }
   }
 }

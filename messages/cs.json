@@ -320,7 +320,9 @@
     "placeholder": "Váš e-mail...",
     "subscribe": "Odebírat",
     "toastTitle": "Přihlášeno!",
-    "toastDesc": "Děkujeme za připojení ke komunitě MuraHomes."
+    "toastDesc": "Děkujeme za připojení ke komunitě MuraHomes.",
+    "button": "Odebírat",
+    "success": "Úspěšně jste se přihlásili k odběru!"
   },
   "footer": {
     "description": "Kurátoři výjimečného středomořského nábytku a nadčasové interiérové architektury.",
@@ -565,12 +567,36 @@
     }
   },
   "emails": {
-    "orderSubject": "Vaše objednávka #{{id}} - MuraHomes",
-    "orderGreeting": "Dobrý den {{name}},",
-    "orderReceived": "Přijali jsme vaši objednávku a zpracováváme ji.",
-    "orderDetails": "Podrobnosti objednávky",
-    "invoiceSubject": "Oficiální faktura - Objednávka #{{id}} - MuraHomes",
-    "invoiceAttached": "Vaše oficiální faktura je přiložena k tomuto e-mailu.",
-    "questions": "Pokud máte jakékoliv dotazy, kontaktujte nás."
+    "orderConfirmation": {
+      "subject": "Poptávka objednávky #{orderNum} | MuraHomes",
+      "headerTag": "Poptávka / Objednávka #{orderNum}",
+      "greeting": "Vážený/á {name},",
+      "body": "Potvrzujeme přijetí vašeho výběru designu. Děkujeme, že jste si vybrali MuraHomes. Náš tým vás bude brzy kontaktovat s kompletními detaily doručení.",
+      "selectionSummary": "Shrnutí výběru",
+      "qty": "Množství",
+      "total": "Celkem",
+      "deliveryDetails": "Detaily doručení",
+      "address": "Adresa",
+      "regionState": "Region / Stát",
+      "postalCode": "PSČ",
+      "marketCountry": "Trh / Země",
+      "phone": "Telefon"
+    },
+    "invoice": {
+      "subject": "Vaše faktura k objednávce #{orderNum} je připravena | MuraHomes",
+      "headerTag": "Faktura připravena — Objednávka #{orderNum}",
+      "greeting": "Vážený/á {name},",
+      "body": "Vaše faktura k objednávce #{orderNum} je nyní připravena. Najdete ji přiloženou k tomuto e-mailu a dostupnou přes tlačítko níže.",
+      "importantDetailsTitle": "Důležité detaily týkající se vaší objednávky:",
+      "paymentMethodLabel": "Způsob platby:",
+      "paymentMethodDesc": "Platba se provádí bankovním převodem a všechny potřebné údaje jsou uvedeny v přiložené faktuře.",
+      "shippingLabel": "Doprava:",
+      "shippingDesc": "Zásilka bude odeslána po obdržení potvrzení o platbě. Zašlete nám prosím kopii potvrzení o převodu, abychom mohli co nejdříve přistoupit k odeslání.",
+      "orderSummary": "Shrnutí objednávky",
+      "qty": "Množství",
+      "totalAmount": "Celková částka",
+      "downloadInvoice": "Stáhnout fakturu",
+      "questionsNote": "Pokud máte jakékoliv dotazy, kontaktujte nás na info@mura-homes.com"
+    }
   }
 }

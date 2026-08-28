@@ -107,12 +107,12 @@ export default function ProfilePage() {
         body: JSON.stringify({ image: uploadData.url }),
       });
 
-      if (!updateRes.ok) throw new Error('Error al actualizar la foto de perfil');
+      if (!updateRes.ok) throw new Error(t('account.errorUpdatingAvatar') || 'Error al actualizar la foto de perfil');
 
       toast.success(t('account.savedSuccess') || 'Foto de perfil actualizada con éxito');
       await refetch();
     } catch (err) {
-      toast.error(err.message || 'Error al subir la foto de perfil');
+      toast.error(err.message || t('account.errorUpdatingAvatar') || 'Error al subir la foto de perfil');
     } finally {
       setIsUploadingImage(false);
       e.target.value = '';
@@ -132,12 +132,12 @@ export default function ProfilePage() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Error al actualizar el perfil');
+      if (!res.ok) throw new Error(data.error || t('account.errorUpdatingProfile') || 'Error al actualizar el perfil');
 
       toast.success(t('account.savedSuccess') || 'Perfil actualizado correctamente');
       await refetch();
     } catch (err) {
-      toast.error(err.message || 'No se pudo actualizar el perfil');
+      toast.error(err.message || t('account.errorUpdatingProfile') || 'No se pudo actualizar el perfil');
     } finally {
       setIsUpdatingProfile(false);
     }
@@ -170,12 +170,12 @@ export default function ProfilePage() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Error al cambiar la contraseña');
+      if (!res.ok) throw new Error(data.error || t('account.errorChangingPassword') || 'Error al cambiar la contraseña');
 
       toast.success(t('account.savedSuccess') || 'Contraseña cambiada correctamente');
       setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (err) {
-      toast.error(err.message || 'No se pudo cambiar la contraseña');
+      toast.error(err.message || t('account.errorChangingPassword') || 'No se pudo cambiar la contraseña');
     } finally {
       setIsUpdatingPassword(false);
     }

@@ -71,9 +71,10 @@ export async function POST(request) {
     }
 
     // Build immutable historical snapshot for transaction preservation
-    const productIds = cart.map(item => item.id);
+    const objectIdRegex = /^[0-9a-fA-F]{24}$/;
+    const validProductIds = cart.map(item => item.id).filter(id => objectIdRegex.test(id));
     const dbProducts = await prisma.product.findMany({
-      where: { id: { in: productIds } },
+      where: { id: { in: validProductIds } },
       select: { id: true, name: true, price: true, marketPrices: true, translations: true }
     });
     const productMap = {};

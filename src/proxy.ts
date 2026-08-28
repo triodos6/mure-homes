@@ -116,8 +116,8 @@ export async function proxy(request: NextRequest) {
   const geo = getVercelGeoHeaders(request);
   console.log('[GEO] => ', geo);
 
-  // Automatic Locale Redirection
-  if (locale === 'es') {
+  // Automatic Locale Redirection (Skip API routes)
+  if (locale === 'es' && !pathname.startsWith('/api/')) {
     const cookieLocale = request.cookies.get('murahomes_locale')?.value;
     if (cookieLocale && cookieLocale !== 'es' && SUPPORTED_LOCALES.includes(cookieLocale)) {
       const redirectUrl = new URL(`/${cookieLocale}${pathname === '/' ? '' : pathname}`, request.url);

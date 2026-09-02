@@ -2,10 +2,6 @@ import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '@/i18n/config';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://mura-homes.com';
 
-// Locales that are fully translated and unique
-// We treat ES (default) and LT (first target) as complete.
-// Others will point consolidating canonicals to ES and be noindexed to avoid duplicate content penalties.
-const COMPLETE_LOCALES = ['es', 'lt'];
 
 /**
  * Centralized SEO Metadata Factory
@@ -25,7 +21,6 @@ export function generateLocalizedMetadata({
   openGraph = {},
   localeSlugs = {},
 }) {
-  const isComplete = COMPLETE_LOCALES.includes(locale);
 
   // 1. Build bidirectional hreflang alternates
   const languages = {};
@@ -46,22 +41,24 @@ export function generateLocalizedMetadata({
   const defaultFormattedPath = (localeSlugs[DEFAULT_LOCALE] || path) && !(localeSlugs[DEFAULT_LOCALE] || path).startsWith('/') ? `/${(localeSlugs[DEFAULT_LOCALE] || path)}` : (localeSlugs[DEFAULT_LOCALE] || path);
   languages['x-default'] = `${SITE_URL}${defaultFormattedPath}`;
 
-  // 2. Canonical URL & Duplicate Content Guard
-  let canonicalUrl = '';
-  let robots = { index: true, follow: true };
+  // 2. Canonical URL & Multi-lingual Indexing
+  const currentLocPath = localeSlugs[locale] || path;
+  const currentFormattedPath = currentLocPath && !currentLocPath.startsWith('/') ? `/${currentLocPath}` : currentLocPath;
+  const canonicalUrl = locale === DEFAULT_LOCALE 
+    ? `${SITE_URL}${currentFormattedPath}` 
+    : `${SITE_URL}/${locale}${currentFormattedPath}`;
 
-  if (isComplete) {
-    // Self-referencing canonical
-    const currentLocPath = localeSlugs[locale] || path;
-    const currentFormattedPath = currentLocPath && !currentLocPath.startsWith('/') ? `/${currentLocPath}` : currentLocPath;
-    canonicalUrl = locale === DEFAULT_LOCALE 
-      ? `${SITE_URL}${currentFormattedPath}` 
-      : `${SITE_URL}/${locale}${currentFormattedPath}`;
-  } else {
-    // Consolidating canonical to ES, and noindex to avoid SEO penalties
-    canonicalUrl = languages[DEFAULT_LOCALE];
-    robots = { index: false, follow: true };
-  }
+  const robots = {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  };
 
   return {
     title: translations.title,

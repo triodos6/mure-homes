@@ -46,10 +46,24 @@ export default function Navbar({ dbRole, serverUserId, detectedCountry }) {
   }
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const isScrolled = window.scrollY > 10;
+          setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    handleScroll();
+
+    window.requestAnimationFrame(() => {
+      if (window.scrollY > 10) {
+        setScrolled(true);
+      }
+    });
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);

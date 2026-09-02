@@ -19,16 +19,17 @@ import { Analytics } from "@vercel/analytics/next";
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500", "600"],
   display: "swap",
+  preload: true,
 });
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   variable: "--font-serif",
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600"],
   display: "swap",
+  preload: true,
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://mura-homes.com';
@@ -60,6 +61,17 @@ export const metadata = {
   },
   verification: {
     google: "SM6VBtUlw2UgwgEEspqi4fnRFd2WjB3_p9M1TwNVYmw",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
@@ -138,14 +150,14 @@ export default async function RootLayout({ children }) {
         suppressHydrationWarning
         className={`${dmSans.variable} ${cormorant.variable} antialiased selection:bg-primary selection:text-white`}
       >
-        {/* Analytics & Tag Manager Scripts */}
+        {/* Analytics & Tag Manager Scripts - Loaded lazily on idle */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-RBMPMTNQNX"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
         <Script
           id="google-analytics"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
@@ -159,7 +171,7 @@ export default async function RootLayout({ children }) {
         {process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID && (
           <Script
             id="fb-pixel"
-            strategy="afterInteractive"
+            strategy="lazyOnload"
             dangerouslySetInnerHTML={{
               __html: `
                 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -177,7 +189,7 @@ export default async function RootLayout({ children }) {
         {process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID && (
           <Script
             id="tiktok-pixel"
-            strategy="afterInteractive"
+            strategy="lazyOnload"
             dangerouslySetInnerHTML={{
               __html: `
                 !function (w, d, t) {

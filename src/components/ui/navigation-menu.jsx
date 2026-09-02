@@ -8,11 +8,13 @@ function NavigationMenu({
   align = "start",
   className,
   children,
+  orientation = "both",
   ...props
 }) {
   return (
     <NavigationMenuPrimitive.Root
       data-slot="navigation-menu"
+      orientation={orientation}
       className={cn(
         "group/navigation-menu relative flex max-w-max flex-1 items-center justify-center",
         className
@@ -31,6 +33,7 @@ function NavigationMenuList({
   return (
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
+      aria-orientation={undefined}
       className={cn("group flex flex-1 list-none items-center justify-center gap-0", className)}
       {...props} />
   );
@@ -95,7 +98,7 @@ function NavigationMenuPositioner({
   ...props
 }) {
   return (
-    <NavigationMenuPrimitive.Portal>
+    <NavigationMenuPrimitive.Portal keepMounted={false}>
       <NavigationMenuPrimitive.Positioner
         side={side}
         sideOffset={sideOffset}

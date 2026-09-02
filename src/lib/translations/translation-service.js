@@ -5,46 +5,58 @@ import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '@/i18n/config';
  * Resolves a localized product view from a DB product entity.
  * If translation for requested locale is missing, seamlessly falls back to default Spanish fields.
  * Never returns null for an existing product.
+ * Only retains the user-selected locale translation to avoid transferring unnecessary database translations over the network.
  * @param {object} product - Raw product document from Prisma
- * @param {string} locale - Target locale (es, fr, de, it, lt, en)
+ * @param {string} locale - Target locale (es, fr, de, it, lt, en, etc.)
+ * @param {object} [options] - Options: { includeAllTranslations: boolean }
  * @returns {object|null} Localized product object with fallback
  */
-export function getLocalizedProduct(product, locale = DEFAULT_LOCALE) {
+export function getLocalizedProduct(product, locale = DEFAULT_LOCALE, options = {}) {
   if (!product) return null;
 
-  const esTrans = product.translations?.es || {};
+  const { translations: rawTranslations, ...productFields } = product;
+  const esTrans = rawTranslations?.es || {};
   const baseName = esTrans.name || product.name || '';
   const baseSlug = esTrans.slug || product.slug || '';
   const baseDesc = esTrans.description || product.description || '';
   const baseSeoTitle = esTrans.seoTitle || `${baseName} | MuraHomes`;
   const baseSeoDesc = esTrans.seoDescription || (baseDesc ? baseDesc.replace(/<[^>]*>?/gm, '').slice(0, 160) : '');
 
+  // Only retain the translation for the user-selected language to avoid transferring 22 unused locales
+  const userSelectedTranslation = locale !== 'es' && rawTranslations?.[locale]
+    ? { [locale]: rawTranslations[locale] }
+    : undefined;
+
+  const finalTranslations = options.includeAllTranslations ? rawTranslations : userSelectedTranslation;
+
   // Spanish is primary baseline
   if (locale === 'es') {
     return {
-      ...product,
+      ...productFields,
       name: baseName,
       slug: baseSlug,
       description: baseDesc,
       seoTitle: baseSeoTitle,
       seoDescription: baseSeoDesc,
+      ...(finalTranslations ? { translations: finalTranslations } : {}),
       isTranslated: true,
       isFallback: false,
       translationStatus: 'published',
     };
   }
 
-  const translation = product.translations?.[locale];
+  const translation = rawTranslations?.[locale];
 
   // If active translation exists with at least a name
   if (translation && (translation.status === 'published' || translation.name)) {
     return {
-      ...product,
+      ...productFields,
       name: translation.name || baseName,
       slug: translation.slug || baseSlug,
       description: translation.description || baseDesc,
       seoTitle: translation.seoTitle || `${translation.name || baseName} | MuraHomes`,
       seoDescription: translation.seoDescription || (translation.description ? translation.description.replace(/<[^>]*>?/gm, '').slice(0, 160) : baseSeoDesc),
+      ...(finalTranslations ? { translations: finalTranslations } : {}),
       isTranslated: true,
       isFallback: false,
       translationStatus: translation.status || 'published',
@@ -53,12 +65,13 @@ export function getLocalizedProduct(product, locale = DEFAULT_LOCALE) {
 
   // Graceful fallback to default Spanish content
   return {
-    ...product,
+    ...productFields,
     name: baseName,
     slug: baseSlug,
     description: baseDesc,
     seoTitle: baseSeoTitle,
     seoDescription: baseSeoDesc,
+    ...(finalTranslations ? { translations: finalTranslations } : {}),
     isTranslated: true,
     isFallback: true,
     translationStatus: 'fallback',
@@ -66,20 +79,24 @@ export function getLocalizedProduct(product, locale = DEFAULT_LOCALE) {
 }
 
 /**
- * Resolves a localized brand entity with fallback.
+ * Resolves a localized brand entity with fallback, keeping ONLY the user-selected language.
  * @param {object} brand - Raw brand document from Prisma
  * @param {string} locale - Target locale
+ * @param {object} [options] - Options: { includeAllTranslations: boolean }
  * @returns {object|null}
  */
-export function getLocalizedBrand(brand, locale = DEFAULT_LOCALE) {
+export function getLocalizedBrand(brand, locale = DEFAULT_LOCALE, options = {}) {
   if (!brand) return null;
-  if (locale === 'es' || !brand.translations?.[locale]) {
-    return brand;
-  }
-  const t = brand.translations[locale];
+  const { translations: rawTranslations, ...brandFields } = brand;
+  const selectedTrans = rawTranslations?.[locale];
+  const finalTranslations = options.includeAllTranslations
+    ? rawTranslations
+    : (locale !== 'es' && selectedTrans ? { [locale]: selectedTrans } : undefined);
+
   return {
-    ...brand,
-    description: t.description || brand.description,
+    ...brandFields,
+    description: selectedTrans?.description || brand.description,
+    ...(finalTranslations ? { translations: finalTranslations } : {}),
   };
 }
 
@@ -93,7 +110,7 @@ import { cache } from 'react';
  * @param {string} locale - The locale being browsed
  * @returns {Promise<object|null>}
  */
-export const findProductByLocalizedSlug = cache(async function findProductByLocalizedSlug(slug, locale = DEFAULT_LOCALE) {
+export const findProductByLocalizedSlug = cache(async function findProductByLocalizedSlug(slug, locale = DEFAULT_LOCALE, options = {}) {
   if (!slug) return null;
 
   try {
@@ -103,10 +120,10 @@ export const findProductByLocalizedSlug = cache(async function findProductByLoca
     });
 
     if (directMatch) {
-      return getLocalizedProduct(directMatch, locale);
+      return getLocalizedProduct(directMatch, locale, options);
     }
 
-    // 2. If not found by direct slug, query all products and match in-memory across all 22 locales
+    // 2. If not found by direct slug, query all products and match in-memory across all locales
     const allProducts = await prisma.product.findMany({
       where: { status: 'active' },
     });
@@ -122,7 +139,7 @@ export const findProductByLocalizedSlug = cache(async function findProductByLoca
     });
 
     if (localizedMatch) {
-      return getLocalizedProduct(localizedMatch, locale);
+      return getLocalizedProduct(localizedMatch, locale, options);
     }
 
     return null;

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import Script from 'next/script';
 import { ArrowRight, MapPin, Clock, Phone, Calendar } from 'lucide-react';
 import ShowroomBookingForm from '@/components/ShowroomBookingForm/ShowroomBookingForm';
@@ -96,9 +97,15 @@ export default async function LocalizedShowroomPage({ params }) {
               </a>
             </div>
             <div className="relative h-[380px] rounded-2xl overflow-hidden shadow-2xl">
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: 'url("/images/img4.jpg")' }}
+              <Image
+                src="/images/img4.jpg"
+                alt={t('showroom.locationName') || 'Showroom de Usurbil'}
+                fill
+                preload={true}
+                fetchPriority="high"
+                quality={80}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 560px"
+                className="object-cover"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between">
@@ -146,19 +153,40 @@ export default async function LocalizedShowroomPage({ params }) {
 
             {/* Map + gallery */}
             <div className="space-y-5">
-              <div
-                className="w-full h-48 sm:h-64 rounded-2xl bg-cover bg-center shadow-lg border border-border/50"
-                style={{ backgroundImage: 'url("/images/img3.jpg")' }}
-              />
+              <div className="relative w-full h-48 sm:h-64 rounded-2xl overflow-hidden shadow-lg border border-border/50">
+                <Image
+                  src="/images/img3.jpg"
+                  alt="Showroom interior"
+                  fill
+                  quality={80}
+                  loading="lazy"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
               <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                <div
-                  className="h-28 sm:h-40 rounded-2xl bg-cover bg-center shadow-md"
-                  style={{ backgroundImage: 'url("/images/img1.jpg")' }}
-                />
-                <div
-                  className="h-28 sm:h-40 rounded-2xl bg-cover bg-center shadow-md"
-                  style={{ backgroundImage: 'url("/images/img7.png")' }}
-                />
+                <div className="relative h-28 sm:h-40 rounded-2xl overflow-hidden shadow-md">
+                  <Image
+                    src="/images/img1.jpg"
+                    alt="Showroom view 1"
+                    fill
+                    quality={80}
+                    loading="lazy"
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="relative h-28 sm:h-40 rounded-2xl overflow-hidden shadow-md">
+                  <Image
+                    src="/images/img7.png"
+                    alt="Showroom view 2"
+                    fill
+                    quality={80}
+                    loading="lazy"
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                    className="object-cover"
+                  />
+                </div>
               </div>
               <div className="bg-[#f9f7f4] rounded-2xl p-5 sm:p-6 border border-border/50">
                 <h3 className="font-serif text-lg font-semibold mb-3">{t('showroom.howToGetThere') || 'Cómo Llegar'}</h3>

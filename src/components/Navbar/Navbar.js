@@ -70,7 +70,18 @@ export default function Navbar({ dbRole, serverUserId, detectedCountry }) {
         <nav className="container mx-auto px-4 lg:px-8 h-20 flex items-center justify-between">
 
           <Link href={getLocalizedHref('/')} className="flex items-center z-[51]">
-            <Image src={logo} alt="MuraHomes" width={160} height={40} className="object-contain" style={{ width: 'auto', height: 'auto' }} priority />
+            <Image
+              src={logo}
+              alt="MuraHomes"
+              width={160}
+              height={40}
+              preload={true}
+              fetchPriority="high"
+              sizes="160px"
+              quality={80}
+              className="object-contain"
+              style={{ width: 'auto', height: 'auto' }}
+            />
           </Link>
 
           <div className="hidden lg:flex items-center gap-8">
@@ -197,7 +208,17 @@ export default function Navbar({ dbRole, serverUserId, detectedCountry }) {
           {/* Header */}
           <SheetHeader className="p-6 border-b border-border bg-secondary/10 flex flex-row items-center justify-between">
             <Link href={getLocalizedHref('/')} onClick={() => setMobileOpen(false)}>
-              <Image src={logo} alt="MuraHomes" width={140} height={36} className="object-contain" style={{ width: 'auto', height: 'auto' }} priority />
+              <Image
+                src={logo}
+                alt="MuraHomes"
+                width={140}
+                height={36}
+                loading="lazy"
+                sizes="140px"
+                quality={80}
+                className="object-contain"
+                style={{ width: 'auto', height: 'auto' }}
+              />
             </Link>
           </SheetHeader>
 

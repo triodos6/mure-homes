@@ -56,7 +56,7 @@ export default function AdminProductsPage() {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/products?limit=1000');
+      const res = await fetch('/api/products?limit=1000&summary=true');
       if (!res.ok) throw new Error('Failed to fetch collection');
       const { products: data } = await res.json();
       setProducts(data || []);

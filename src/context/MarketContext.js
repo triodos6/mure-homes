@@ -21,34 +21,27 @@ export function MarketProvider({ children, initialMarketCode = DEFAULT_MARKET })
   const routeMarket = useMemo(() => getMarketForLocale(locale), [locale]);
   const defaultMarketForRoute = routeMarket?.countryCode || initialMarketCode || DEFAULT_MARKET;
 
-  const [marketCode, setMarketCodeState] = useState(() => {
-    return initialMarketCode || defaultMarketForRoute;
-  });
+  // Optional manual override when user explicitly chooses a specific country
+  const [manualOverride, setManualOverride] = useState(null);
 
+  // Market code is derived directly during render without cascading effects
+  const marketCode = useMemo(() => {
+    if (manualOverride && MARKETS[manualOverride]) {
+      return manualOverride;
+    }
+    return defaultMarketForRoute;
+  }, [manualOverride, defaultMarketForRoute]);
+
+  // Synchronize localStorage as an external system side-effect only (no setState in effect)
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('murahomes_market');
-      // If the user explicitly saved a market that corresponds to the active locale, preserve it
-      if (saved && MARKETS[saved]) {
-        const savedMarket = MARKETS[saved];
-        if (savedMarket.defaultLocale === locale) {
-          if (marketCode !== saved) {
-            setMarketCodeState(saved);
-          }
-          return;
-        }
-      }
-      // Otherwise, the active route locale dictates the market cleanly without double re-render
-      if (defaultMarketForRoute && marketCode !== defaultMarketForRoute) {
-        setMarketCodeState(defaultMarketForRoute);
-        localStorage.setItem('murahomes_market', defaultMarketForRoute);
-      }
+      localStorage.setItem('murahomes_market', marketCode);
     } catch { }
-  }, [locale, defaultMarketForRoute, marketCode]);
+  }, [marketCode]);
 
   const setMarketCode = useCallback((newMarketCode) => {
     const validMarket = getMarket(newMarketCode);
-    setMarketCodeState(validMarket.countryCode);
+    setManualOverride(validMarket.countryCode);
     try {
       localStorage.setItem('murahomes_market', validMarket.countryCode);
       document.cookie = `murahomes_market=${validMarket.countryCode}; path=/; max-age=31536000; SameSite=Lax`;

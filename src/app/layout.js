@@ -104,30 +104,35 @@ export default async function RootLayout({ children }) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         <script
           id="org-jsonld"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
-        <script
-          id="suppress-extension-hydration-errors"
-          dangerouslySetInnerHTML={{
-            __html: `
-              if (process.env.NODE_ENV !== 'production') {
-                const originalConsoleError = console.error;
-                console.error = function (...args) {
-                  if (typeof args[0] === 'string' && (args[0].includes('bis_skin_checked') || args[0].includes('A tree hydrated but some attributes'))) {
-                    // Check if it's the specific Bitdefender/Extension hydration error and silence it
-                    if (args.some(a => typeof a === 'string' && a.includes('bis_skin_checked'))) {
-                      return;
+        {process.env.NODE_ENV !== 'production' && (
+          <script
+            id="suppress-extension-hydration-errors"
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  const originalConsoleError = console.error;
+                  console.error = function (...args) {
+                    if (typeof args[0] === 'string' && (args[0].includes('bis_skin_checked') || args[0].includes('A tree hydrated but some attributes'))) {
+                      if (args.some(a => typeof a === 'string' && a.includes('bis_skin_checked'))) {
+                        return;
+                      }
                     }
-                  }
-                  originalConsoleError.apply(console, args);
-                };
-              }
-            `
-          }}
-        />
+                    originalConsoleError.apply(console, args);
+                  };
+                })();
+              `
+            }}
+          />
+        )}
       </head>
       <body
         suppressHydrationWarning

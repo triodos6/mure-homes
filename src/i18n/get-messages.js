@@ -16,14 +16,7 @@ export async function getMessages(locale = DEFAULT_LOCALE) {
       const mod = await import(`../../messages/${safeLocale}.json`);
       return mod.default || mod;
     } catch (e) {
-      try {
-        const fs = await import('fs');
-        const path = await import('path');
-        const file = path.join(process.cwd(), 'messages', `${safeLocale}.json`);
-        return JSON.parse(fs.readFileSync(file, 'utf8'));
-      } catch (err) {
-        return {};
-      }
+      return {};
     }
   }
 }

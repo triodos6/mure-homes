@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Card } from "@/components/ui/card";
+import Image from 'next/image';
 import {
   Carousel,
   CarouselContent,
@@ -60,12 +61,19 @@ export default function ProductGallery({ images, title }) {
         <CarouselContent>
           {images.map((img, idx) => (
             <CarouselItem key={idx}>
-              <div 
-                className="aspect-[4/3] w-full bg-secondary bg-cover bg-center rounded-xl overflow-hidden shadow-sm" 
-                style={{ backgroundImage: `url('${getOptimizedImageUrl(img, 1200)}')` }} 
-                role="img" 
-                aria-label={`${title} view ${idx + 1}`}
-              />
+              <div className="relative aspect-[4/3] w-full bg-secondary rounded-xl overflow-hidden shadow-sm">
+                <Image
+                  src={getOptimizedImageUrl(img, 1200)}
+                  alt={`${title} view ${idx + 1}`}
+                  fill
+                  preload={idx === 0}
+                  fetchPriority={idx === 0 ? 'high' : 'auto'}
+                  loading={idx === 0 ? 'eager' : 'lazy'}
+                  quality={80}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -92,10 +100,17 @@ export default function ProductGallery({ images, title }) {
               onClick={() => handleThumbnailClick(idx)}
               aria-label={`View ${title} image ${idx + 1}`}
             >
-              <div 
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url('${getOptimizedImageUrl(img, 300)}')` }}
-              />
+              <div className="relative aspect-square w-full h-full">
+                <Image
+                  src={getOptimizedImageUrl(img, 300)}
+                  alt={`${title} thumbnail ${idx + 1}`}
+                  fill
+                  loading="lazy"
+                  quality={75}
+                  sizes="120px"
+                  className="object-cover"
+                />
+              </div>
             </button>
           ))}
         </div>

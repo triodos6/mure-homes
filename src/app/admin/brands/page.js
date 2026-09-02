@@ -50,7 +50,7 @@ export default function AdminBrandsPage() {
   const fetchBrands = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/brands');
+      const res = await fetch('/api/brands?summary=true');
       if (!res.ok) throw new Error('Failed to fetch brands');
       const data = await res.json();
       setBrands(data || []);
@@ -85,7 +85,7 @@ export default function AdminBrandsPage() {
     const withLogo = brands.filter(b => b.logo).length;
     const fullyLocalized = brands.filter(b => {
       if (!b.translations) return false;
-      const transCount = Object.keys(b.translations).filter(k => b.translations[k]?.name || b.translations[k]?.description).length;
+      const transCount = Object.keys(b.translations).filter(k => b.translations[k]?.hasContent || b.translations[k]?.name || b.translations[k]?.description).length;
       return transCount >= 20;
     }).length;
 

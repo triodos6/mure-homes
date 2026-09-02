@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useI18n } from '@/context/I18nContext';
 
 export default function CategoryCard({ category }) {
@@ -21,12 +22,17 @@ export default function CategoryCard({ category }) {
       <div className="overflow-hidden rounded-xl border border-border/50 bg-card shadow-sm hover:shadow-md transition-all duration-300">
         {/* Image — flush to top corners */}
         <div className="relative aspect-[4/5] bg-secondary w-full overflow-hidden">
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-110"
-            style={{
-              backgroundImage: category.image ? `url(${category.image})` : undefined,
-            }}
-          />
+          {category.image ? (
+            <Image
+              src={category.image}
+              alt={localizedName}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              quality={80}
+              loading="lazy"
+              className="object-cover transition-transform duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-110"
+            />
+          ) : null}
           <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
           <div className="absolute inset-0 border-[0.5px] border-white/0 group-hover:border-white/20 transition-colors duration-500 m-4 pointer-events-none" />
         </div>

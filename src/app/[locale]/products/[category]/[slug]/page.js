@@ -51,7 +51,7 @@ import { generateLocalizedMetadata } from '@/lib/seo/metadata';
 export async function generateMetadata({ params }) {
   const { locale, category, slug } = await params;
 
-  const product = await findProductByLocalizedSlug(slug, locale);
+  const product = await findProductByLocalizedSlug(slug, locale, { includeAllTranslations: true });
 
   if (!product) {
     return {

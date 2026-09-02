@@ -20,7 +20,7 @@ export default function BrandCard({ brand }) {
             width={64}
             height={64}
             className="max-w-full max-h-full object-contain"
-            unoptimized
+            loading="lazy"
             onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'flex'; }}
           />
         ) : null}

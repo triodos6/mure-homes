@@ -6,6 +6,7 @@ import { ArrowRight, Globe, Award, Handshake } from 'lucide-react';
 import img16 from '@/../public/images/img16.png';
 import { getMessages, getMessage } from '@/i18n/get-messages';
 import { generateLocalizedMetadata } from '@/lib/seo/metadata';
+import { getLocalizedBrand } from '@/lib/translations/translation-service';
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
@@ -33,7 +34,8 @@ export default async function LocalizedBrandsPage({ params }) {
   const messages = await getMessages(locale);
   const t = (k, p) => getMessage(messages, k, p);
 
-  const brands = await prisma.brand.findMany({ orderBy: { createdAt: 'asc' } });
+  const rawBrands = await prisma.brand.findMany({ orderBy: { createdAt: 'asc' } });
+  const brands = rawBrands.map((b) => getLocalizedBrand(b, locale));
 
   return (
     <>
@@ -63,8 +65,11 @@ export default async function LocalizedBrandsPage({ params }) {
                   src={img16}
                   alt="Red global de marcas de diseño asociadas a MuraHomes"
                   fill
+                  preload={true}
+                  fetchPriority="high"
+                  quality={80}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 560px"
                   className="object-cover object-center"
-                  priority
                 />
               </div>
               <div className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 bg-white rounded-2xl shadow-xl px-4 py-3 sm:px-5 sm:py-4 z-10">

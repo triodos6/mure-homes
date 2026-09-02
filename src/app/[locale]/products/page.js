@@ -119,10 +119,11 @@ export default async function LocalizedProductsPage({ params }) {
                     src="/images/img5.jpg"
                     alt={t('products.catalogTitle') || 'Salón de diseño MuraHomes'}
                     fill
-                    priority
+                    preload={true}
+                    fetchPriority="high"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    sizes="(max-width: 1024px) 50vw, 25vw"
-                    quality={85}
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 360px"
+                    quality={80}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
                 </div>
@@ -134,9 +135,10 @@ export default async function LocalizedProductsPage({ params }) {
                       src="/images/img4.jpg"
                       alt={t('products.featuredBadge') || 'Mueble de lujo'}
                       fill
+                      loading="lazy"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      sizes="(max-width: 1024px) 50vw, 25vw"
-                      quality={85}
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 360px"
+                      quality={80}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
                   </div>
@@ -145,9 +147,10 @@ export default async function LocalizedProductsPage({ params }) {
                       src="/images/img1.jpg"
                       alt={t('navigation.home') || 'Interiorismo mediterráneo'}
                       fill
+                      loading="lazy"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      sizes="(max-width: 1024px) 50vw, 25vw"
-                      quality={85}
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 360px"
+                      quality={80}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
                   </div>

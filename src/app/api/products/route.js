@@ -26,14 +26,76 @@ export async function GET(request) {
       ];
     }
 
+    const allTranslations = searchParams.get('allTranslations') === 'true';
+    const isSummary = searchParams.get('summary') === 'true';
+
+    const selectFields = isSummary ? {
+      id: true,
+      name: true,
+      slug: true,
+      brand: true,
+      category: true,
+      price: true,
+      status: true,
+      featured: true,
+      images: true,
+      thumbnail: true,
+      translations: true,
+      createdAt: true,
+    } : undefined;
+
     const [products, total] = await Promise.all([
-      prisma.product.findMany({ where, orderBy: { createdAt: 'desc' }, skip, take: limit }),
+      prisma.product.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+        ...(selectFields ? { select: selectFields } : {}),
+      }),
       prisma.product.count({ where }),
     ]);
 
-    const localizedProducts = products.map((p) => getLocalizedProduct(p, locale));
+    if (isSummary) {
+      const summaryProducts = products.map((p) => {
+        const translationsSummary = {};
+        if (p.translations && typeof p.translations === 'object') {
+          for (const [loc, t] of Object.entries(p.translations)) {
+            if (t) {
+              translationsSummary[loc] = {
+                name: t.name || '',
+                status: t.status || (t.name ? 'published' : 'missing'),
+              };
+            }
+          }
+        }
+        return {
+          id: p.id,
+          name: p.name,
+          slug: p.slug,
+          brand: p.brand,
+          category: p.category,
+          price: p.price,
+          status: p.status,
+          featured: p.featured,
+          images: p.images?.slice(0, 1) || [],
+          thumbnail: p.thumbnail || p.images?.[0] || null,
+          createdAt: p.createdAt,
+          translations: translationsSummary,
+        };
+      });
 
-    return NextResponse.json({ products: localizedProducts, total, page, totalPages: Math.ceil(total / limit) });
+      return NextResponse.json(
+        { products: summaryProducts, total, page, totalPages: Math.ceil(total / limit) },
+        { headers: { 'Cache-Control': 'private, no-cache' } }
+      );
+    }
+
+    const localizedProducts = products.map((p) => getLocalizedProduct(p, locale, { includeAllTranslations: allTranslations }));
+
+    return NextResponse.json(
+      { products: localizedProducts, total, page, totalPages: Math.ceil(total / limit) },
+      { headers: { 'Cache-Control': 'private, no-cache' } }
+    );
   } catch (error) {
     console.error('Failed to fetch products:', error);
     return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });

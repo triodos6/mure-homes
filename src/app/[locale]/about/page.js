@@ -95,10 +95,18 @@ export default async function LocalizedAboutPage({ params }) {
               </Link>
             </div>
             <div className="relative h-[320px] sm:h-[420px] lg:h-[520px] mt-4 lg:mt-0">
-              <div
-                className="absolute inset-0 rounded-2xl shadow-2xl bg-cover bg-center"
-                style={{ backgroundImage: 'url("/images/img9.jpg")' }}
-              />
+              <div className="absolute inset-0 rounded-2xl shadow-2xl overflow-hidden">
+                <Image
+                  src="/images/img9.jpg"
+                  alt={t('about.heroTitleHighlight') || 'MuraHomes'}
+                  fill
+                  preload={true}
+                  fetchPriority="high"
+                  quality={80}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 560px"
+                  className="object-cover"
+                />
+              </div>
               <div className="absolute -bottom-3 -left-3 sm:-bottom-6 sm:-left-6 bg-white rounded-2xl shadow-xl p-4 sm:p-5 z-10">
                 <p className="text-2xl sm:text-3xl font-bold font-serif text-black">20+</p>
                 <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mt-1">
@@ -139,6 +147,7 @@ export default async function LocalizedAboutPage({ params }) {
                 src={img14}
                 alt="Fundadores de MuraHomes"
                 fill
+                quality={80}
                 className="object-contain"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
@@ -176,6 +185,7 @@ export default async function LocalizedAboutPage({ params }) {
             src={img13}
             alt="Almacén y logística MuraHomes"
             fill
+            quality={80}
             className="object-cover opacity-30"
             sizes="100vw"
           />

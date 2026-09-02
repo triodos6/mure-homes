@@ -95,7 +95,7 @@ function detectLocaleFromRequest(request: NextRequest): string {
 
   // 2. Vercel Geo-IP Country Header (x-vercel-ip-country)
   const { country } = getVercelGeoHeaders(request);
-  console.log("[COUNTRY] => ", country);
+
   if (country && COUNTRY_TO_LOCALE[country]) {
     return COUNTRY_TO_LOCALE[country];
   }
@@ -115,7 +115,6 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const { locale, cleanPath } = extractLocale(pathname);
   const geo = getVercelGeoHeaders(request);
-  console.log('[GEO] => ', geo);
 
   // Automatic Locale Redirection (Skip API routes)
   if (locale === 'es' && !pathname.startsWith('/api/')) {

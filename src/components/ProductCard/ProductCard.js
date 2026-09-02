@@ -9,12 +9,11 @@ import { useMarket } from '@/context/MarketContext';
 import { ShoppingCart, Shield, ImageOff } from 'lucide-react';
 import { getOptimizedImageUrl } from '@/lib/image-utils';
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, preload = false }) {
   const { addToCart } = useCart();
   const { t, locale } = useI18n();
   const { formatPrice, resolvePrice } = useMarket();
   const [imgError, setImgError] = useState(false);
-  const [imgLoaded, setImgLoaded] = useState(false);
 
   const priceInfo = resolvePrice(product);
   const displayPrice = priceInfo.price || product.price;
@@ -37,14 +36,12 @@ export default function ProductCard({ product }) {
         href={productUrl}
         className="relative block w-full bg-[#f9f7f4] focus:outline-none h-44 sm:h-52 md:h-56 overflow-hidden shrink-0"
       >
-        {(!imgLoaded || !hasValidImage) && (
-          <div className="absolute inset-0 bg-muted/60 animate-pulse flex items-center justify-center">
-            {!hasValidImage && (
-              <div className="flex flex-col items-center gap-1.5 text-muted-foreground/40">
-                <ImageOff size={24} className="stroke-[1.5]" />
-                <span className="text-[10px] font-medium uppercase tracking-wider">No image</span>
-              </div>
-            )}
+        {!hasValidImage && (
+          <div className="absolute inset-0 bg-muted/60 flex items-center justify-center">
+            <div className="flex flex-col items-center gap-1.5 text-muted-foreground/40">
+              <ImageOff size={24} className="stroke-[1.5]" />
+              <span className="text-[10px] font-medium uppercase tracking-wider">No image</span>
+            </div>
           </div>
         )}
 
@@ -54,12 +51,12 @@ export default function ProductCard({ product }) {
             alt={product.name || 'Producto'}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            onLoad={() => setImgLoaded(true)}
+            quality={80}
+            preload={preload}
+            fetchPriority={preload ? 'high' : 'auto'}
+            loading={preload ? 'eager' : 'lazy'}
             onError={() => setImgError(true)}
-            className={`object-cover transition-all duration-700 ease-out group-hover:scale-105 ${
-              imgLoaded ? 'opacity-100' : 'opacity-0'
-            }`}
-            unoptimized
+            className="object-cover transition-all duration-700 ease-out group-hover:scale-105"
           />
         )}
         {product.featured && (

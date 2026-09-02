@@ -119,9 +119,14 @@ export default async function LocalizedHome({ params }) {
                   `}
                   style={{ minHeight: i === 0 ? 380 : 170 }}
                 >
-                  <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                    style={{ backgroundImage: `url(${category.image})` }}
+                  <Image
+                    src={category.image}
+                    alt={catName}
+                    fill
+                    sizes={i === 0 ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
+                    quality={80}
+                    loading="lazy"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4">
@@ -254,6 +259,7 @@ export default async function LocalizedHome({ params }) {
                 src={img12}
                 alt="MuraHomes Mediterranean Collection"
                 fill
+                quality={80}
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 66vw"
               />
@@ -278,6 +284,7 @@ export default async function LocalizedHome({ params }) {
                   src={img17}
                   alt="Production Workshop"
                   fill
+                  quality={80}
                   className="object-cover object-[center_60%] transition-transform duration-700 group-hover:scale-105"
                   sizes="(max-width: 1024px) 100vw, 33vw"
                 />
@@ -296,6 +303,7 @@ export default async function LocalizedHome({ params }) {
                   src={img18}
                   alt="Designers Studio"
                   fill
+                  quality={80}
                   className="object-cover object-[center_30%] transition-transform duration-700 group-hover:scale-105"
                   sizes="(max-width: 1024px) 100vw, 33vw"
                 />

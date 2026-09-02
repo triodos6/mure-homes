@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useI18n } from '@/context/I18nContext';
 
@@ -101,7 +102,7 @@ export default function HomeHero() {
           </div>
 
           {/* Right — Slideshow */}
-          <div className="relative flex items-center justify-center h-[360px] sm:h-[480px] lg:h-[680px] mt-4 lg:mt-0 animate-in fade-in slide-in-from-right-8 duration-1000 delay-200 fill-mode-both">
+          <div className="relative flex items-center justify-center h-[360px] sm:h-[480px] lg:h-[680px] mt-4 lg:mt-0">
 
             {/* Main slideshow container */}
             <div
@@ -110,18 +111,28 @@ export default function HomeHero() {
               onMouseLeave={() => setIsPaused(false)}
             >
               <div className="w-full h-full rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden bg-[#f0ece4]">
-                {slides.map((slide, i) => (
-                  <div
-                    key={slide.src}
-                    className={`absolute inset-0 transition-opacity duration-700 ${i === current ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-                  >
+                {slides.map((slide, i) => {
+                  const isInitial = i === 0;
+                  return (
                     <div
-                      className="w-full h-full bg-cover bg-center"
-                      style={{ backgroundImage: `url("${slide.src}")` }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                  </div>
-                ))}
+                      key={slide.src}
+                      className={`absolute inset-0 transition-opacity duration-700 ${i === current ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                    >
+                      <Image
+                        src={slide.src}
+                        alt={slide.alt}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 512px"
+                        quality={80}
+                        preload={isInitial}
+                        fetchPriority={isInitial ? 'high' : 'auto'}
+                        loading={isInitial ? 'eager' : 'lazy'}
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Navigation arrows */}

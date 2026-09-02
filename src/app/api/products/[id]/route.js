@@ -3,12 +3,30 @@ import prisma from '@/lib/prisma';
 import { requireAdmin } from '@/lib/adminAuth';
 import { revalidateTag } from 'next/cache';
 
+import { getLocalizedProduct } from '@/lib/translations/translation-service';
+
 export async function GET(req, { params }) {
   try {
     const { id } = await params;
+    if (!id || typeof id !== 'string') {
+      return NextResponse.json({ error: 'Invalid product ID' }, { status: 400 });
+    }
+
+    const { searchParams } = new URL(req.url);
+    const locale = searchParams.get('locale');
+
     const product = await prisma.product.findUnique({ where: { id } });
     if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 });
-    return NextResponse.json(product);
+
+    if (locale) {
+      return NextResponse.json(getLocalizedProduct(product, locale), {
+        headers: { 'Cache-Control': 'private, no-cache' }
+      });
+    }
+
+    return NextResponse.json(product, {
+      headers: { 'Cache-Control': 'private, no-cache' }
+    });
   } catch (error) {
     console.error('Failed to fetch product:', error);
     return NextResponse.json({ error: 'Failed to fetch product' }, { status: 500 });

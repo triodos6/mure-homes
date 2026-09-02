@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { MARKETS, getMarket } from '@/lib/markets/config';
 import { useMarket } from '@/context/MarketContext';
 import { MapPin, ChevronDown, Check } from 'lucide-react';
@@ -9,6 +10,8 @@ export default function MarketSelector({ className = '', align = 'right' }) {
   const { market, marketCode, setMarketCode } = useMarket();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const router = useRouter();
+  const pathname = usePathname() || '/';
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -27,7 +30,6 @@ export default function MarketSelector({ className = '', align = 'right' }) {
     
     // Redirect to the market's default locale
     const targetLocale = validMarket.defaultLocale;
-    const pathname = window.location.pathname;
     const segments = pathname.split('/').filter(Boolean);
     const supportedLocales = ['es', 'fr', 'de', 'it', 'lt', 'en', 'nl', 'pl', 'sv', 'da', 'no', 'fi', 'cs', 'sk', 'hu', 'ro', 'bg', 'el', 'hr', 'lv', 'et', 'pt'];
     
@@ -38,7 +40,7 @@ export default function MarketSelector({ className = '', align = 'right' }) {
     }
     
     const targetUrl = cleanPath === '/' ? (targetLocale === 'es' ? '/' : `/${targetLocale}`) : (targetLocale === 'es' ? cleanPath : `/${targetLocale}${cleanPath}`);
-    window.location.href = targetUrl;
+    router.push(targetUrl);
   };
 
   return (

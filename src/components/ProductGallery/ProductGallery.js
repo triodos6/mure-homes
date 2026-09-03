@@ -71,6 +71,7 @@ export default function ProductGallery({ images, title }) {
                   loading={idx === 0 ? 'eager' : 'lazy'}
                   quality={80}
                   sizes="(max-width: 1024px) 100vw, 50vw"
+                  unoptimized={true}
                   className="object-cover"
                 />
               </div>
@@ -108,6 +109,7 @@ export default function ProductGallery({ images, title }) {
                   loading="lazy"
                   quality={75}
                   sizes="120px"
+                  unoptimized={true}
                   className="object-cover"
                 />
               </div>

@@ -30,6 +30,7 @@ export default function CategoryCard({ category }) {
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               quality={80}
               loading="lazy"
+              unoptimized={typeof category.image === 'string' && category.image.startsWith('http')}
               className="object-cover transition-transform duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-110"
             />
           ) : null}

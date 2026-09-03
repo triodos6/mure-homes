@@ -55,6 +55,7 @@ export default function ProductCard({ product, preload = false }) {
             preload={preload}
             fetchPriority={preload ? 'high' : 'auto'}
             loading={preload ? 'eager' : 'lazy'}
+            unoptimized={typeof mainImage === 'string' && mainImage.startsWith('http')}
             onError={() => setImgError(true)}
             className="object-cover transition-all duration-700 ease-out group-hover:scale-105"
           />

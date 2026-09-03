@@ -19,6 +19,7 @@ export default function BrandCard({ brand }) {
             alt={brand.name || 'Marca'}
             width={64}
             height={64}
+            unoptimized={logoIsUrl}
             className="max-w-full max-h-full object-contain"
             loading="lazy"
             onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'flex'; }}

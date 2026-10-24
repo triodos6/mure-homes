@@ -34,6 +34,7 @@ export default function ProductCard({ product, preload = false }) {
       {/* Image area */}
       <Link
         href={productUrl}
+        prefetch={true}
         className="relative block w-full bg-[#f9f7f4] focus:outline-none h-44 sm:h-52 md:h-56 overflow-hidden shrink-0"
       >
         {!hasValidImage && (
@@ -71,11 +72,12 @@ export default function ProductCard({ product, preload = false }) {
       <div suppressHydrationWarning className="flex flex-col flex-grow bg-white p-3 sm:p-4">
         <Link
           href={categoryUrl}
+          prefetch={true}
           className="text-[9px] sm:text-[10px] font-bold tracking-widest uppercase text-muted-foreground hover:text-amber-600 transition-colors mb-0.5 sm:mb-1 line-clamp-1 block"
         >
           {product.brand} · {t(`categories.${product.category}`) || product.category}
         </Link>
-        <Link href={productUrl} className="flex-grow flex flex-col focus:outline-none">
+        <Link href={productUrl} prefetch={true} className="flex-grow flex flex-col focus:outline-none">
           <h3 className="font-serif text-sm sm:text-base font-medium leading-snug text-foreground mb-1.5 sm:mb-2 line-clamp-2 group-hover:text-amber-600 transition-colors">
             {product.name}
           </h3>
@@ -94,6 +96,7 @@ export default function ProductCard({ product, preload = false }) {
         <div className="flex items-center gap-1.5 sm:gap-2 mt-2.5 sm:mt-3 pt-2.5 sm:pt-3 border-t border-border/50">
           <Link
             href={productUrl}
+            prefetch={true}
             className="flex-1 text-center bg-secondary/50 hover:bg-secondary text-secondary-foreground text-[9px] sm:text-[10px] font-bold uppercase tracking-wider sm:tracking-widest h-9 sm:h-10 px-2 rounded-lg flex items-center justify-center transition-colors truncate active:bg-secondary/80"
           >
             {t('common.viewDetails')}

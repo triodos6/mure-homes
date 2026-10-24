@@ -112,12 +112,14 @@ export function getLocalizedProductCard(product, locale = DEFAULT_LOCALE) {
 const categoryCardsCache = new Map();
 const catalogCardsCache = new Map();
 const productSlugCache = new Map();
+const inFlightProductSlugPromises = new Map();
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 export function invalidateAllProductCaches() {
   categoryCardsCache.clear();
   catalogCardsCache.clear();
   productSlugCache.clear();
+  inFlightProductSlugPromises.clear();
 }
 
 /**
@@ -395,53 +397,65 @@ export const findProductByLocalizedSlug = cache(async function findProductByLoca
     return cached.data;
   }
 
-  try {
-    // 1. Try finding by root unique slug (fast indexed query on MongoDB)
-    const directMatch = await prisma.product.findUnique({
-      where: { slug },
-    });
+  // Deduplicate concurrent in-flight requests (e.g. generateMetadata and Page executing concurrently)
+  if (inFlightProductSlugPromises.has(cacheKey)) {
+    return inFlightProductSlugPromises.get(cacheKey);
+  }
 
-    if (directMatch) {
-      const res = getLocalizedProduct(directMatch, locale, options);
-      productSlugCache.set(cacheKey, { data: res, timestamp: now });
-      return res;
-    }
+  const queryPromise = (async () => {
+    try {
+      // 1. Try finding by root unique slug (fast indexed query on MongoDB)
+      const directMatch = await prisma.product.findUnique({
+        where: { slug },
+      });
 
-    // 2. Targeted query in MongoDB by localized slug across requested locale & supported locales
-    const localeFilters = SUPPORTED_LOCALES.map((loc) => ({ [`translations.${loc}.slug`]: slug }));
-    const rawMatches = await prisma.product.findRaw({
-      filter: {
-        status: 'active',
-        $or: [
-          { slug },
-          ...localeFilters,
-        ],
-      },
-      options: {
-        projection: { _id: 1 },
-        limit: 1,
-      },
-    });
+      if (directMatch) {
+        const res = getLocalizedProduct(directMatch, locale, options);
+        productSlugCache.set(cacheKey, { data: res, timestamp: Date.now() });
+        return res;
+      }
 
-    if (rawMatches && rawMatches.length > 0) {
-      const matchedId = rawMatches[0]._id?.$oid || rawMatches[0]._id?.toString();
-      if (matchedId) {
-        const localizedProduct = await prisma.product.findUnique({
-          where: { id: matchedId },
-        });
-        if (localizedProduct) {
-          const res = getLocalizedProduct(localizedProduct, locale, options);
-          productSlugCache.set(cacheKey, { data: res, timestamp: now });
-          return res;
+      // 2. Targeted query in MongoDB by localized slug across requested locale & supported locales
+      const localeFilters = SUPPORTED_LOCALES.map((loc) => ({ [`translations.${loc}.slug`]: slug }));
+      const rawMatches = await prisma.product.findRaw({
+        filter: {
+          status: 'active',
+          $or: [
+            { slug },
+            ...localeFilters,
+          ],
+        },
+        options: {
+          projection: { _id: 1 },
+          limit: 1,
+        },
+      });
+
+      if (rawMatches && rawMatches.length > 0) {
+        const matchedId = rawMatches[0]._id?.$oid || rawMatches[0]._id?.toString();
+        if (matchedId) {
+          const localizedProduct = await prisma.product.findUnique({
+            where: { id: matchedId },
+          });
+          if (localizedProduct) {
+            const res = getLocalizedProduct(localizedProduct, locale, options);
+            productSlugCache.set(cacheKey, { data: res, timestamp: Date.now() });
+            return res;
+          }
         }
       }
-    }
 
-    return null;
-  } catch (error) {
-    console.error(`Error looking up product by slug [${locale}:${slug}]:`, error.message);
-    return null;
-  }
+      return null;
+    } catch (error) {
+      console.error(`Error looking up product by slug [${locale}:${slug}]:`, error.message);
+      return null;
+    } finally {
+      inFlightProductSlugPromises.delete(cacheKey);
+    }
+  })();
+
+  inFlightProductSlugPromises.set(cacheKey, queryPromise);
+  return queryPromise;
 });
 
 // Removed over-engineered isSlugAvailable logic that downloaded the entire DB.

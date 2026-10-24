@@ -2,14 +2,13 @@ import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import Link from 'next/link';
 import { categories } from '@/data/products';
-import prisma from '@/lib/prisma';
 import ProductGallery from '@/components/ProductGallery/ProductGallery';
 import ProductCard from '@/components/ProductCard/ProductCard';
 import SectionHeading from '@/components/SectionHeading/SectionHeading';
 import ProductActions from '@/components/ProductActions/ProductActions';
 import PixelTracker from '@/components/PixelTracker/PixelTracker';
 import ProductPrice from '@/components/ProductPrice/ProductPrice';
-import { getLocalizedProduct, findProductByLocalizedSlug, getLocalizedProductCard } from '@/lib/translations/translation-service';
+import { getLocalizedProduct, findProductByLocalizedSlug, getLocalizedProductCard, getCategoryProductCards } from '@/lib/translations/translation-service';
 import { getMessages, getMessage } from '@/i18n/get-messages';
 import { generateProductSchema, generateBreadcrumbSchema } from '@/lib/seo/schema';
 import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '@/i18n/config';
@@ -32,19 +31,6 @@ import {
 export const revalidate = 3600;
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://mura-homes.com';
-
-async function fetchWithTimeout(promise, ms = 2500) {
-  let timer;
-  const timeoutPromise = new Promise((_, reject) => {
-    timer = setTimeout(() => reject(new Error('DB Query Timeout')), ms);
-  });
-  try {
-    const result = await Promise.race([promise, timeoutPromise]);
-    return result;
-  } finally {
-    clearTimeout(timer);
-  }
-}
 
 import { generateLocalizedMetadata } from '@/lib/seo/metadata';
 
@@ -104,37 +90,15 @@ export default async function LocalizedProductPage({ params }) {
   const messages = await getMessages(locale);
   const t = (k, p) => getMessage(messages, k, p);
 
-  // Fetch related products (lightweight projection for cards only)
+  // Fetch related products (ultra-fast cached category cards)
   let relatedProducts = [];
   try {
-    const rawRelated = await fetchWithTimeout(
-      prisma.product.findMany({
-        where: {
-          category: product.category,
-          id: { not: product.id },
-          status: 'active',
-        },
-        select: {
-          id: true,
-          name: true,
-          slug: true,
-          category: true,
-          price: true,
-          marketPrices: true,
-          brand: true,
-          images: true,
-          thumbnail: true,
-          featured: true,
-          status: true,
-          translations: true,
-        },
-        take: 4,
-      }),
-      2500
-    );
-    relatedProducts = (rawRelated || []).map((p) => getLocalizedProductCard(p, locale));
+    const categoryCards = await getCategoryProductCards(product.category, locale, 8);
+    relatedProducts = (categoryCards?.products || [])
+      .filter((p) => p.id !== product.id)
+      .slice(0, 4);
   } catch (err) {
-    console.warn(`[PDP DB Degradation] Related products skipped: ${err.message}`);
+    console.warn(`[PDP DB Degradation] Related products fallback: ${err.message}`);
   }
 
   const categoryData = categories.find((c) => c.id === category);

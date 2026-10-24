@@ -8,11 +8,10 @@ import { categories } from '@/data/products';
 import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
-import prisma from '@/lib/prisma';
 import img12 from '@/../public/images/img12.png';
 import img17 from '@/../public/images/img17.jpg';
 import img18 from '@/../public/images/img18.jpg';
-import { getLocalizedProduct, getLocalizedBrand } from '@/lib/translations/translation-service';
+import { getHomepageFeaturedProducts, getHomepageBrands } from '@/lib/translations/translation-service';
 import { getMessages } from '@/i18n/get-messages';
 import {
   Truck,
@@ -23,6 +22,8 @@ import {
 } from 'lucide-react';
 import { generateLocalizedMetadata } from '@/lib/seo/metadata';
 import { generateOrganizationSchema, generateWebSiteSchema } from '@/lib/seo/schema';
+
+export const revalidate = 3600;
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
@@ -43,28 +44,10 @@ export default async function LocalizedHome({ params }) {
   const { locale } = await params;
   const messages = await getMessages(locale);
 
-  let [rawFeatured, rawBrands] = await Promise.all([
-    prisma.product.findMany({
-      where: { featured: true, status: 'active' },
-      take: 8,
-      orderBy: { createdAt: 'desc' },
-    }),
-    prisma.brand.findMany({
-      take: 6,
-      orderBy: { createdAt: 'asc' },
-    }),
+  const [featuredProducts, brands] = await Promise.all([
+    getHomepageFeaturedProducts(locale, 8),
+    getHomepageBrands(locale, 6),
   ]);
-
-  if (rawFeatured.length === 0) {
-    rawFeatured = await prisma.product.findMany({
-      where: { status: 'active' },
-      take: 8,
-      orderBy: { createdAt: 'desc' },
-    });
-  }
-
-  const featuredProducts = rawFeatured.map((p) => getLocalizedProduct(p, locale));
-  const brands = rawBrands.map((b) => getLocalizedBrand(b, locale));
 
   const trustItems = [
     { icon: Truck,       title: messages.product?.shipping || 'Envío Gratis',        sub: messages.delivery?.freeAbove?.replace('{amount}', '€500') || 'En pedidos superiores a €500' },

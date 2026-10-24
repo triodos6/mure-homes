@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
+import NavigationProgressBar from '@/components/NavigationProgressBar/NavigationProgressBar';
 import { pageview } from '@/lib/pixel';
 
 export default function LayoutShell({ children, dbRole, serverUserId, detectedCountry }) {
@@ -20,6 +21,7 @@ export default function LayoutShell({ children, dbRole, serverUserId, detectedCo
 
   return (
     <div className="flex flex-col min-h-screen">
+      <NavigationProgressBar />
       <Navbar dbRole={dbRole} serverUserId={serverUserId} detectedCountry={detectedCountry} />
       <main className="flex-grow pt-20">
         {children}

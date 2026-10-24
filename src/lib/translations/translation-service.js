@@ -113,6 +113,8 @@ const categoryCardsCache = new Map();
 const catalogCardsCache = new Map();
 const productSlugCache = new Map();
 const inFlightProductSlugPromises = new Map();
+const homepageFeaturedCache = new Map();
+const homepageBrandsCache = new Map();
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 export function invalidateAllProductCaches() {
@@ -120,6 +122,8 @@ export function invalidateAllProductCaches() {
   catalogCardsCache.clear();
   productSlugCache.clear();
   inFlightProductSlugPromises.clear();
+  homepageFeaturedCache.clear();
+  homepageBrandsCache.clear();
 }
 
 /**
@@ -507,4 +511,82 @@ export async function upsertProductTranslation(productId, locale, translationDat
   invalidateAllProductCaches();
 
   return updated;
+}
+
+/**
+ * Ultra-fast cached featured products fetcher for homepage.
+ * Queries active products with lightweight projection (no 22 translation descriptions)
+ * and caches results in memory for 5 minutes.
+ * @param {string} locale - Target locale
+ * @param {number} limit - Maximum products to retrieve
+ * @returns {Promise<Array>}
+ */
+export async function getHomepageFeaturedProducts(locale = DEFAULT_LOCALE, limit = 8) {
+  const isEs = locale === 'es' || !locale;
+  const cacheKey = `${locale}:${limit}`;
+  const cached = homepageFeaturedCache.get(cacheKey);
+  const now = Date.now();
+  if (cached && (now - cached.timestamp < CACHE_TTL)) {
+    return cached.data;
+  }
+
+  try {
+    const rawProducts = await prisma.product.findMany({
+      where: { status: 'active' },
+      take: limit,
+      orderBy: [
+        { featured: 'desc' },
+        { createdAt: 'desc' },
+      ],
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        category: true,
+        price: true,
+        marketPrices: true,
+        brand: true,
+        images: true,
+        thumbnail: true,
+        featured: true,
+        status: true,
+        ...(isEs ? {} : { translations: true }),
+      },
+    });
+
+    const cards = rawProducts.map((p) => getLocalizedProductCard(p, locale));
+    homepageFeaturedCache.set(cacheKey, { data: cards, timestamp: now });
+    return cards;
+  } catch (err) {
+    console.error('Error fetching homepage featured products:', err.message);
+    return [];
+  }
+}
+
+/**
+ * Ultra-fast cached brands fetcher for homepage.
+ * @param {string} locale - Target locale
+ * @param {number} limit - Maximum brands to retrieve
+ * @returns {Promise<Array>}
+ */
+export async function getHomepageBrands(locale = DEFAULT_LOCALE, limit = 6) {
+  const cacheKey = `${locale}:${limit}`;
+  const cached = homepageBrandsCache.get(cacheKey);
+  const now = Date.now();
+  if (cached && (now - cached.timestamp < CACHE_TTL)) {
+    return cached.data;
+  }
+
+  try {
+    const rawBrands = await prisma.brand.findMany({
+      take: limit,
+      orderBy: { createdAt: 'asc' },
+    });
+    const brands = rawBrands.map((b) => getLocalizedBrand(b, locale));
+    homepageBrandsCache.set(cacheKey, { data: brands, timestamp: now });
+    return brands;
+  } catch (err) {
+    console.error('Error fetching homepage brands:', err.message);
+    return [];
+  }
 }

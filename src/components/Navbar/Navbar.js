@@ -83,7 +83,7 @@ export default function Navbar({ dbRole, serverUserId, detectedCountry }) {
       <header suppressHydrationWarning className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${scrolled ? 'bg-white/98 backdrop-blur-md shadow-sm border-b border-border/80' : 'bg-transparent'}`}>
         <nav className="container mx-auto px-4 lg:px-8 h-20 flex items-center justify-between">
 
-          <Link href={getLocalizedHref('/')} className="flex items-center z-[51]">
+          <Link href={getLocalizedHref('/')} prefetch={true} className="flex items-center z-[51]">
             <Image
               src={logo}
               alt="MuraHomes"
@@ -103,7 +103,7 @@ export default function Navbar({ dbRole, serverUserId, detectedCountry }) {
               <NavigationMenuList className="gap-2">
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                    <Link href={getLocalizedHref('/about')} suppressHydrationWarning>{t('navigation.about')}</Link>
+                    <Link href={getLocalizedHref('/about')} prefetch={true} suppressHydrationWarning>{t('navigation.about')}</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
@@ -227,7 +227,7 @@ export default function Navbar({ dbRole, serverUserId, detectedCountry }) {
         <SheetContent side="left" className="w-[85vw] sm:max-w-md bg-white p-0 flex flex-col h-full border-r border-border shadow-2xl z-[100]">
           {/* Header */}
           <SheetHeader className="p-6 border-b border-border bg-secondary/10 flex flex-row items-center justify-between">
-            <Link href={getLocalizedHref('/')} onClick={() => setMobileOpen(false)}>
+            <Link href={getLocalizedHref('/')} prefetch={true} onClick={() => setMobileOpen(false)}>
               <Image
                 src={logo}
                 alt="MuraHomes"
@@ -289,6 +289,7 @@ export default function Navbar({ dbRole, serverUserId, detectedCountry }) {
                   <Link
                     key={item.href}
                     href={localizedHref}
+                    prefetch={true}
                     onClick={() => setMobileOpen(false)}
                     className={`flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition-all ${
                       isActive

@@ -1,5 +1,7 @@
 import LocalizedPage, { generateMetadata as localizedGenerateMetadata } from '@/app/[locale]/products/[category]/[slug]/page';
 
+export const revalidate = 3600;
+
 export async function generateMetadata({ params }) {
   const resolved = await params;
   return localizedGenerateMetadata({ params: Promise.resolve({ locale: 'es', ...resolved }) });

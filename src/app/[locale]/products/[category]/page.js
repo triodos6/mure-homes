@@ -13,7 +13,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import PixelTracker from '@/components/PixelTracker/PixelTracker';
-import { getLocalizedProduct } from '@/lib/translations/translation-service';
+import { getLocalizedProduct, getLocalizedProductCard, getCategoryProductCards } from '@/lib/translations/translation-service';
 import { getMessages, getMessage } from '@/i18n/get-messages';
 
 export const revalidate = 3600;
@@ -63,18 +63,7 @@ export default async function LocalizedCategoryPage({ params }) {
 
   const LIMIT = 12;
 
-  const [rawProducts, total] = await Promise.all([
-    prisma.product.findMany({
-      where: { category, status: 'active' },
-      orderBy: { createdAt: 'desc' },
-      skip: 0,
-      take: LIMIT,
-    }),
-    prisma.product.count({ where: { category, status: 'active' } }),
-  ]);
-
-  const categoryProducts = rawProducts.map((p) => getLocalizedProduct(p, locale));
-  const totalPages = Math.ceil(total / LIMIT);
+  const { products: categoryProducts, total, totalPages } = await getCategoryProductCards(category, locale, LIMIT);
 
   // BreadcrumbList JSON-LD
   const breadcrumbJsonLd = {
@@ -156,6 +145,7 @@ export default async function LocalizedCategoryPage({ params }) {
                   <Link
                     key={c.id}
                     href={getLocalizedHref(`/products/${c.id}`)}
+                    prefetch={true}
                     className="group flex flex-col items-center justify-center p-4 rounded-xl border border-border/60 bg-[#f9f7f4] hover:bg-white hover:border-black/20 transition-all duration-300 hover:shadow-md text-center"
                   >
                     <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-xl bg-white group-hover:bg-black group-hover:text-white transition-colors duration-300 shadow-xs mb-2.5">

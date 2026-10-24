@@ -9,7 +9,7 @@ import SectionHeading from '@/components/SectionHeading/SectionHeading';
 import ProductActions from '@/components/ProductActions/ProductActions';
 import PixelTracker from '@/components/PixelTracker/PixelTracker';
 import ProductPrice from '@/components/ProductPrice/ProductPrice';
-import { getLocalizedProduct, findProductByLocalizedSlug } from '@/lib/translations/translation-service';
+import { getLocalizedProduct, findProductByLocalizedSlug, getLocalizedProductCard } from '@/lib/translations/translation-service';
 import { getMessages, getMessage } from '@/i18n/get-messages';
 import { generateProductSchema, generateBreadcrumbSchema } from '@/lib/seo/schema';
 import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '@/i18n/config';
@@ -51,7 +51,7 @@ import { generateLocalizedMetadata } from '@/lib/seo/metadata';
 export async function generateMetadata({ params }) {
   const { locale, category, slug } = await params;
 
-  const product = await findProductByLocalizedSlug(slug, locale, { includeAllTranslations: true });
+  const product = await findProductByLocalizedSlug(slug, locale);
 
   if (!product) {
     return {
@@ -104,7 +104,7 @@ export default async function LocalizedProductPage({ params }) {
   const messages = await getMessages(locale);
   const t = (k, p) => getMessage(messages, k, p);
 
-  // Fetch related products
+  // Fetch related products (lightweight projection for cards only)
   let relatedProducts = [];
   try {
     const rawRelated = await fetchWithTimeout(
@@ -114,11 +114,25 @@ export default async function LocalizedProductPage({ params }) {
           id: { not: product.id },
           status: 'active',
         },
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          category: true,
+          price: true,
+          marketPrices: true,
+          brand: true,
+          images: true,
+          thumbnail: true,
+          featured: true,
+          status: true,
+          translations: true,
+        },
         take: 4,
       }),
       2500
     );
-    relatedProducts = (rawRelated || []).map((p) => getLocalizedProduct(p, locale));
+    relatedProducts = (rawRelated || []).map((p) => getLocalizedProductCard(p, locale));
   } catch (err) {
     console.warn(`[PDP DB Degradation] Related products skipped: ${err.message}`);
   }

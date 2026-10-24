@@ -112,10 +112,16 @@ export default function Navbar({ dbRole, serverUserId, detectedCountry }) {
                     <div className="grid grid-cols-2 md:grid-cols-4 w-[600px] p-6 gap-4">
                       <div className="col-span-4 flex justify-between items-center border-b pb-2 mb-2">
                         <h3 className="font-serif text-lg font-medium">{t('navigation.collections')}</h3>
-                        <Link href={getLocalizedHref('/products')} className="text-sm font-medium text-primary hover:text-primary/80 uppercase tracking-wider" suppressHydrationWarning>{t('navigation.viewAll')} &rarr;</Link>
+                        <Link href={getLocalizedHref('/products')} prefetch={true} className="text-sm font-medium text-primary hover:text-primary/80 uppercase tracking-wider" suppressHydrationWarning>{t('navigation.viewAll')} &rarr;</Link>
                       </div>
                       {categories.map((cat) => (
-                        <Link key={cat.id} href={getLocalizedHref(`/products/${cat.id}`)} className="group flex flex-col items-center gap-2 p-3 rounded-md hover:bg-secondary/50 transition-colors" suppressHydrationWarning>
+                        <Link 
+                          key={cat.id} 
+                          href={getLocalizedHref(`/products/${cat.id}`)} 
+                          prefetch={true}
+                          className="group flex flex-col items-center gap-2 p-3 rounded-md hover:bg-secondary/50 transition-colors" 
+                          suppressHydrationWarning
+                        >
                           <div className="w-10 h-10 flex items-center justify-center rounded bg-secondary text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                             <span className="text-xl">{getCategoryIcon(cat.id)}</span>
                           </div>
@@ -301,10 +307,11 @@ export default function Navbar({ dbRole, serverUserId, detectedCountry }) {
             <div className="pt-4 border-t border-border space-y-2">
               <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground px-3 mb-2">{t('navigation.collections')}</p>
               <div className="grid grid-cols-2 gap-2">
-                {categories.slice(0, 4).map((cat) => (
+                {categories.map((cat) => (
                   <Link
                     key={cat.id}
                     href={getLocalizedHref(`/products/${cat.id}`)}
+                    prefetch={true}
                     onClick={() => setMobileOpen(false)}
                     className="flex items-center gap-2 p-2.5 rounded-lg border border-border/50 bg-secondary/20 hover:bg-secondary/60 transition-colors text-xs font-medium"
                   >

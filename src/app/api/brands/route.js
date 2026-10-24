@@ -3,17 +3,31 @@ import prisma from '@/lib/prisma';
 import { requireAdmin } from '@/lib/adminAuth';
 import { getLocalizedBrand } from '@/lib/translations/translation-service';
 
+// In-memory brand cache (5 min TTL) to eliminate repeated DB queries on admin product forms
+let rawBrandsCache = { data: null, timestamp: 0 };
+const BRANDS_CACHE_TTL = 5 * 60 * 1000;
+
+export function invalidateBrandsCache() {
+  rawBrandsCache = { data: null, timestamp: 0 };
+}
+
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const allTranslations = searchParams.get('all') === 'true' || searchParams.get('allTranslations') === 'true';
     const locale = searchParams.get('locale') || request.headers.get('x-locale') || 'es';
-
     const isSummary = searchParams.get('summary') === 'true';
 
-    const brands = await prisma.brand.findMany({
-      orderBy: { createdAt: 'desc' }
-    });
+    const now = Date.now();
+    let brands;
+    if (rawBrandsCache.data && (now - rawBrandsCache.timestamp < BRANDS_CACHE_TTL)) {
+      brands = rawBrandsCache.data;
+    } else {
+      brands = await prisma.brand.findMany({
+        orderBy: { createdAt: 'desc' }
+      });
+      rawBrandsCache = { data: brands, timestamp: now };
+    }
 
     if (isSummary) {
       const summaryBrands = brands.map((b) => {
@@ -71,6 +85,8 @@ export async function POST(req) {
         translations: body.translations || null,
       }
     });
+
+    invalidateBrandsCache();
 
     return NextResponse.json(brand);
   } catch (error) {

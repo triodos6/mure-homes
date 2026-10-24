@@ -79,6 +79,281 @@ export function getLocalizedProduct(product, locale = DEFAULT_LOCALE, options = 
 }
 
 /**
+ * Lightweight transformer for product cards (catalog grid, category grid, related products).
+ * Strips heavy unused fields (HTML descriptions, dimensions, materials, multi-locale blobs)
+ * to keep RSC payloads and client memory minimal while preserving all card & cart requirements.
+ * @param {object} product - Raw product document from Prisma
+ * @param {string} locale - Target locale
+ * @returns {object|null}
+ */
+export function getLocalizedProductCard(product, locale = DEFAULT_LOCALE) {
+  if (!product) return null;
+  const rawTranslations = product.translations;
+  const trans = (locale !== 'es' && rawTranslations?.[locale]) || rawTranslations?.es || {};
+  const baseName = trans.name || product.name || '';
+  const baseSlug = trans.slug || product.slug || '';
+
+  return {
+    id: product.id,
+    name: baseName,
+    slug: baseSlug,
+    category: product.category,
+    price: product.price,
+    marketPrices: product.marketPrices || null,
+    brand: product.brand || '',
+    images: Array.isArray(product.images) && product.images.length > 0 ? product.images.slice(0, 2) : [],
+    thumbnail: product.thumbnail || product.images?.[0] || null,
+    featured: Boolean(product.featured),
+    status: product.status || 'active',
+  };
+}
+
+// ── IN-MEMORY PROCESS CACHES (TTL 5 minutes) ──────────────────────────
+const categoryCardsCache = new Map();
+const catalogCardsCache = new Map();
+const productSlugCache = new Map();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+export function invalidateAllProductCaches() {
+  categoryCardsCache.clear();
+  catalogCardsCache.clear();
+  productSlugCache.clear();
+}
+
+/**
+ * Ultra-fast category products fetcher that retrieves lightweight card data and total count
+ * in a single MongoDB aggregation round-trip with server-side projection and in-memory caching.
+ * Avoids transferring full 22-locale descriptions, HTML, or dimension objects over Atlas WAN.
+ * @param {string} category - Category slug
+ * @param {string} locale - Target locale
+ * @param {number} limit - Maximum number of products to return
+ * @returns {Promise<{ products: Array, total: number, totalPages: number }>}
+ */
+export async function getCategoryProductCards(category, locale = DEFAULT_LOCALE, limit = 12) {
+  const isEs = locale === 'es' || !locale;
+  const cacheKey = `${category}:${locale}:${limit}`;
+  const cached = categoryCardsCache.get(cacheKey);
+  const now = Date.now();
+  if (cached && (now - cached.timestamp < CACHE_TTL)) {
+    return cached.data;
+  }
+
+  try {
+    const pipeline = [
+      { $match: { category, status: 'active' } },
+      {
+        $facet: {
+          metadata: [{ $count: 'total' }],
+          data: [
+            { $sort: { createdAt: -1 } },
+            { $limit: limit },
+            {
+              $project: {
+                _id: 1,
+                name: 1,
+                slug: 1,
+                category: 1,
+                price: 1,
+                marketPrices: 1,
+                brand: 1,
+                thumbnail: 1,
+                featured: 1,
+                status: 1,
+                images: { $slice: ['$images', 2] },
+                ...(!isEs ? {
+                  localizedName: `$translations.${locale}.name`,
+                  localizedSlug: `$translations.${locale}.slug`,
+                } : {})
+              }
+            }
+          ]
+        }
+      }
+    ];
+
+    const facetResults = await prisma.product.aggregateRaw({ pipeline });
+    const facet = Array.isArray(facetResults) ? facetResults[0] : facetResults;
+    const total = facet?.metadata?.[0]?.total || 0;
+    const rawData = facet?.data || [];
+
+    const products = rawData.map((p) => {
+      const id = p._id?.$oid || String(p._id);
+      return {
+        id,
+        name: p.localizedName || p.name || '',
+        slug: p.localizedSlug || p.slug || '',
+        category: p.category || '',
+        price: p.price ?? 0,
+        marketPrices: p.marketPrices || null,
+        brand: p.brand || '',
+        images: Array.isArray(p.images) ? p.images : [],
+        thumbnail: p.thumbnail || p.images?.[0] || null,
+        featured: Boolean(p.featured),
+        status: p.status || 'active',
+      };
+    });
+
+    const result = {
+      products,
+      total,
+      totalPages: Math.ceil(total / limit),
+    };
+
+    categoryCardsCache.set(cacheKey, { data: result, timestamp: now });
+    return result;
+  } catch (err) {
+    console.error(`Fallback to standard query for category ${category}:`, err);
+    const [rawProducts, total] = await Promise.all([
+      prisma.product.findMany({
+        where: { category, status: 'active' },
+        orderBy: { createdAt: 'desc' },
+        skip: 0,
+        take: limit,
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          category: true,
+          price: true,
+          marketPrices: true,
+          brand: true,
+          images: true,
+          thumbnail: true,
+          featured: true,
+          status: true,
+          ...(isEs ? {} : { translations: true }),
+        },
+      }),
+      prisma.product.count({ where: { category, status: 'active' } }),
+    ]);
+
+    const result = {
+      products: rawProducts.map((p) => getLocalizedProductCard(p, locale)),
+      total,
+      totalPages: Math.ceil(total / limit),
+    };
+
+    categoryCardsCache.set(cacheKey, { data: result, timestamp: now });
+    return result;
+  }
+}
+
+/**
+ * Ultra-fast catalog initial products fetcher for /products route with in-memory caching.
+ * @param {string} locale - Target locale
+ * @param {number} limit - Maximum number of products to return
+ * @returns {Promise<{ products: Array, total: number, totalPages: number }>}
+ */
+export async function getCatalogInitialProductCards(locale = DEFAULT_LOCALE, limit = 12) {
+  const isEs = locale === 'es' || !locale;
+  const cacheKey = `${locale}:${limit}`;
+  const cached = catalogCardsCache.get(cacheKey);
+  const now = Date.now();
+  if (cached && (now - cached.timestamp < CACHE_TTL)) {
+    return cached.data;
+  }
+
+  try {
+    const pipeline = [
+      { $match: { status: 'active' } },
+      {
+        $facet: {
+          metadata: [{ $count: 'total' }],
+          data: [
+            { $sort: { createdAt: -1 } },
+            { $limit: limit },
+            {
+              $project: {
+                _id: 1,
+                name: 1,
+                slug: 1,
+                category: 1,
+                price: 1,
+                marketPrices: 1,
+                brand: 1,
+                thumbnail: 1,
+                featured: 1,
+                status: 1,
+                images: { $slice: ['$images', 2] },
+                ...(!isEs ? {
+                  localizedName: `$translations.${locale}.name`,
+                  localizedSlug: `$translations.${locale}.slug`,
+                } : {})
+              }
+            }
+          ]
+        }
+      }
+    ];
+
+    const facetResults = await prisma.product.aggregateRaw({ pipeline });
+    const facet = Array.isArray(facetResults) ? facetResults[0] : facetResults;
+    const total = facet?.metadata?.[0]?.total || 0;
+    const rawData = facet?.data || [];
+
+    const products = rawData.map((p) => {
+      const id = p._id?.$oid || String(p._id);
+      return {
+        id,
+        name: p.localizedName || p.name || '',
+        slug: p.localizedSlug || p.slug || '',
+        category: p.category || '',
+        price: p.price ?? 0,
+        marketPrices: p.marketPrices || null,
+        brand: p.brand || '',
+        images: Array.isArray(p.images) ? p.images : [],
+        thumbnail: p.thumbnail || p.images?.[0] || null,
+        featured: Boolean(p.featured),
+        status: p.status || 'active',
+      };
+    });
+
+    const result = {
+      products,
+      total,
+      totalPages: Math.ceil(total / limit),
+    };
+
+    catalogCardsCache.set(cacheKey, { data: result, timestamp: now });
+    return result;
+  } catch (err) {
+    console.error('Fallback in getCatalogInitialProductCards:', err);
+    const [rawProducts, total] = await Promise.all([
+      prisma.product.findMany({
+        where: { status: 'active' },
+        orderBy: { createdAt: 'desc' },
+        skip: 0,
+        take: limit,
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          category: true,
+          price: true,
+          marketPrices: true,
+          brand: true,
+          images: true,
+          thumbnail: true,
+          featured: true,
+          status: true,
+          ...(isEs ? {} : { translations: true }),
+        },
+      }),
+      prisma.product.count({ where: { status: 'active' } }),
+    ]);
+
+    const result = {
+      products: rawProducts.map((p) => getLocalizedProductCard(p, locale)),
+      total,
+      totalPages: Math.ceil(total / limit),
+    };
+
+    catalogCardsCache.set(cacheKey, { data: result, timestamp: now });
+    return result;
+  }
+}
+
+/**
  * Resolves a localized brand entity with fallback, keeping ONLY the user-selected language.
  * @param {object} brand - Raw brand document from Prisma
  * @param {string} locale - Target locale
@@ -110,8 +385,15 @@ import { cache } from 'react';
  * @param {string} locale - The locale being browsed
  * @returns {Promise<object|null>}
  */
-export const findProductByLocalizedSlug = cache(async function findProductByLocalizedSlug(slug, locale = DEFAULT_LOCALE, options = {}) {
+export const findProductByLocalizedSlug = cache(async function findProductByLocalizedSlug(slug, locale = DEFAULT_LOCALE, options = { includeAllTranslations: true }) {
   if (!slug) return null;
+
+  const cacheKey = `${slug}:${locale}:${options?.includeAllTranslations ? 'all' : 'single'}`;
+  const cached = productSlugCache.get(cacheKey);
+  const now = Date.now();
+  if (cached && (now - cached.timestamp < CACHE_TTL)) {
+    return cached.data;
+  }
 
   try {
     // 1. Try finding by root unique slug (fast indexed query on MongoDB)
@@ -120,26 +402,39 @@ export const findProductByLocalizedSlug = cache(async function findProductByLoca
     });
 
     if (directMatch) {
-      return getLocalizedProduct(directMatch, locale, options);
+      const res = getLocalizedProduct(directMatch, locale, options);
+      productSlugCache.set(cacheKey, { data: res, timestamp: now });
+      return res;
     }
 
-    // 2. If not found by direct slug, query all products and match in-memory across all locales
-    const allProducts = await prisma.product.findMany({
-      where: { status: 'active' },
+    // 2. Targeted query in MongoDB by localized slug across requested locale & supported locales
+    const localeFilters = SUPPORTED_LOCALES.map((loc) => ({ [`translations.${loc}.slug`]: slug }));
+    const rawMatches = await prisma.product.findRaw({
+      filter: {
+        status: 'active',
+        $or: [
+          { slug },
+          ...localeFilters,
+        ],
+      },
+      options: {
+        projection: { _id: 1 },
+        limit: 1,
+      },
     });
 
-    const localizedMatch = allProducts.find((p) => {
-      if (p.slug === slug) return true;
-      const trans = p.translations || {};
-      if (trans[locale]?.slug === slug) return true;
-      for (const loc of Object.keys(trans)) {
-        if (trans[loc]?.slug === slug) return true;
+    if (rawMatches && rawMatches.length > 0) {
+      const matchedId = rawMatches[0]._id?.$oid || rawMatches[0]._id?.toString();
+      if (matchedId) {
+        const localizedProduct = await prisma.product.findUnique({
+          where: { id: matchedId },
+        });
+        if (localizedProduct) {
+          const res = getLocalizedProduct(localizedProduct, locale, options);
+          productSlugCache.set(cacheKey, { data: res, timestamp: now });
+          return res;
+        }
       }
-      return false;
-    });
-
-    if (localizedMatch) {
-      return getLocalizedProduct(localizedMatch, locale, options);
     }
 
     return null;
@@ -194,6 +489,8 @@ export async function upsertProductTranslation(productId, locale, translationDat
       translations: updatedTranslations,
     },
   });
+
+  invalidateAllProductCaches();
 
   return updated;
 }

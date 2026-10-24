@@ -7,16 +7,32 @@ import prisma from "@/lib/prisma";
 import logo from "@/../public/logo.png";
 import AdminUserButton from '@/components/AdminNav/AdminUserButton';
 
+// In-memory admin user cache (5 min TTL) to avoid repeated WAN round-trips on every admin page load
+const adminUserCache = new Map();
+const USER_CACHE_TTL = 5 * 60 * 1000;
+
+async function getCachedAdminUser(userId) {
+  if (!userId) return null;
+  const cached = adminUserCache.get(userId);
+  const now = Date.now();
+  if (cached && (now - cached.timestamp < USER_CACHE_TTL)) {
+    return cached.data;
+  }
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { firstName: true, lastName: true, email: true },
+  });
+  adminUserCache.set(userId, { data: user, timestamp: now });
+  return user;
+}
+
 export default async function AdminLayout({ children }) {
   const session = await getSession();
 
   if (!session) redirect('/sign-in');
   if (session.role !== 'ADMIN') redirect('/');
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.userId },
-    select: { firstName: true, lastName: true, email: true },
-  });
+  const user = await getCachedAdminUser(session.userId);
 
   return (
     <div className="flex h-screen bg-secondary/20 overflow-hidden">

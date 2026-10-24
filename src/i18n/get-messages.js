@@ -1,20 +1,31 @@
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from './config.js';
 
+// In-memory module cache for parsed message dictionaries
+const messageCache = {};
+
 /**
- * Server-side dictionary loader.
+ * Server-side dictionary loader with in-memory caching.
  * Dynamically loads the dictionary for the requested locale, falling back to 'es'.
  * @param {string} locale
  * @returns {object} Full message dictionary
  */
 export async function getMessages(locale = DEFAULT_LOCALE) {
   const safeLocale = SUPPORTED_LOCALES.includes(locale) ? locale : DEFAULT_LOCALE;
+  if (messageCache[safeLocale]) {
+    return messageCache[safeLocale];
+  }
+
   try {
     const mod = await import(`../../messages/${safeLocale}.json`, { with: { type: 'json' } });
-    return mod.default || mod;
+    const msgs = mod.default || mod;
+    messageCache[safeLocale] = msgs;
+    return msgs;
   } catch (error) {
     try {
       const mod = await import(`../../messages/${safeLocale}.json`);
-      return mod.default || mod;
+      const msgs = mod.default || mod;
+      messageCache[safeLocale] = msgs;
+      return msgs;
     } catch (e) {
       return {};
     }

@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Sparkles, ShieldCheck } from 'lucide-react';
-import { getLocalizedProduct } from '@/lib/translations/translation-service';
+import { getLocalizedProduct, getLocalizedProductCard, getCatalogInitialProductCards } from '@/lib/translations/translation-service';
 import { getMessages, getMessage } from '@/i18n/get-messages';
 
 export const revalidate = 3600;
@@ -33,18 +33,7 @@ export default async function LocalizedProductsPage({ params }) {
   const t = (k, p) => getMessage(messages, k, p);
 
   const LIMIT = 12;
-  const [rawProducts, initialTotal] = await Promise.all([
-    prisma.product.findMany({
-      where: { status: 'active' },
-      orderBy: { createdAt: 'desc' },
-      skip: 0,
-      take: LIMIT,
-    }),
-    prisma.product.count({ where: { status: 'active' } }),
-  ]);
-
-  const initialProducts = rawProducts.map((p) => getLocalizedProduct(p, locale));
-  const initialTotalPages = Math.ceil(initialTotal / LIMIT);
+  const { products: initialProducts, total: initialTotal, totalPages: initialTotalPages } = await getCatalogInitialProductCards(locale, LIMIT);
 
   return (
     <>

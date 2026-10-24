@@ -4,6 +4,23 @@ import { requireAdmin } from '@/lib/adminAuth';
 import { revalidateTag } from 'next/cache';
 
 import { getLocalizedProduct } from '@/lib/translations/translation-service';
+import { invalidateStatsCache } from '../route';
+
+// In-memory cache for product details (3 min TTL)
+const productDetailCache = new Map();
+const DETAIL_CACHE_TTL = 3 * 60 * 1000;
+
+export function invalidateProductDetailCache(id) {
+  if (id) {
+    for (const key of productDetailCache.keys()) {
+      if (key.startsWith(`${id}:`)) {
+        productDetailCache.delete(key);
+      }
+    }
+  } else {
+    productDetailCache.clear();
+  }
+}
 
 export async function GET(req, { params }) {
   try {
@@ -14,18 +31,24 @@ export async function GET(req, { params }) {
 
     const { searchParams } = new URL(req.url);
     const locale = searchParams.get('locale');
+    const cacheKey = `${id}:${locale || 'raw'}`;
+    const now = Date.now();
+    const cached = productDetailCache.get(cacheKey);
+
+    if (cached && (now - cached.timestamp < DETAIL_CACHE_TTL)) {
+      return NextResponse.json(cached.data, {
+        headers: { 'Cache-Control': 'private, no-cache', 'X-Cache': 'HIT' }
+      });
+    }
 
     const product = await prisma.product.findUnique({ where: { id } });
     if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 });
 
-    if (locale) {
-      return NextResponse.json(getLocalizedProduct(product, locale), {
-        headers: { 'Cache-Control': 'private, no-cache' }
-      });
-    }
+    const payload = locale ? getLocalizedProduct(product, locale) : product;
+    productDetailCache.set(cacheKey, { data: payload, timestamp: now });
 
-    return NextResponse.json(product, {
-      headers: { 'Cache-Control': 'private, no-cache' }
+    return NextResponse.json(payload, {
+      headers: { 'Cache-Control': 'private, no-cache', 'X-Cache': 'MISS' }
     });
   } catch (error) {
     console.error('Failed to fetch product:', error);
@@ -83,6 +106,9 @@ export async function PATCH(req, { params }) {
       data: updatePayload,
     });
 
+    invalidateProductDetailCache(id);
+    invalidateStatsCache();
+
     // Revalidate product cache tags
     try {
       revalidateTag(`product:${id}`);
@@ -106,6 +132,9 @@ export async function DELETE(req, { params }) {
 
     const { id } = await params;
     await prisma.product.delete({ where: { id } });
+
+    invalidateProductDetailCache(id);
+    invalidateStatsCache();
 
     return NextResponse.json({ success: true });
   } catch (error) {

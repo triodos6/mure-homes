@@ -12,7 +12,7 @@ import { getLocalizedProduct, findProductByLocalizedSlug, getLocalizedProductCar
 import { getMessages, getMessage } from '@/i18n/get-messages';
 import { generateProductSchema, generateBreadcrumbSchema } from '@/lib/seo/schema';
 import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '@/i18n/config';
-import { Shield, Truck, Wrench } from 'lucide-react';
+import { Shield, Truck, Wrench, Clock, RotateCcw, ShieldCheck } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -134,7 +134,7 @@ export default async function LocalizedProductPage({ params }) {
       />
       <PixelTracker name="ViewContent" data={{ content_ids: [product.id], content_name: product.name, content_category: product.category, value: product.price, currency: 'EUR' }} />
 
-      <div className="container mx-auto px-4 lg:px-8 py-24">
+      <div className="container mx-auto px-4 lg:px-8 pt-16 sm:pt-24 pb-28 sm:pb-24">
         {/* Breadcrumb Navigation */}
         <Breadcrumb className="mb-12">
           <BreadcrumbList>
@@ -167,40 +167,70 @@ export default async function LocalizedProductPage({ params }) {
             <Link href={getLocalizedHref('/brands')} className="text-sm font-semibold tracking-widest text-primary hover:underline uppercase mb-4 inline-block w-fit">
               {product.brand}
             </Link>
-            <h1 className="font-serif text-4xl lg:text-5xl font-medium tracking-tight mb-6">
+            <h1 className="font-serif text-4xl lg:text-5xl font-medium tracking-tight mb-4">
               {product.name}
             </h1>
             
             <ProductPrice product={product} />
 
+            {/* High-Trust Shipping, Returns & Delivery Card near Price */}
+            <div className="bg-[#fbf9f6] border border-[#e8e2d8] rounded-2xl p-4 sm:p-5 mb-8 shadow-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-3 divide-y sm:divide-y-0 sm:divide-x divide-[#e8e2d8]">
+                {/* 1. Shipping */}
+                <div className="flex items-start gap-3 sm:pr-3">
+                  <div className="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-700 flex items-center justify-center shrink-0">
+                    <Truck size={18} className="stroke-[2.2]" />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-foreground block">
+                      {t('product.shipping') || 'Envío y Entrega'}
+                    </span>
+                    <span className="text-xs text-muted-foreground font-light leading-snug block mt-0.5">
+                      {t('delivery.freeAbove', { amount: '€500' }) || 'Envío gratis a partir de €500'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* 2. Delivery Time */}
+                <div className="flex items-start gap-3 sm:px-3 pt-3.5 sm:pt-0">
+                  <div className="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-700 flex items-center justify-center shrink-0">
+                    <Clock size={18} className="stroke-[2.2]" />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-foreground block">
+                      {t('product.deliveryBadge') || 'Entrega 5–15 días'}
+                    </span>
+                    <span className="text-xs text-muted-foreground font-light leading-snug block mt-0.5">
+                      {t('delivery.standardNote', { min: 5, max: 15 }) || '5–15 días laborables'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* 3. Returns & Guarantee */}
+                <div className="flex items-start gap-3 sm:pl-3 pt-3.5 sm:pt-0">
+                  <div className="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-700 flex items-center justify-center shrink-0">
+                    <RotateCcw size={18} className="stroke-[2.2]" />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-foreground block">
+                      {t('product.returnBadge')?.replace('↩ ', '') || '30 días devolución'}
+                    </span>
+                    <span className="text-xs text-muted-foreground font-light leading-snug block mt-0.5">
+                      {t('product.warrantyBadge') || '2 años de garantía'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Interactive Actions (Primary Add to Cart button prominently placed before description) */}
+            <ProductActions product={product} />
+
+            {/* Product Description */}
             <div
               className="prose prose-lg prose-zinc font-light leading-relaxed mb-10 text-muted-foreground border-b border-border pb-10"
               dangerouslySetInnerHTML={{ __html: product.description }}
             />
-
-            {/* Trust badges */}
-            <div className="flex flex-wrap gap-3 mb-6">
-              <div className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 rounded-full px-3 py-1">
-                <Shield size={12} className="text-emerald-600" />
-                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">
-                  {t('product.warrantyBadge') || 'Garantía 2 años'}
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5 bg-blue-50 border border-blue-200 rounded-full px-3 py-1">
-                <Truck size={12} className="text-blue-600" />
-                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700">
-                  {t('product.deliveryBadge') || 'Entrega 5–15 días'}
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5 bg-amber-50 border border-amber-200 rounded-full px-3 py-1">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700">
-                  {t('product.returnBadge') || '↩ 30 días devolución'}
-                </span>
-              </div>
-            </div>
-
-            {/* Interactive Actions */}
-            <ProductActions product={product} />
 
             {/* Specifications Accordion */}
             <Accordion type="single" collapsible="true" className="w-full">

@@ -29,7 +29,7 @@ export default function WhatsAppButton({ customMessage = null }) {
       rel="noopener noreferrer"
       aria-label={t('whatsapp.buttonLabel')}
       onClick={handleClick}
-      className="fixed bottom-6 right-6 z-[999] flex items-center gap-2.5 bg-[#25D366] text-white rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group"
+      className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-[45] flex items-center gap-2.5 bg-[#25D366] text-white rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group"
     >
       {/* Label bubble — visible on hover */}
       <span className="max-w-0 overflow-hidden group-hover:max-w-[160px] transition-all duration-300 ease-in-out text-xs font-semibold uppercase tracking-wider whitespace-nowrap pl-0 group-hover:pl-4">

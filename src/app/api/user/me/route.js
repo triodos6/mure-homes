@@ -5,14 +5,14 @@ import { getSession } from '@/lib/auth';
 export async function GET() {
   try {
     const session = await getSession();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!session) return NextResponse.json({ user: null }, { status: 200 });
 
     const user = await prisma.user.findUnique({
       where: { id: session.userId },
       select: { id: true, email: true, firstName: true, lastName: true, phone: true, image: true, role: true, preferredLocale: true, preferredCurrency: true },
     });
 
-    if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    if (!user) return NextResponse.json({ user: null }, { status: 200 });
     return NextResponse.json(user);
   } catch (error) {
     console.error('Error fetching current user:', error);

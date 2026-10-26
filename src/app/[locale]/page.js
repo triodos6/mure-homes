@@ -220,7 +220,7 @@ export default async function LocalizedHome({ params }) {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-10 bg-black" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/50">
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-neutral-800">
               {messages.home?.craftsmanshipTag || "Nuestra Esencia"}
             </span>
           </div>

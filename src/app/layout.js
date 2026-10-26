@@ -150,29 +150,33 @@ export default async function RootLayout({ children }) {
         suppressHydrationWarning
         className={`${dmSans.variable} ${cormorant.variable} antialiased selection:bg-primary selection:text-white`}
       >
-        {/* Analytics & Tag Manager Scripts - Loaded lazily on idle */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-RBMPMTNQNX"
-          strategy="lazyOnload"
-        />
-        <Script
-          id="google-analytics"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-RBMPMTNQNX');
-            `,
-          }}
-        />
+        {/* Analytics & Tag Manager Scripts - Loaded lazily on idle in production */}
+        {process.env.NODE_ENV === 'production' && (
+          <>
+            <Script
+              src="https://www.googletagmanager.com/gtag/js?id=G-RBMPMTNQNX"
+              strategy="lazyOnload"
+            />
+            <Script
+              id="google-analytics"
+              strategy="lazyOnload"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', 'G-RBMPMTNQNX');
+                `,
+              }}
+            />
+          </>
+        )}
 
-        {(process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID) && (
+        {(process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID) && (
           <>
             <Script
               id="fb-pixel"
-              strategy="afterInteractive"
+              strategy="lazyOnload"
               dangerouslySetInnerHTML={{
                 __html: `
                   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?

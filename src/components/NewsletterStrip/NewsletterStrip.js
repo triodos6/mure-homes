@@ -29,12 +29,15 @@ export default function NewsletterStrip() {
           {t('newsletter.subtitle') || "Novedades, inspiración de diseño y acceso a ventas privadas — directamente en tu bandeja de entrada."}
         </p>
         <form onSubmit={handleSubmit} className="flex max-w-md mx-auto shadow-md rounded-lg overflow-hidden">
+          <label htmlFor="newsletter-email" className="sr-only">{t('newsletter.placeholder') || "Introduce tu correo electrónico"}</label>
           <input
             type="email"
+            id="newsletter-email"
+            name="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
             placeholder={t('newsletter.placeholder') || "Introduce tu correo electrónico"}
-            className="flex-1 px-5 py-4 text-sm border-0 outline-none bg-white focus:ring-0"
+            aria-label={t('newsletter.placeholder') || "Introduce tu correo electrónico"} className="flex-1 px-5 py-4 text-sm border-0 outline-none bg-white focus:ring-0"
           />
           <button
             type="submit"

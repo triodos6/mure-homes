@@ -114,7 +114,7 @@ export default function LanguageSwitcher({ className = '', align = 'right' }) {
         className="group inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold text-foreground bg-white/80 hover:bg-white hover:border-black/30 transition-all border border-border/80 shadow-2xs focus:outline-none focus:ring-2 focus:ring-black/10 cursor-pointer"
         aria-expanded={isOpen}
         aria-haspopup="true"
-        aria-label={t?.('common.selectLanguage', 'Seleccionar idioma') || 'Seleccionar idioma'}
+        
       >
         <span className="text-base leading-none group-hover:scale-110 transition-transform">
           {currentLabel?.flag || '🇪🇸'}

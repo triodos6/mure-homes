@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useI18n } from '@/context/I18nContext';
+
+const emptySubscribe = () => () => {};
 
 const slides = [
   { src: '/images/img3.jpg',  alt: 'Sofá tapizado de lujo' },
@@ -20,6 +22,7 @@ export default function HomeHero() {
   const locale = i18n?.locale || 'es';
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const isMounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   const next = useCallback(() => setCurrent(i => (i + 1) % slides.length), []);
   const prev = useCallback(() => setCurrent(i => (i - 1 + slides.length) % slides.length), []);
@@ -50,30 +53,30 @@ export default function HomeHero() {
           {/* Left — Text Content */}
           <div className="flex flex-col justify-center">
             {/* Eyebrow */}
-            <div className="flex items-center gap-3 mb-4 sm:mb-6 animate-in fade-in slide-in-from-left-4 duration-700">
+            <div className="flex items-center gap-3 mb-4 sm:mb-6">
               <div className="h-px w-8 sm:w-10 bg-black" />
-              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-black/50">
+              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] text-neutral-800">
                 {t('home.heroBadge') || "Colección Destacada 2025"}
               </span>
             </div>
 
             {/* Headline */}
-            <h1 className="font-serif font-semibold leading-[1.08] sm:leading-[1.05] tracking-tight mb-4 sm:mb-6 animate-in fade-in slide-in-from-left-6 duration-700 delay-100 fill-mode-both">
+            <h1 className="font-serif font-semibold leading-[1.08] sm:leading-[1.05] tracking-tight mb-4 sm:mb-6">
               <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-foreground">
                 {t('home.heroTitleLine1') || "Espacios de Diseño."}
               </span>
-              <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-amber-500">
+              <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-amber-700">
                 {t('home.heroTitleLine2') || "Vive Mejor."}
               </span>
             </h1>
 
             {/* Sub */}
-            <p className="text-sm sm:text-base text-muted-foreground font-light leading-relaxed max-w-md mb-6 sm:mb-10 animate-in fade-in slide-in-from-left-4 duration-700 delay-200 fill-mode-both">
+            <p className="text-sm sm:text-base text-muted-foreground font-light leading-relaxed max-w-md mb-6 sm:mb-10">
               {t('home.heroSubtitle') || "Muebles de lujo mediterráneos seleccionados — cada pieza diseñada para elevar tu vida cotidiana a través del diseño atemporal y la calidad sin compromiso."}
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 animate-in fade-in slide-in-from-left-4 duration-700 delay-300 fill-mode-both">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <Link
                 href={getLocalizedHref('/products')}
                 className="group inline-flex items-center justify-center gap-2 bg-black text-white px-7 sm:px-8 py-3.5 sm:py-4 text-xs font-bold uppercase tracking-[0.18em] sm:tracking-[0.2em] hover:bg-black/80 transition-all duration-300 w-full sm:w-auto text-center shadow-sm active:scale-[0.99]"
@@ -91,7 +94,7 @@ export default function HomeHero() {
             </div>
 
             {/* Social strip */}
-            <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-black/10 flex items-center gap-4 sm:gap-6 flex-wrap animate-in fade-in duration-700 delay-500 fill-mode-both">
+            <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-black/10 flex items-center gap-4 sm:gap-6 flex-wrap">
               <span className="text-[9px] sm:text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">
                 {t('common.followUs') || "Síguenos"}
               </span>
@@ -113,6 +116,9 @@ export default function HomeHero() {
               <div className="w-full h-full rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden bg-[#f0ece4]">
                 {slides.map((slide, i) => {
                   const isInitial = i === 0;
+                  // On initial paint / SSR, only mount slide 0 so zero network bandwidth is stolen from LCP
+                  if (!isInitial && !isMounted && i !== current) return null;
+
                   return (
                     <div
                       key={slide.src}
@@ -122,10 +128,10 @@ export default function HomeHero() {
                         src={slide.src}
                         alt={slide.alt}
                         fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 512px"
-                        quality={80}
-                        preload={isInitial}
-                        fetchPriority={isInitial ? 'high' : 'auto'}
+                        sizes="(max-width: 640px) 95vw, (max-width: 1024px) 50vw, 512px"
+                        quality={75}
+                        priority={isInitial}
+                        fetchPriority={isInitial ? 'high' : 'low'}
                         loading={isInitial ? 'eager' : 'lazy'}
                         className="object-cover"
                       />
@@ -139,7 +145,7 @@ export default function HomeHero() {
               <button
                 type="button"
                 onClick={prev}
-                className="absolute left-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-white/90 shadow-md flex items-center justify-center text-foreground hover:bg-white transition-all opacity-0 group-hover:opacity-100"
+                className="absolute left-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-white/90 shadow-md flex items-center justify-center text-foreground hover:bg-white transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
                 aria-label="Previous slide"
               >
                 <ChevronLeft size={16} />
@@ -147,7 +153,7 @@ export default function HomeHero() {
               <button
                 type="button"
                 onClick={next}
-                className="absolute right-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-white/90 shadow-md flex items-center justify-center text-foreground hover:bg-white transition-all opacity-0 group-hover:opacity-100"
+                className="absolute right-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-white/90 shadow-md flex items-center justify-center text-foreground hover:bg-white transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
                 aria-label="Next slide"
               >
                 <ChevronRight size={16} />
@@ -160,9 +166,11 @@ export default function HomeHero() {
                     key={i}
                     type="button"
                     onClick={() => setCurrent(i)}
-                    className={`h-1.5 rounded-full transition-all ${i === current ? 'w-6 bg-white' : 'w-1.5 bg-white/50'}`}
+                    className="min-w-[24px] min-h-[24px] flex items-center justify-center p-0 cursor-pointer"
                     aria-label={`Go to slide ${i + 1}`}
-                  />
+                  >
+                    <span className={`h-1.5 rounded-full transition-all ${i === current ? 'w-6 bg-white' : 'w-1.5 bg-white/60'}`} />
+                  </button>
                 ))}
               </div>
             </div>

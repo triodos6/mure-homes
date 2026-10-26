@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useI18n } from '@/context/I18nContext';
 import { useMarket } from '@/context/MarketContext';
 import { event } from '@/lib/pixel';
@@ -9,6 +10,19 @@ const WA_NUMBER = '34627080811';
 export default function WhatsAppButton({ customMessage = null }) {
   const { t, locale } = useI18n();
   const { marketCode } = useMarket();
+  const pathname = usePathname() || '';
+
+  // Hide WhatsApp button inside admin portal
+  if (pathname.includes('/admin')) {
+    return null;
+  }
+
+  // Only single product pages have the sticky 'Add to Basket' mobile bar at the bottom
+  // e.g. /products/sofas/[slug] or /es/products/sofas/[slug]
+  const isProductPage = /^\/([a-z]{2}\/)?products\/[^/]+\/[^/]+/.test(pathname);
+  const positionClass = isProductPage
+    ? 'bottom-20 right-4 sm:bottom-6 sm:right-6'
+    : 'bottom-4 right-4 sm:bottom-6 sm:right-6';
 
   const message = customMessage || t('whatsapp.generalMessage');
   const encodedText = encodeURIComponent(message);
@@ -29,7 +43,7 @@ export default function WhatsAppButton({ customMessage = null }) {
       rel="noopener noreferrer"
       aria-label={t('whatsapp.buttonLabel')}
       onClick={handleClick}
-      className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-[45] flex items-center gap-2.5 bg-[#25D366] text-white rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group"
+      className={`fixed ${positionClass} z-[45] flex items-center gap-2.5 bg-[#25D366] text-white rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group`}
     >
       {/* Label bubble — visible on hover */}
       <span className="max-w-0 overflow-hidden group-hover:max-w-[160px] transition-all duration-300 ease-in-out text-xs font-semibold uppercase tracking-wider whitespace-nowrap pl-0 group-hover:pl-4">

@@ -20,7 +20,7 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="flex flex-col gap-6">
             <Link href={getLocalizedHref('/')} className="flex items-center">
-              <Image src="/logo.png" alt="MuraHomes" width={160} height={48} className="h-12 w-auto object-contain brightness-0 invert" style={{ width: 'auto', height: 'auto' }} />
+              <Image src="/logo.png" alt="MuraHomes" width={189} height={48} className="h-12 w-auto object-contain brightness-0 invert" />
             </Link>
             <p className="text-sm leading-relaxed text-white/50 max-w-xs">
               {t('footer.description')}
@@ -78,7 +78,7 @@ export default function Footer() {
         {/* Payment Trust Bar */}
         <div className="py-6 border-t border-white/10">
           <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 mb-4 sm:mb-6">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 mr-1 sm:mr-2">Secure European Payment & Invoicing</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-white/70 mr-1 sm:mr-2">Secure European Payment & Invoicing</span>
             <div className="h-8 px-3 bg-white/10 rounded flex items-center justify-center">
               <span className="font-bold text-white text-sm tracking-wider">VISA</span>
             </div>
@@ -86,8 +86,8 @@ export default function Footer() {
               <div className="w-5 h-5 rounded-full bg-red-500/80" />
               <div className="w-5 h-5 rounded-full bg-amber-400/80 -ml-2.5" />
             </div>
-            <div className="h-8 px-3 bg-white/10 rounded flex items-center justify-center">
-              <span className="font-bold text-sm"><span className="text-[#009cde]">Pay</span><span className="text-[#003087]">Pal</span></span>
+            <div className="h-8 px-3 bg-white rounded flex items-center justify-center shadow-xs">
+              <span className="font-bold text-sm"><span className="text-[#0070ba]">Pay</span><span className="text-[#003087]">Pal</span></span>
             </div>
             <div className="h-8 px-3 bg-white/10 rounded flex items-center justify-center">
               <span className="font-bold text-sm text-[#00B4F1]">Bizum / SEPA</span>
@@ -102,7 +102,7 @@ export default function Footer() {
 
       <div className="py-6 border-t border-white/10">
         <div className="container mx-auto px-4 lg:px-8 flex justify-center text-center">
-          <p className="text-xs text-white/40">© {new Date().getFullYear()} MuraHomes. {t('footer.rights')}</p>
+          <p className="text-xs text-white/70">© {new Date().getFullYear()} MuraHomes. {t('footer.rights')}</p>
         </div>
       </div>
     </footer>

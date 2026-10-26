@@ -73,7 +73,7 @@ export default function ProductCard({ product, preload = false }) {
         <Link
           href={categoryUrl}
           prefetch={true}
-          className="text-[9px] sm:text-[10px] font-bold tracking-widest uppercase text-muted-foreground hover:text-amber-600 transition-colors mb-0.5 sm:mb-1 line-clamp-1 block"
+          className="text-[9px] sm:text-[10px] font-bold tracking-widest uppercase text-muted-foreground hover:text-amber-600 transition-colors mb-0.5 sm:mb-1 line-clamp-1 block py-1"
         >
           {product.brand} · {t(`categories.${product.category}`) || product.category}
         </Link>
@@ -85,8 +85,8 @@ export default function ProductCard({ product, preload = false }) {
             {formatPrice(displayPrice)}
           </p>
           <div className="flex items-center gap-1 mt-1 sm:mt-1.5">
-            <Shield size={10} className="text-emerald-600 shrink-0" />
-            <span className="text-[8px] sm:text-[9px] text-emerald-600 font-semibold uppercase tracking-wider line-clamp-1">
+            <Shield size={10} className="text-emerald-700 shrink-0" />
+            <span className="text-[8px] sm:text-[9px] text-emerald-700 font-semibold uppercase tracking-wider line-clamp-1">
               {t('product.warrantyBadge')}
             </span>
           </div>

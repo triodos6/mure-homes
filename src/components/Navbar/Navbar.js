@@ -87,14 +87,12 @@ export default function Navbar({ dbRole, serverUserId, detectedCountry }) {
             <Image
               src={logo}
               alt="MuraHomes"
-              width={160}
+              width={157}
               height={40}
-              preload={true}
-              fetchPriority="high"
+              priority
               sizes="160px"
               quality={80}
               className="object-contain"
-              style={{ width: 'auto', height: 'auto' }}
             />
           </Link>
 
